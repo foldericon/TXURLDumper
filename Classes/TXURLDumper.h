@@ -33,10 +33,12 @@
 
 @property (nonatomic, strong) IBOutlet NSView *ourView;
 @property (assign) IBOutlet NSButton *enableBox;
+@property (assign) IBOutlet NSButton *selfDumpsBox;
 @property (assign) IBOutlet NSButton *debugBox;
 @property (nonatomic, strong) FMDatabaseQueue *queue;
 
 - (IBAction)setEnable:(id)sender;
+- (IBAction)setSelfDumps:(id)sender;
 - (IBAction)setDebugMode:(id)sender;
 - (IBAction)resetDatabase:(id)sender;
 
@@ -50,6 +52,7 @@
 						 sender:(NSDictionary *)senderDict
 						message:(NSDictionary *)messageDict;
 
+- (id)interceptUserInput:(id)input command:(NSString *)command;
 - (void)messageSentByUser:(IRCClient *)client
                   message:(NSString *)messageString
                   command:(NSString *)commandString;

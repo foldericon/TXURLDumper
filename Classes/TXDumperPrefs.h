@@ -30,5 +30,6 @@ extern NSString *TXDumperDebugModeEnabledKey;
 @property (assign) NSDictionary *preferences;
 @property (readonly) NSString *preferencesPath;
 @property (readonly) BOOL dumpingEnabled;
+@property (readonly) BOOL selfDumpsEnabled;
 @property (readonly) BOOL debugModeEnabled;
 @end

@@ -61,6 +61,7 @@ TXDumperSheet *dumperSheet;
 - (void)awakeFromNib
 {
     [self.enableBox setState:([self dumpingEnabled] ? NSOnState : NSOffState)];
+    [self.selfDumpsBox setState:([self selfDumpsEnabled] ? NSOnState : NSOffState)];
     [self.debugBox setState:([self debugModeEnabled] ? NSOnState : NSOffState)];
 }
 
@@ -71,35 +72,29 @@ TXDumperSheet *dumperSheet;
 						 sender:(NSDictionary *)senderDict
 						message:(NSDictionary *)messageDict
 {
-	NSString *message = [messageDict objectForKey:@"messageSequence"];
-    NSString *nick = [senderDict objectForKey:@"senderNickname"];
-    NSString *channel = [[messageDict objectForKey:@"messageParamaters"] objectAtIndex:0];
-    NSNumber *time = [NSNumber numberWithInt:(int)[[messageDict objectForKey:@"messageReceived"] timeIntervalSince1970]];
-    
-	AHHyperlinkScanner *scanner = [AHHyperlinkScanner new];
-    NSArray *urlAry = [scanner matchesForString:message];
-    if (self.dumpingEnabled == NO || [urlAry count] < 1) {
-        NSAssertReturn(nil);
+    [self dumpURLsFromMessage:[messageDict objectForKey:@"messageSequence"]
+                       client:client
+                         time:[messageDict objectForKey:@"messageReceived"]
+                      channel:[[messageDict objectForKey:@"messageParamaters"] objectAtIndex:0]
+                         nick:[senderDict objectForKey:@"senderNickname"]
+     ];
+}
+
+- (id)interceptUserInput:(id)input command:(NSString *)command
+{
+    if(self.selfDumpsEnabled == NO) {
+        return input;
     }
-    NSString *url;
-    
-    for (NSString *rn in urlAry) {
-        NSRange r = NSRangeFromString(rn);
-        if(r.length > 0) {
-            url = [[message substringFromIndex:r.location] substringToIndex:r.length];
-            if ([url hasSuffix:@"…"] == NO) {
-                NSDictionary *argsDict = [NSDictionary dictionaryWithObjectsAndKeys:
-                                              time, @"timestamp",
-                                              client.config.itemUUID, @"client",
-                                              channel, @"channel",
-                                              nick, @"nick",
-                                              url, @"url",
-                                              nil];
-                [self updateDBWithSQL:@"INSERT INTO urls (timestamp, client, channel, nick, url) VALUES (:timestamp, :client, :channel, :nick, :url);" withParameterDictionary:argsDict];
-                if(self.debugModeEnabled) [self echo:@"URL: %@ has been dumped.", url];
-            }
-        }
+    IRCChannel *channel = self.worldController.selectedChannel;
+    if([command isEqualTo:@"PRIVMSG"]) {
+        [self dumpURLsFromMessage:[input string]
+                           client:channel.client
+                             time:[NSDate date]
+                          channel:channel.name
+                             nick:channel.client.localNickname
+         ];
     }
+    return input;
 }
 
 - (void)messageSentByUser:(IRCClient *)client
@@ -136,6 +131,35 @@ TXDumperSheet *dumperSheet;
     [self updateDBWithSQL:@"DROP INDEX IDX_URLS_1on urls"];
     [self updateDBWithSQL:@"DROP TABLE urls"];
     [self createDBStructure];
+}
+
+- (void)dumpURLsFromMessage:(NSString *)message client:(IRCClient *)client time:(NSDate *)time channel:(NSString *)channel nick:(NSString *)nick
+{
+    NSNumber *timestamp = [NSNumber numberWithInt:(int)[time timeIntervalSince1970]];
+	AHHyperlinkScanner *scanner = [AHHyperlinkScanner new];
+    NSArray *urlAry = [scanner matchesForString:message];
+    if (self.dumpingEnabled == NO || [urlAry count] < 1) {
+        NSAssertReturn(nil);
+    }
+    NSString *url;
+    
+    for (NSString *rn in urlAry) {
+        NSRange r = NSRangeFromString(rn);
+        if(r.length > 0) {
+            url = [[message substringFromIndex:r.location] substringToIndex:r.length];
+            if ([url hasSuffix:@"…"] == NO) {
+                NSDictionary *argsDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                                          timestamp, @"timestamp",
+                                          client.config.itemUUID, @"client",
+                                          channel, @"channel",
+                                          nick, @"nick",
+                                          url, @"url",
+                                          nil];
+                [self updateDBWithSQL:@"INSERT INTO urls (timestamp, client, channel, nick, url) VALUES (:timestamp, :client, :channel, :nick, :url);" withParameterDictionary:argsDict];
+                if(self.debugModeEnabled) [self echo:@"URL: %@ has been dumped.", url];
+            }
+        }
+    }
 }
 
 - (void)loadData
@@ -257,6 +281,13 @@ TXDumperSheet *dumperSheet;
      BOOL enabled = ([self.enableBox state]==NSOnState);
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:[self preferences]];
     [dict setObject:[NSNumber numberWithBool:enabled] forKey:TXDumperDumpingEnabledKey];
+    [self setPreferences:dict];
+}
+
+- (IBAction)setSelfDumps:(id)sender {
+    BOOL enabled = ([self.selfDumpsBox state]==NSOnState);
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:[self preferences]];
+    [dict setObject:[NSNumber numberWithBool:enabled] forKey:TXDumperSelfDumpsEnabledKey];
     [self setPreferences:dict];
 }
 
