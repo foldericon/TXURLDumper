@@ -170,11 +170,14 @@ TXDumperSheet *dumperSheet;
         FMResultSet *s = [db executeQuery:@"SELECT * from urls where client=? order by timestamp desc", client.config.itemUUID];
         while ([s next]) {
             NSDate *date = [NSDate dateWithTimeIntervalSince1970:[s doubleForColumn:@"timestamp"]];
+            NSString *timeString = [NSString stringWithFormat:@"%@ Ago",
+                                  TXSpecialReadableTime([NSDate secondsSinceUnixTimestamp:[date timeIntervalSince1970]], YES, nil)];
             NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
                                   [s stringForColumn:@"channel"], @"channel",
                                   [s stringForColumn:@"nick"], @"nick",
                                   [s stringForColumn:@"url"], @"url",
-                                  [self createHumanReadableTimeStringFromDate:date], @"time",
+                                  timeString, @"time",
+//                                  [self createHumanReadableTimeStringFromDate:date], @"time",
                                   nil];
             [data addObject:dict];
         }
@@ -237,27 +240,6 @@ TXDumperSheet *dumperSheet;
 - (void)clearDB {
     IRCClient *client = self.worldController.selectedClient;
     [self updateDBWithSQL:@"DELETE FROM urls where client=?" withArgsArray:[NSArray arrayWithObject:client.config.itemUUID]];
-}
-
-- (NSString *)createHumanReadableTimeStringFromDate:(NSDate *)date
-{
-    NSTimeInterval diff = [[NSDate date] timeIntervalSinceDate:date];
-    double time;
-    NSString *unit;
-    if(diff >= 86400) {
-        time = ceil(round(diff/86400));
-        unit = time > 1 ? @"Days" : @"Day";
-    } else if(diff >= 3600) {
-        time = ceil(round(diff/3600));
-        unit = time > 1 ? @"Hours" : @"Hour";
-    } else if (diff >= 60) {
-        time = ceil(round(diff/60));
-        unit = time > 1 ? @"Minutes" : @"Minute";
-    } else {
-        time = ceil(diff);
-        unit = time > 1 ? @"Seconds" : @"Second";
-    }
-    return [NSString stringWithFormat:@"%i %@ Ago", (int)time, unit];
 }
 
 - (void)echo:(NSString *)msg,...
