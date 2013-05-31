@@ -58,6 +58,12 @@ TXDumperSheet *dumperSheet;
 	return @"URL Dumper";
 }
 
+- (void)awakeFromNib
+{
+    [self.enableBox setState:([self dumpingEnabled] ? NSOnState : NSOffState)];
+    [self.debugBox setState:([self debugModeEnabled] ? NSOnState : NSOffState)];
+}
+
 #pragma mark -
 #pragma mark Plugin API
 
