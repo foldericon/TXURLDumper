@@ -1,0 +1,9 @@
+*~
+.DS_Store
+.LSOverride
+*.pbxuser
+*.perspectivev3
+*.xcuserstate
+.tmp
+xcuserdata
+*.xcworkspace

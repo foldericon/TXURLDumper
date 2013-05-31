@@ -1,0 +1,334 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		4C51BE9412D0471600E79CEB /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C51BE9312D0471600E79CEB /* Cocoa.framework */; };
+		8D576314048677EA00EA77CD /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AA1909FFE8422F4C02AAC07 /* CoreFoundation.framework */; };
+		DA0D27D81754B58D00318563 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DA0D27D71754B58D00318563 /* libsqlite3.dylib */; };
+		DA71508217588C3100DC2063 /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = DA71507717588C3100DC2063 /* FMDatabase.m */; };
+		DA71508317588C3100DC2063 /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = DA71507917588C3100DC2063 /* FMDatabasePool.m */; };
+		DA71508417588C3100DC2063 /* FMDatabaseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = DA71507B17588C3100DC2063 /* FMDatabaseQueue.m */; };
+		DA71508517588C3100DC2063 /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = DA71507D17588C3100DC2063 /* FMResultSet.m */; };
+		DA71508617588C3100DC2063 /* TXDumperSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = DA71507F17588C3100DC2063 /* TXDumperSheet.m */; };
+		DA71508717588C3100DC2063 /* TXURLDumper.m in Sources */ = {isa = PBXBuildFile; fileRef = DA71508117588C3100DC2063 /* TXURLDumper.m */; };
+		DA71508B17588C4200DC2063 /* DumperSheet.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA71508817588C4200DC2063 /* DumperSheet.xib */; };
+		DA71508D17588C4200DC2063 /* PreferencePane.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA71508A17588C4200DC2063 /* PreferencePane.xib */; };
+		DA71508F17588C5400DC2063 /* AutoHyperlinks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA71508E17588C5400DC2063 /* AutoHyperlinks.framework */; };
+		DA71509717589B7800DC2063 /* TXDumperPrefs.m in Sources */ = {isa = PBXBuildFile; fileRef = DA71509617589B7800DC2063 /* TXDumperPrefs.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		0AA1909FFE8422F4C02AAC07 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = /System/Library/Frameworks/CoreFoundation.framework; sourceTree = "<absolute>"; };
+		4C51BE9312D0471600E79CEB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		8D576316048677EA00EA77CD /* TXURLDumper.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TXURLDumper.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		DA0D27D71754B58D00318563 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		DA71507617588C3100DC2063 /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabase.h; sourceTree = "<group>"; };
+		DA71507717588C3100DC2063 /* FMDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabase.m; sourceTree = "<group>"; };
+		DA71507817588C3100DC2063 /* FMDatabasePool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabasePool.h; sourceTree = "<group>"; };
+		DA71507917588C3100DC2063 /* FMDatabasePool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabasePool.m; sourceTree = "<group>"; };
+		DA71507A17588C3100DC2063 /* FMDatabaseQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseQueue.h; sourceTree = "<group>"; };
+		DA71507B17588C3100DC2063 /* FMDatabaseQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabaseQueue.m; sourceTree = "<group>"; };
+		DA71507C17588C3100DC2063 /* FMResultSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMResultSet.h; sourceTree = "<group>"; };
+		DA71507D17588C3100DC2063 /* FMResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMResultSet.m; sourceTree = "<group>"; };
+		DA71507E17588C3100DC2063 /* TXDumperSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TXDumperSheet.h; path = Classes/TXDumperSheet.h; sourceTree = "<group>"; };
+		DA71507F17588C3100DC2063 /* TXDumperSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TXDumperSheet.m; path = Classes/TXDumperSheet.m; sourceTree = "<group>"; };
+		DA71508017588C3100DC2063 /* TXURLDumper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TXURLDumper.h; path = Classes/TXURLDumper.h; sourceTree = "<group>"; };
+		DA71508117588C3100DC2063 /* TXURLDumper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TXURLDumper.m; path = Classes/TXURLDumper.m; sourceTree = "<group>"; };
+		DA71508817588C4200DC2063 /* DumperSheet.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DumperSheet.xib; path = Resources/DumperSheet.xib; sourceTree = "<group>"; };
+		DA71508917588C4200DC2063 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Resources/Info.plist; sourceTree = "<group>"; };
+		DA71508A17588C4200DC2063 /* PreferencePane.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PreferencePane.xib; path = Resources/PreferencePane.xib; sourceTree = "<group>"; };
+		DA71508E17588C5400DC2063 /* AutoHyperlinks.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AutoHyperlinks.framework; path = Frameworks/AutoHyperlinks.framework; sourceTree = "<group>"; };
+		DA71509517589B7800DC2063 /* TXDumperPrefs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TXDumperPrefs.h; path = Classes/TXDumperPrefs.h; sourceTree = "<group>"; };
+		DA71509617589B7800DC2063 /* TXDumperPrefs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TXDumperPrefs.m; path = Classes/TXDumperPrefs.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8D576313048677EA00EA77CD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DA0D27D81754B58D00318563 /* libsqlite3.dylib in Frameworks */,
+				8D576314048677EA00EA77CD /* CoreFoundation.framework in Frameworks */,
+				4C51BE9412D0471600E79CEB /* Cocoa.framework in Frameworks */,
+				DA71508F17588C5400DC2063 /* AutoHyperlinks.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		089C166AFE841209C02AAC07 /* PreferencePaneExample */ = {
+			isa = PBXGroup;
+			children = (
+				08FB77AFFE84173DC02AAC07 /* Source */,
+				089C167CFE841241C02AAC07 /* Resources */,
+				089C1671FE841209C02AAC07 /* Frameworks */,
+				19C28FB6FE9D52B211CA2CBB /* Products */,
+			);
+			name = PreferencePaneExample;
+			sourceTree = "<group>";
+		};
+		089C1671FE841209C02AAC07 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				DA0D27D71754B58D00318563 /* libsqlite3.dylib */,
+				DA71508E17588C5400DC2063 /* AutoHyperlinks.framework */,
+				4C51BE9312D0471600E79CEB /* Cocoa.framework */,
+				0AA1909FFE8422F4C02AAC07 /* CoreFoundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		089C167CFE841241C02AAC07 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				DA71508917588C4200DC2063 /* Info.plist */,
+				DA71508817588C4200DC2063 /* DumperSheet.xib */,
+				DA71508A17588C4200DC2063 /* PreferencePane.xib */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		08FB77AFFE84173DC02AAC07 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				DA71507517588C3100DC2063 /* fmdb */,
+				DA71509517589B7800DC2063 /* TXDumperPrefs.h */,
+				DA71509617589B7800DC2063 /* TXDumperPrefs.m */,
+				DA71507E17588C3100DC2063 /* TXDumperSheet.h */,
+				DA71507F17588C3100DC2063 /* TXDumperSheet.m */,
+				DA71508017588C3100DC2063 /* TXURLDumper.h */,
+				DA71508117588C3100DC2063 /* TXURLDumper.m */,
+			);
+			name = Source;
+			sourceTree = "<group>";
+		};
+		19C28FB6FE9D52B211CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8D576316048677EA00EA77CD /* TXURLDumper.bundle */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		DA71507517588C3100DC2063 /* fmdb */ = {
+			isa = PBXGroup;
+			children = (
+				DA71507617588C3100DC2063 /* FMDatabase.h */,
+				DA71507717588C3100DC2063 /* FMDatabase.m */,
+				DA71507817588C3100DC2063 /* FMDatabasePool.h */,
+				DA71507917588C3100DC2063 /* FMDatabasePool.m */,
+				DA71507A17588C3100DC2063 /* FMDatabaseQueue.h */,
+				DA71507B17588C3100DC2063 /* FMDatabaseQueue.m */,
+				DA71507C17588C3100DC2063 /* FMResultSet.h */,
+				DA71507D17588C3100DC2063 /* FMResultSet.m */,
+			);
+			name = fmdb;
+			path = Classes/fmdb;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8D57630D048677EA00EA77CD /* TXURLDumper */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1DEB911A08733D790010E9CD /* Build configuration list for PBXNativeTarget "TXURLDumper" */;
+			buildPhases = (
+				8D57630F048677EA00EA77CD /* Resources */,
+				8D576311048677EA00EA77CD /* Sources */,
+				8D576313048677EA00EA77CD /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TXURLDumper;
+			productInstallPath = "$(HOME)/Library/Bundles";
+			productName = PreferencePaneExample;
+			productReference = 8D576316048677EA00EA77CD /* TXURLDumper.bundle */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		089C1669FE841209C02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0460;
+			};
+			buildConfigurationList = 1DEB911E08733D790010E9CD /* Build configuration list for PBXProject "TXURLDumper" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
+			mainGroup = 089C166AFE841209C02AAC07 /* PreferencePaneExample */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8D57630D048677EA00EA77CD /* TXURLDumper */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8D57630F048677EA00EA77CD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DA71508B17588C4200DC2063 /* DumperSheet.xib in Resources */,
+				DA71508D17588C4200DC2063 /* PreferencePane.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8D576311048677EA00EA77CD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DA71508217588C3100DC2063 /* FMDatabase.m in Sources */,
+				DA71508317588C3100DC2063 /* FMDatabasePool.m in Sources */,
+				DA71508417588C3100DC2063 /* FMDatabaseQueue.m in Sources */,
+				DA71508517588C3100DC2063 /* FMResultSet.m in Sources */,
+				DA71508617588C3100DC2063 /* TXDumperSheet.m in Sources */,
+				DA71508717588C3100DC2063 /* TXURLDumper.m in Sources */,
+				DA71509717589B7800DC2063 /* TXDumperPrefs.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		1DEB911B08733D790010E9CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+					"\"$(SRCROOT)/Frameworks\"",
+				);
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				HEADER_SEARCH_PATHS = "/Applications/Textual.app/Contents/Headers/**";
+				INFOPLIST_FILE = Resources/Info.plist;
+				INSTALL_PATH = "$(HOME)/Library/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				PRODUCT_NAME = TXURLDumper;
+				SDKROOT = macosx;
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Debug;
+		};
+		1DEB911C08733D790010E9CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+					"\"$(SRCROOT)/Frameworks\"",
+				);
+				GCC_MODEL_TUNING = G5;
+				HEADER_SEARCH_PATHS = "/Applications/Textual.app/Contents/Headers/**";
+				INFOPLIST_FILE = Resources/Info.plist;
+				INSTALL_PATH = "$(HOME)/Library/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				PRODUCT_NAME = TXURLDumper;
+				SDKROOT = macosx;
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Release;
+		};
+		1DEB911F08733D790010E9CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = (
+					i386,
+					x86_64,
+				);
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				FRAMEWORK_SEARCH_PATHS = "/Applications/Textual.app/Contents/Frameworks/**";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = /Applications/Textual.app/Contents/Headers/;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				ONLY_ACTIVE_ARCH = NO;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		1DEB912008733D790010E9CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = (
+					i386,
+					x86_64,
+				);
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				FRAMEWORK_SEARCH_PATHS = "/Applications/Textual.app/Contents/Frameworks/**";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = /Applications/Textual.app/Contents/Headers/;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				ONLY_ACTIVE_ARCH = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1DEB911A08733D790010E9CD /* Build configuration list for PBXNativeTarget "TXURLDumper" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DEB911B08733D790010E9CD /* Debug */,
+				1DEB911C08733D790010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1DEB911E08733D790010E9CD /* Build configuration list for PBXProject "TXURLDumper" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DEB911F08733D790010E9CD /* Debug */,
+				1DEB912008733D790010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 089C1669FE841209C02AAC07 /* Project object */;
+}
