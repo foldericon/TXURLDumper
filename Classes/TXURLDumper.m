@@ -107,9 +107,13 @@ TXDumperSheet *dumperSheet;
 						 sender:(NSDictionary *)senderDict
 						message:(NSDictionary *)messageDict
 {
+    id date = [messageDict objectForKey:@"messageReceived"];
+    if(!date) {
+        date = [NSDate date];
+    }
     [self dumpURLsFromMessage:[messageDict objectForKey:@"messageSequence"]
                        client:client
-                         time:[messageDict objectForKey:@"messageReceived"]
+                         time:date
                       channel:[[messageDict objectForKey:@"messageParamaters"] objectAtIndex:0]
                          nick:[senderDict objectForKey:@"senderNickname"]
      ];
