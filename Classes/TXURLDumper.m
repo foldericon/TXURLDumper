@@ -44,9 +44,35 @@ TXDumperSheet *dumperSheet;
         self.queue = [FMDatabaseQueue databaseQueueWithPath:[self dbPath]];
         [self createDBStructure];
     }
+
+    NSMenu *windowMenu = [[[[NSApplication sharedApplication] mainMenu] itemWithTitle:@"Window"] submenu];
+    NSMenuItem *menuItem = [NSMenuItem new];
+    [menuItem setTitle:@"URL List"];
+    [menuItem setTarget:self];
+    [menuItem setAction:@selector(showDumper:)];
+    [menuItem setKeyEquivalent:@"6"];
+    
+    int i=0;
+    for (NSMenuItem *item in [windowMenu itemArray]) {
+        if([item.title isEqualTo:@"Highlight List"]){
+            break;
+        }
+        i++;
+    }
+    [windowMenu insertItem:menuItem atIndex:i+1];
+ 
 }
 
 - (void)pluginUnloadedFromMemory {
+    NSMenu *windowMenu = [[[[NSApplication sharedApplication] mainMenu] itemWithTitle:@"Window"] submenu];
+    int i=0;
+    for (NSMenuItem *item in [windowMenu itemArray]) {
+        if([item.title isEqualTo:@"URL List"]){
+            break;
+        }
+        i++;
+    }
+    [windowMenu removeItemAtIndex:i];
     [self.queue close];
 }
 
@@ -73,6 +99,11 @@ TXDumperSheet *dumperSheet;
     [self.enableBox setState:([self dumpingEnabled] ? NSOnState : NSOffState)];
     [self.selfDumpsBox setState:([self selfDumpsEnabled] ? NSOnState : NSOffState)];
     [self.debugBox setState:([self debugModeEnabled] ? NSOnState : NSOffState)];
+}
+
+- (void)showDumper:(id)sender
+{
+    [self showDumper];
 }
 
 #pragma mark -
@@ -111,10 +142,7 @@ TXDumperSheet *dumperSheet;
                   message:(NSString *)messageString
                   command:(NSString *)commandString
 {
-    dumperSheet = [[TXDumperSheet alloc] init];
-    dumperSheet.window = self.masterController.mainWindow;
-    dumperSheet.plugin = self;
-    [dumperSheet start];
+    [self showDumper];
 }
 
 - (NSArray *)pluginSupportsServerInputCommands
@@ -170,6 +198,14 @@ TXDumperSheet *dumperSheet;
             }
         }
     }
+}
+
+- (void)showDumper
+{
+    dumperSheet = [[TXDumperSheet alloc] init];
+    dumperSheet.window = self.masterController.mainWindow;
+    dumperSheet.plugin = self;
+    [dumperSheet start];
 }
 
 - (void)loadData

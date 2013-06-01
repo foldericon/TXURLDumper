@@ -57,6 +57,7 @@
 
 - (NSView *)preferencesView;
 - (NSString *)preferencesMenuItemName;
+
 - (void)clearDB;
 - (void)messageReceivedByServer:(IRCClient *)client
 						 sender:(NSDictionary *)senderDict
