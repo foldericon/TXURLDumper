@@ -190,7 +190,7 @@ TXDumperSheet *dumperSheet;
                 [self updateDBWithSQL:@"INSERT INTO urls (timestamp, client, channel, nick, url) VALUES (:timestamp, :client, :channel, :nick, :url);" withParameterDictionary:argsDict];
                 if(self.debugModeEnabled) {
                     NSString *log = [NSString stringWithFormat:@"URL: %@ has been dumped.", url];
-                    [self.worldController.selectedClient printDebugInformationToConsole:log];
+                    [client printDebugInformationToConsole:log];
                 }
             }
         }
