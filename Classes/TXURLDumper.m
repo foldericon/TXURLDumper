@@ -63,16 +63,10 @@ TXDumperSheet *dumperSheet;
  
 }
 
+
 - (void)pluginUnloadedFromMemory {
     NSMenu *windowMenu = [[[[NSApplication sharedApplication] mainMenu] itemWithTitle:@"Window"] submenu];
-    int i=0;
-    for (NSMenuItem *item in [windowMenu itemArray]) {
-        if([item.title isEqualTo:@"URL List"]){
-            break;
-        }
-        i++;
-    }
-    [windowMenu removeItemAtIndex:i];
+    [windowMenu removeItem:[windowMenu itemWithTitle:@"URL List"]];
     [self.queue close];
 }
 
@@ -194,7 +188,10 @@ TXDumperSheet *dumperSheet;
                                           url, @"url",
                                           nil];
                 [self updateDBWithSQL:@"INSERT INTO urls (timestamp, client, channel, nick, url) VALUES (:timestamp, :client, :channel, :nick, :url);" withParameterDictionary:argsDict];
-                if(self.debugModeEnabled) [self echo:@"URL: %@ has been dumped.", url];
+                if(self.debugModeEnabled) {
+                    NSString *log = [NSString stringWithFormat:@"URL: %@ has been dumped.", url];
+                    [self.worldController.selectedClient printDebugInformationToConsole:log];
+                }
             }
         }
     }
