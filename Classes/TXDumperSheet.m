@@ -31,6 +31,7 @@
 
 #import "TXDumperSheet.h"
 
+NSString *order;
 @implementation TXDumperSheet
 
 - (id)init
@@ -46,7 +47,8 @@
 
 - (void)start
 {
-    [self loadData];
+    order = @"DESC";
+    [self loadDataSortedBy:@"timestamp" order:order];
 	[self startSheetWithWindow:self.window];
     [self.window makeKeyAndOrderFront:self.sheet];
     [self.sheet makeFirstResponder:self.searchBar];
@@ -72,9 +74,9 @@
 	[self.sheet close];
 }
 
-- (void)loadData
+- (void)loadDataSortedBy:(NSString *)column order:(NSString *)order
 {
-    [self.plugin loadData];
+    [self.plugin loadDataSortedBy:column order:order];
     [self.tableView reloadData];
     [self updateRecordsLabel];
 }
@@ -116,7 +118,7 @@
 }
 
 - (IBAction)textEntered:(id)sender {
-    [self.plugin loadData];
+    [self.plugin loadDataSortedBy:@"timestamp" order:order];
     [self.tableView reloadData];
     NSString *str = [[sender stringValue] lowercaseString];
     if ([str isEqualTo:@""]) {
@@ -128,7 +130,7 @@
         if ([[[dict stringForKey:@"channel"] lowercaseString] rangeOfString:str].location != NSNotFound ||
             [[[dict stringForKey:@"nick"] lowercaseString] rangeOfString:str].location != NSNotFound ||
             [[[dict stringForKey:@"url"] lowercaseString] rangeOfString:str].location != NSNotFound ||
-            [[[dict stringForKey:@"time"] lowercaseString] rangeOfString:str].location != NSNotFound) {
+            [[[dict stringForKey:@"timestamp"] lowercaseString] rangeOfString:str].location != NSNotFound) {
             [new addObject:dict];
         }
     }
@@ -137,8 +139,10 @@
     [self updateRecordsLabel];
 }
 
+
 #pragma mark -
 #pragma mark DataSource
+
 
 - (void)doubleClick:(id)object
 {
@@ -150,6 +154,13 @@
         NSString *str = [NSString stringWithFormat:@"%@ has been copied to clipboard.", url];
         [self.plugin echo:str];
     }
+}
+
+- (void)tableView:(NSTableView *)tableView mouseDownInHeaderOfTableColumn:(NSTableColumn *)tableColumn
+{
+    if([order isEqualTo:@"ASC"]) order = @"DESC";
+    else order = @"ASC";
+    [self loadDataSortedBy:tableColumn.identifier order:order];
 }
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView

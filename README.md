@@ -14,5 +14,5 @@ TODO
   - double entries replace/just add/leave original
 - integrate in menubar **✓**
 - save window size of dumper sheet
-- sort tableview by header clicking
+- sort tableview by header clicking **✓**
 - enable/disable dumping for specific network

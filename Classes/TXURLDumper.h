@@ -70,6 +70,6 @@
 
 - (NSArray *)pluginSupportsServerInputCommands;
 - (NSArray *)pluginSupportsUserInputCommands;
-- (void)loadData;
+- (void)loadDataSortedBy:(NSString *)column order:(NSString*)order;
 - (void)echo:(NSString *)msg,...;
 @end

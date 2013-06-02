@@ -324,7 +324,7 @@
 													<reference key="NSTableView" ref="469733275"/>
 												</object>
 												<object class="NSTableColumn" id="304610396">
-													<string key="NSIdentifier">time</string>
+													<string key="NSIdentifier">timestamp</string>
 													<double key="NSWidth">121.23828125</double>
 													<double key="NSMinWidth">10</double>
 													<double key="NSMaxWidth">3.4028234663852886e+38</double>
@@ -1134,14 +1134,6 @@
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
-				<object class="IBPartialClassDescription">
-					<string key="className">NSLayoutConstraint</string>
-					<string key="superclassName">NSObject</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/NSLayoutConstraint.h</string>
-					</object>
-				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">TXDumperSheet</string>
 					<string key="superclassName">NSObject</string>

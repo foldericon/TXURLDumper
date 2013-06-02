@@ -209,22 +209,22 @@ TXDumperSheet *dumperSheet;
     [dumperSheet start];
 }
 
-- (void)loadData
+- (void)loadDataSortedBy:(NSString *)column order:(NSString*)order
 {
     IRCClient *client = self.worldController.selectedClient;
     NSMutableArray *data = [[NSMutableArray alloc] init];
     [self.queue inDatabase:^(FMDatabase *db) {
-        FMResultSet *s = [db executeQuery:@"SELECT * from urls where client=? order by timestamp desc", client.config.itemUUID];
+        NSString *sql = [NSString stringWithFormat:@"SELECT channel,nick,url,timestamp FROM urls WHERE client=? ORDER BY %@ %@;", column, order];        
+        FMResultSet *s = [db executeQuery:sql, client.config.itemUUID];
         while ([s next]) {
             NSDate *date = [NSDate dateWithTimeIntervalSince1970:[s doubleForColumn:@"timestamp"]];
             NSString *timeString = [NSString stringWithFormat:@"%@ Ago",
-                                  TXSpecialReadableTime([NSDate secondsSinceUnixTimestamp:[date timeIntervalSince1970]], YES, nil)];
+                                    TXSpecialReadableTime([NSDate secondsSinceUnixTimestamp:[date timeIntervalSince1970]], YES, nil)];
             NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
                                   [s stringForColumn:@"channel"], @"channel",
                                   [s stringForColumn:@"nick"], @"nick",
                                   [s stringForColumn:@"url"], @"url",
-                                  timeString, @"time",
-//                                  [self createHumanReadableTimeStringFromDate:date], @"time",
+                                  timeString, @"timestamp",
                                   nil];
             [data addObject:dict];
         }
