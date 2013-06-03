@@ -40,6 +40,7 @@
 @property (assign) IBOutlet NSWindow *sheet;
 @property (assign) IBOutlet NSSearchField *searchBar;
 @property (assign) IBOutlet NSTableView *tableView;
+@property (assign) IBOutlet NSTextField *networkLabel;
 @property (assign) IBOutlet NSTextField *recordsLabel;
 @property (assign) IBOutlet NSButton *clearButton;
 @property (assign) IBOutlet NSButton *closeButton;

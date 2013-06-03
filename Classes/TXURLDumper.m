@@ -97,7 +97,8 @@ TXDumperSheet *dumperSheet;
 
 - (void)showDumper:(id)sender
 {
-    [self showDumper];
+    IRCClient *client = self.worldController.selectedClient;
+    [self showDumperForClient:client];
 }
 
 #pragma mark -
@@ -140,7 +141,7 @@ TXDumperSheet *dumperSheet;
                   message:(NSString *)messageString
                   command:(NSString *)commandString
 {
-    [self showDumper];
+    [self showDumperForClient:client];
 }
 
 - (NSArray *)pluginSupportsServerInputCommands
@@ -201,10 +202,11 @@ TXDumperSheet *dumperSheet;
     }
 }
 
-- (void)showDumper
+- (void)showDumperForClient:(IRCClient *)client
 {
     dumperSheet = [[TXDumperSheet alloc] init];
     dumperSheet.window = self.masterController.mainWindow;
+    dumperSheet.networkLabel.stringValue = [dumperSheet.networkLabel.stringValue stringByAppendingFormat:@" \"%@\"", client.altNetworkName];
     dumperSheet.plugin = self;
     [dumperSheet start];
 }
