@@ -95,6 +95,7 @@ TXDumperSheet *dumperSheet;
     [self.debugBox setState:(self.debugModeEnabled ? NSOnState : NSOffState)];
     [self.matchingBox selectItemWithTag:(self.strictMatching ? 1 : 0)];
     [self.doubleClickActionBox selectItemWithTag:(self.openInBrowser ? 1 : 0)];
+    [self.doubleEntryHandlingBox selectItemWithTag:self.doubleEntryHandling];
 }
 
 - (void)showDumper:(id)sender
@@ -188,6 +189,15 @@ TXDumperSheet *dumperSheet;
         if(r.length > 0) {
             url = [[message substringFromIndex:r.location] substringToIndex:r.length];
             if ([url hasSuffix:@"…"] == NO) {
+                if(self.doubleEntryHandling == 2 && [self checkDupe:url forClient:client] == YES) {
+                    return;
+                }
+                NSString *sql;
+                if(self.doubleEntryHandling == 0 && [self checkDupe:url forClient:client] == YES) {
+                    sql = [NSString stringWithFormat:@"UPDATE urls SET timestamp=:timestamp, channel=:channel, nick=:nick WHERE id=(SELECT id from urls where client='%@' AND url='%@')", client.config.itemUUID, url];
+                } else {
+                    sql = @"INSERT INTO urls (timestamp, client, channel, nick, url) VALUES (:timestamp, :client, :channel, :nick, :url)";
+                }
                 NSDictionary *argsDict = [NSDictionary dictionaryWithObjectsAndKeys:
                                           timestamp, @"timestamp",
                                           client.config.itemUUID, @"client",
@@ -195,7 +205,7 @@ TXDumperSheet *dumperSheet;
                                           nick, @"nick",
                                           url, @"url",
                                           nil];
-                [self updateDBWithSQL:@"INSERT INTO urls (timestamp, client, channel, nick, url) VALUES (:timestamp, :client, :channel, :nick, :url);" withParameterDictionary:argsDict];
+                [self updateDBWithSQL:sql withParameterDictionary:argsDict];
                 if(self.debugModeEnabled) {
                     NSString *log = [NSString stringWithFormat:@"URL: %@ has been dumped.", url];
                     [client printDebugInformationToConsole:log];
@@ -237,15 +247,18 @@ TXDumperSheet *dumperSheet;
     dumperSheet.dataSource = data;
 }
 
-- (BOOL)checkDupe:(NSString *)url
+- (BOOL)checkDupe:(NSString *)url forClient:(IRCClient *)client
 {
+    BOOL dupe = NO;
+    NSMutableArray *data = [[NSMutableArray alloc] init];
     [self.queue inDatabase:^(FMDatabase *db) {
-        FMResultSet *s = [db executeQuery:@"SELECT id from urls where url=?", url];
+        FMResultSet *s = [db executeQuery:@"SELECT id from urls where url=? AND client=?", url, client.config.itemUUID];
         while ([s next]) {
-            NSAssertReturn(YES);
+            [data addObject:[s resultDictionary]];
         }
     }];
-    return NO;
+    if([data count] > 0) dupe = YES;
+    return dupe;
 }
 
 - (void)updateDBWithSQL:(NSString *)sql withArgsArray:(NSArray *)array
@@ -352,6 +365,12 @@ TXDumperSheet *dumperSheet;
     [self setPreferences:dict];
 }
 
+- (IBAction)setDoubleEntryHandling:(id)sender {
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:[self preferences]];
+    [dict setObject:[NSNumber numberWithInteger:[self.doubleEntryHandlingBox tag]] forKey:TXDumperDoubleEntryHandlingKey];
+    [self setPreferences:dict];
+}
+
 - (void)AlertHasConfirmed:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo
 {
     if(returnCode == 1){
@@ -370,8 +389,5 @@ TXDumperSheet *dumperSheet;
                       modalDelegate:self
                      didEndSelector:@selector(AlertHasConfirmed:returnCode:contextInfo:)
                         contextInfo:nil];
-}
-
-- (IBAction)doubleClickActionBox:(id)sender {
 }
 @end

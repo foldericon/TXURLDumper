@@ -47,6 +47,7 @@
 @property (assign) IBOutlet NSButton *debugBox;
 @property (assign) IBOutlet NSPopUpButtonCell *matchingBox;
 @property (assign) IBOutlet NSPopUpButtonCell *doubleClickActionBox;
+@property (assign) IBOutlet NSPopUpButtonCell *doubleEntryHandlingBox;
 
 @property (nonatomic, strong) FMDatabaseQueue *queue;
 
@@ -55,6 +56,7 @@
 - (IBAction)setDebugMode:(id)sender;
 - (IBAction)setMatching:(id)sender;
 - (IBAction)setDoubleClickAction:(id)sender;
+- (IBAction)setDoubleEntryHandling:(id)sender;
 - (IBAction)resetDatabase:(id)sender;
 
 - (void)pluginLoadedIntoMemory:(IRCWorld *)world;

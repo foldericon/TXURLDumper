@@ -36,6 +36,7 @@ extern NSString *TXDumperSelfDumpsEnabledKey;
 extern NSString *TXDumperDebugModeEnabledKey;
 extern NSString *TXDumperStrictMatchingEnabledKey;
 extern NSString *TXDumperOpenInBrowserEnabledKey;
+extern NSString *TXDumperDoubleEntryHandlingKey;
 
 @interface NSObject (TXDumperPrefs)
 
@@ -46,4 +47,5 @@ extern NSString *TXDumperOpenInBrowserEnabledKey;
 @property (readonly) BOOL debugModeEnabled;
 @property (readonly) BOOL strictMatching;
 @property (readonly) BOOL openInBrowser;
+@property (readonly) NSInteger doubleEntryHandling;
 @end
