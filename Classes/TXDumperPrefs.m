@@ -35,6 +35,7 @@ NSString *TXDumperDumpingEnabledKey = @"TXDumperDumpingEnabled";
 NSString *TXDumperSelfDumpsEnabledKey = @"TXDumperSelfDumpsEnabled";
 NSString *TXDumperDebugModeEnabledKey = @"TXDumperDebugModeEnabled";
 NSString *TXDumperStrictMatchingEnabledKey = @"TXDumperStrictMatchingEnabled";
+NSString *TXDumperOpenInBrowserEnabledKey = @"TXDumperOpenInBrowserEnabled";
 
 @implementation NSObject (TXDumperPrefs)
 - (NSDictionary *)preferences
@@ -45,7 +46,8 @@ NSString *TXDumperStrictMatchingEnabledKey = @"TXDumperStrictMatchingEnabled";
                               @"yes", TXDumperDumpingEnabledKey,
                               @"yes", TXDumperSelfDumpsEnabledKey,
                               @"no", TXDumperDebugModeEnabledKey,
-                              @"yes", TXDumperStrictMatchingEnabledKey,
+                              @"no", TXDumperStrictMatchingEnabledKey,
+                              @"no", TXDumperOpenInBrowserEnabledKey,
                               nil];
         [self setPreferences:dict];
     }
@@ -83,4 +85,8 @@ NSString *TXDumperStrictMatchingEnabledKey = @"TXDumperStrictMatchingEnabled";
     return [[self.preferences objectForKey:TXDumperStrictMatchingEnabledKey] boolValue];
 }
 
+- (BOOL)openInBrowser
+{
+    return [[self.preferences objectForKey:TXDumperOpenInBrowserEnabledKey] boolValue];
+}
 @end

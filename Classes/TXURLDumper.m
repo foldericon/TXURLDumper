@@ -94,6 +94,7 @@ TXDumperSheet *dumperSheet;
     [self.selfDumpsBox setState:(self.selfDumpsEnabled ? NSOnState : NSOffState)];
     [self.debugBox setState:(self.debugModeEnabled ? NSOnState : NSOffState)];
     [self.matchingBox selectItemWithTag:(self.strictMatching ? 1 : 0)];
+    [self.doubleClickActionBox selectItemWithTag:(self.openInBrowser ? 1 : 0)];
 }
 
 - (void)showDumper:(id)sender
@@ -341,6 +342,16 @@ TXDumperSheet *dumperSheet;
     [self setPreferences:dict];
 }
 
+- (IBAction)setDoubleClickAction:(id)sender {
+    BOOL enabled = NO;
+    if([self.doubleClickActionBox tag] == 1) {
+        enabled = YES;
+    }
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:[self preferences]];
+    [dict setObject:[NSNumber numberWithBool:enabled] forKey:TXDumperOpenInBrowserEnabledKey];
+    [self setPreferences:dict];
+}
+
 - (void)AlertHasConfirmed:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo
 {
     if(returnCode == 1){
@@ -361,4 +372,6 @@ TXDumperSheet *dumperSheet;
                         contextInfo:nil];
 }
 
+- (IBAction)doubleClickActionBox:(id)sender {
+}
 @end

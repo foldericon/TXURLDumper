@@ -35,6 +35,7 @@ extern NSString *TXDumperDumpingEnabledKey;
 extern NSString *TXDumperSelfDumpsEnabledKey;
 extern NSString *TXDumperDebugModeEnabledKey;
 extern NSString *TXDumperStrictMatchingEnabledKey;
+extern NSString *TXDumperOpenInBrowserEnabledKey;
 
 @interface NSObject (TXDumperPrefs)
 
@@ -44,4 +45,5 @@ extern NSString *TXDumperStrictMatchingEnabledKey;
 @property (readonly) BOOL selfDumpsEnabled;
 @property (readonly) BOOL debugModeEnabled;
 @property (readonly) BOOL strictMatching;
+@property (readonly) BOOL openInBrowser;
 @end

@@ -147,12 +147,16 @@ NSString *order;
 - (void)doubleClick:(id)object
 {
     NSString *url = [[self.dataSource objectAtIndex:[self.tableView clickedRow]] objectForKey:@"url"];
-    NSPasteboard *pasteboard = [NSPasteboard generalPasteboard];
-    [pasteboard declareTypes:[NSArray arrayWithObject:NSStringPboardType] owner:self];
-    BOOL ok = [pasteboard setString:url forType:NSStringPboardType];
-    if (ok) {
-        NSString *str = [NSString stringWithFormat:@"%@ has been copied to clipboard.", url];
-        [self.plugin echo:str];
+    if(self.openInBrowser) {
+        [TLOpenLink openWithString:url];
+    } else {
+        NSPasteboard *pasteboard = [NSPasteboard generalPasteboard];
+        [pasteboard declareTypes:[NSArray arrayWithObject:NSStringPboardType] owner:self];
+        BOOL ok = [pasteboard setString:url forType:NSStringPboardType];
+        if (ok) {
+            NSString *str = [NSString stringWithFormat:@"%@ has been copied to clipboard.", url];
+            [self.plugin echo:str];
+        }
     }
 }
 
