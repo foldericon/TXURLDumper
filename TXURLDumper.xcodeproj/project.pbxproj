@@ -18,8 +18,8 @@
 		DA71508717588C3100DC2063 /* TXURLDumper.m in Sources */ = {isa = PBXBuildFile; fileRef = DA71508117588C3100DC2063 /* TXURLDumper.m */; };
 		DA71508B17588C4200DC2063 /* DumperSheet.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA71508817588C4200DC2063 /* DumperSheet.xib */; };
 		DA71508D17588C4200DC2063 /* PreferencePane.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA71508A17588C4200DC2063 /* PreferencePane.xib */; };
-		DA71508F17588C5400DC2063 /* AutoHyperlinks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA71508E17588C5400DC2063 /* AutoHyperlinks.framework */; };
 		DA71509717589B7800DC2063 /* TXDumperPrefs.m in Sources */ = {isa = PBXBuildFile; fileRef = DA71509617589B7800DC2063 /* TXDumperPrefs.m */; };
+		DA8A7D44175F0B2700268228 /* AutoHyperlinks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA8A7D43175F0B2700268228 /* AutoHyperlinks.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,9 +42,9 @@
 		DA71508817588C4200DC2063 /* DumperSheet.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DumperSheet.xib; path = Resources/DumperSheet.xib; sourceTree = "<group>"; };
 		DA71508917588C4200DC2063 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Resources/Info.plist; sourceTree = "<group>"; };
 		DA71508A17588C4200DC2063 /* PreferencePane.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PreferencePane.xib; path = Resources/PreferencePane.xib; sourceTree = "<group>"; };
-		DA71508E17588C5400DC2063 /* AutoHyperlinks.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AutoHyperlinks.framework; path = Frameworks/AutoHyperlinks.framework; sourceTree = "<group>"; };
 		DA71509517589B7800DC2063 /* TXDumperPrefs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TXDumperPrefs.h; path = Classes/TXDumperPrefs.h; sourceTree = "<group>"; };
 		DA71509617589B7800DC2063 /* TXDumperPrefs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TXDumperPrefs.m; path = Classes/TXDumperPrefs.m; sourceTree = "<group>"; };
+		DA8A7D43175F0B2700268228 /* AutoHyperlinks.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AutoHyperlinks.framework; path = Frameworks/AutoHyperlinks.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,7 +55,7 @@
 				DA0D27D81754B58D00318563 /* libsqlite3.dylib in Frameworks */,
 				8D576314048677EA00EA77CD /* CoreFoundation.framework in Frameworks */,
 				4C51BE9412D0471600E79CEB /* Cocoa.framework in Frameworks */,
-				DA71508F17588C5400DC2063 /* AutoHyperlinks.framework in Frameworks */,
+				DA8A7D44175F0B2700268228 /* AutoHyperlinks.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -77,7 +77,7 @@
 			isa = PBXGroup;
 			children = (
 				DA0D27D71754B58D00318563 /* libsqlite3.dylib */,
-				DA71508E17588C5400DC2063 /* AutoHyperlinks.framework */,
+				DA8A7D43175F0B2700268228 /* AutoHyperlinks.framework */,
 				4C51BE9312D0471600E79CEB /* Cocoa.framework */,
 				0AA1909FFE8422F4C02AAC07 /* CoreFoundation.framework */,
 			);

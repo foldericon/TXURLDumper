@@ -34,6 +34,7 @@
 NSString *TXDumperDumpingEnabledKey = @"TXDumperDumpingEnabled";
 NSString *TXDumperSelfDumpsEnabledKey = @"TXDumperSelfDumpsEnabled";
 NSString *TXDumperDebugModeEnabledKey = @"TXDumperDebugModeEnabled";
+NSString *TXDumperStrictMatchingEnabledKey = @"TXDumperStrictMatchingEnabled";
 
 @implementation NSObject (TXDumperPrefs)
 - (NSDictionary *)preferences
@@ -44,6 +45,7 @@ NSString *TXDumperDebugModeEnabledKey = @"TXDumperDebugModeEnabled";
                               @"yes", TXDumperDumpingEnabledKey,
                               @"yes", TXDumperSelfDumpsEnabledKey,
                               @"no", TXDumperDebugModeEnabledKey,
+                              @"yes", TXDumperStrictMatchingEnabledKey,
                               nil];
         [self setPreferences:dict];
     }
@@ -74,6 +76,11 @@ NSString *TXDumperDebugModeEnabledKey = @"TXDumperDebugModeEnabled";
 - (BOOL)debugModeEnabled
 {
     return [[self.preferences objectForKey:TXDumperDebugModeEnabledKey] boolValue];
+}
+
+- (BOOL)strictMatching
+{
+    return [[self.preferences objectForKey:TXDumperStrictMatchingEnabledKey] boolValue];
 }
 
 @end

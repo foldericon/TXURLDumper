@@ -45,11 +45,13 @@
 @property (assign) IBOutlet NSButton *enableBox;
 @property (assign) IBOutlet NSButton *selfDumpsBox;
 @property (assign) IBOutlet NSButton *debugBox;
+@property (assign) IBOutlet NSPopUpButtonCell *matchingBox;
 @property (nonatomic, strong) FMDatabaseQueue *queue;
 
 - (IBAction)setEnable:(id)sender;
 - (IBAction)setSelfDumps:(id)sender;
 - (IBAction)setDebugMode:(id)sender;
+- (IBAction)setMatching:(id)sender;
 - (IBAction)resetDatabase:(id)sender;
 
 - (void)pluginLoadedIntoMemory:(IRCWorld *)world;

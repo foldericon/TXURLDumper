@@ -9,7 +9,7 @@ TODO
 
 - settings pane
   - save own as well **✓**
-  - strict/non-strict matching
+  - strict/non-strict matching **✓**
   - double click action: copy to clipboard / open in browser
   - double entries replace/just add/leave original
 - integrate in menubar **✓**

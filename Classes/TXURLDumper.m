@@ -90,9 +90,10 @@ TXDumperSheet *dumperSheet;
 
 - (void)awakeFromNib
 {
-    [self.enableBox setState:([self dumpingEnabled] ? NSOnState : NSOffState)];
-    [self.selfDumpsBox setState:([self selfDumpsEnabled] ? NSOnState : NSOffState)];
-    [self.debugBox setState:([self debugModeEnabled] ? NSOnState : NSOffState)];
+    [self.enableBox setState:(self.dumpingEnabled ? NSOnState : NSOffState)];
+    [self.selfDumpsBox setState:(self.selfDumpsEnabled ? NSOnState : NSOffState)];
+    [self.debugBox setState:(self.debugModeEnabled ? NSOnState : NSOffState)];
+    [self.matchingBox selectItemWithTag:(self.strictMatching ? 1 : 0)];
 }
 
 - (void)showDumper:(id)sender
@@ -172,14 +173,15 @@ TXDumperSheet *dumperSheet;
 
 - (void)dumpURLsFromMessage:(NSString *)message client:(IRCClient *)client time:(NSDate *)time channel:(NSString *)channel nick:(NSString *)nick
 {
+    if(self.dumpingEnabled == NO) NSAssertReturn(nil);
     NSNumber *timestamp = [NSNumber numberWithInt:(int)[time timeIntervalSince1970]];
 	AHHyperlinkScanner *scanner = [AHHyperlinkScanner new];
-    NSArray *urlAry = [scanner matchesForString:message];
-    if (self.dumpingEnabled == NO || [urlAry count] < 1) {
-        NSAssertReturn(nil);
-    }
+    NSArray *urlAry;
+    if(self.strictMatching)
+        urlAry = [scanner strictMatchesForString:message];
+    else
+        urlAry = [scanner matchesForString:message];
     NSString *url;
-    
     for (NSString *rn in urlAry) {
         NSRange r = NSRangeFromString(rn);
         if(r.length > 0) {
@@ -326,6 +328,16 @@ TXDumperSheet *dumperSheet;
     BOOL enabled = ([self.debugBox state]==NSOnState);
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:[self preferences]];
     [dict setObject:[NSNumber numberWithBool:enabled] forKey:TXDumperDebugModeEnabledKey];
+    [self setPreferences:dict];
+}
+
+- (IBAction)setMatching:(id)sender {
+    BOOL enabled = NO;
+    if([self.matchingBox tag] == 1) {
+        enabled = YES;
+    }
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:[self preferences]];
+    [dict setObject:[NSNumber numberWithBool:enabled] forKey:TXDumperStrictMatchingEnabledKey];
     [self setPreferences:dict];
 }
 
