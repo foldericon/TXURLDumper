@@ -194,7 +194,7 @@ TXDumperSheet *dumperSheet;
                 }
                 NSString *sql;
                 if(self.doubleEntryHandling == 0 && [self checkDupe:url forClient:client] == YES) {
-                    sql = [NSString stringWithFormat:@"UPDATE urls SET timestamp=:timestamp, channel=:channel, nick=:nick WHERE id=(SELECT id from urls where client='%@' AND url='%@')", client.config.itemUUID, url];
+                    sql = [NSString stringWithFormat:@"UPDATE urls SET timestamp=:timestamp, channel=:channel, nick=:nick WHERE id=(SELECT max(id) from urls where client='%@' AND url='%@')", client.config.itemUUID, url];
                 } else {
                     sql = @"INSERT INTO urls (timestamp, client, channel, nick, url) VALUES (:timestamp, :client, :channel, :nick, :url)";
                 }
