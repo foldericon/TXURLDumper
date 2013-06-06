@@ -48,6 +48,8 @@ NSString *order;
 - (void)start
 {
     order = @"DESC";
+    NSRect rect = NSMakeRect(self.sheet.frame.origin.x, self.sheet.frame.origin.y, self.dumperSheetWidth, self.dumperSheetHeight);
+    [self.sheet setFrame:rect display:YES];
     [self loadDataSortedBy:@"timestamp" order:order];
 	[self startSheetWithWindow:self.window];
     [self.window makeKeyAndOrderFront:self.sheet];
@@ -139,10 +141,16 @@ NSString *order;
     [self updateRecordsLabel];
 }
 
+- (void)setWindowSizeWidth:(NSInteger)width height:(NSInteger)height
+{
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:[self preferences]];
+    [dict setObject:[NSNumber numberWithInteger:width] forKey:TXDumperSheetWidthKey];
+    [dict setObject:[NSNumber numberWithInteger:height] forKey:TXDumperSheetHeightKey];
+    [self setPreferences:dict];
+}
 
 #pragma mark -
 #pragma mark DataSource
-
 
 - (void)doubleClick:(id)object
 {
@@ -177,4 +185,12 @@ NSString *order;
     return [[self.dataSource objectAtIndex:rowIndex] objectForKey:aTableColumn.identifier];
 }
 
+
+#pragma mark -
+#pragma mark Window Delegate
+
+- (void)windowDidResize:(NSNotification *)notification
+{
+    [self setWindowSizeWidth:(int)self.sheet.frame.size.width height:(int)self.sheet.frame.size.height];
+}
 @end

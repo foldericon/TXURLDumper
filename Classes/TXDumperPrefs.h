@@ -37,6 +37,8 @@ extern NSString *TXDumperDebugModeEnabledKey;
 extern NSString *TXDumperStrictMatchingEnabledKey;
 extern NSString *TXDumperOpenInBrowserEnabledKey;
 extern NSString *TXDumperDoubleEntryHandlingKey;
+extern NSString *TXDumperSheetWidthKey;
+extern NSString *TXDumperSheetHeightKey;
 
 @interface NSObject (TXDumperPrefs)
 
@@ -48,4 +50,6 @@ extern NSString *TXDumperDoubleEntryHandlingKey;
 @property (readonly) BOOL strictMatching;
 @property (readonly) BOOL openInBrowser;
 @property (readonly) NSInteger doubleEntryHandling;
+@property (readonly) NSInteger dumperSheetWidth;
+@property (readonly) NSInteger dumperSheetHeight;
 @end

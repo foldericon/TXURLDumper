@@ -37,6 +37,8 @@ NSString *TXDumperDebugModeEnabledKey = @"TXDumperDebugModeEnabled";
 NSString *TXDumperStrictMatchingEnabledKey = @"TXDumperStrictMatchingEnabled";
 NSString *TXDumperOpenInBrowserEnabledKey = @"TXDumperOpenInBrowserEnabled";
 NSString *TXDumperDoubleEntryHandlingKey = @"TXDumperDoubleEntryHandling";
+NSString *TXDumperSheetWidthKey = @"TXDumperSheetWidth";
+NSString *TXDumperSheetHeightKey = @"TXDumperSheetHeight";
 
 @implementation NSObject (TXDumperPrefs)
 - (NSDictionary *)preferences
@@ -50,6 +52,8 @@ NSString *TXDumperDoubleEntryHandlingKey = @"TXDumperDoubleEntryHandling";
                               @"no", TXDumperStrictMatchingEnabledKey,
                               @"no", TXDumperOpenInBrowserEnabledKey,
                               0, TXDumperDoubleEntryHandlingKey,
+                              778, TXDumperSheetWidthKey,
+                              350, TXDumperSheetHeightKey,
                               nil];
         [self setPreferences:dict];
     }
@@ -96,4 +100,15 @@ NSString *TXDumperDoubleEntryHandlingKey = @"TXDumperDoubleEntryHandling";
 {
     return [[self.preferences objectForKey:TXDumperDoubleEntryHandlingKey] integerValue];
 }
+
+- (NSInteger)dumperSheetWidth
+{
+    return [[self.preferences objectForKey:TXDumperSheetWidthKey] integerValue];
+}
+
+- (NSInteger)dumperSheetHeight
+{
+    return [[self.preferences objectForKey:TXDumperSheetHeightKey] integerValue];
+}
+
 @end

@@ -390,4 +390,5 @@ TXDumperSheet *dumperSheet;
                      didEndSelector:@selector(AlertHasConfirmed:returnCode:contextInfo:)
                         contextInfo:nil];
 }
+
 @end
