@@ -15,4 +15,4 @@ TODO
 - integrate in menubar **✓**
 - save window size of dumper sheet **✓**
 - sort tableview by header clicking **✓**
-- enable/disable dumping for specific network
+- enable/disable dumping for specific network **✓**

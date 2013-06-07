@@ -66,7 +66,8 @@ TXDumperSheet *dumperSheet;
 
 - (void)pluginUnloadedFromMemory {
     NSMenu *windowMenu = [[[[NSApplication sharedApplication] mainMenu] itemWithTitle:@"Window"] submenu];
-    [windowMenu removeItem:[windowMenu itemWithTitle:@"URL List"]];
+    NSMenuItem *item = [windowMenu itemWithTitle:@"URL List"];
+    [windowMenu removeItem:item];
     [self.queue close];
 }
 
@@ -175,7 +176,7 @@ TXDumperSheet *dumperSheet;
 
 - (void)dumpURLsFromMessage:(NSString *)message client:(IRCClient *)client time:(NSDate *)time channel:(NSString *)channel nick:(NSString *)nick
 {
-    if(self.dumpingEnabled == NO) NSAssertReturn(nil);
+    if(self.dumpingEnabled == NO || [self.disabledNetworks containsObject:client.config.itemUUID]) NSAssertReturn(nil);
     NSNumber *timestamp = [NSNumber numberWithInt:(int)[time timeIntervalSince1970]];
 	AHHyperlinkScanner *scanner = [AHHyperlinkScanner new];
     NSArray *urlAry;

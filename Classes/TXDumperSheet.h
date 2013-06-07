@@ -44,10 +44,12 @@
 @property (assign) IBOutlet NSTextField *recordsLabel;
 @property (assign) IBOutlet NSButton *clearButton;
 @property (assign) IBOutlet NSButton *closeButton;
+@property (assign) IBOutlet NSButton *disableDumpingBox;
 
 - (IBAction)clear:(id)sender;
 - (IBAction)close:(id)sender;
 - (IBAction)textEntered:(id)sender;
+- (IBAction)disableDumping:(id)sender;
 
 - (void)start;
 

@@ -48,6 +48,10 @@ NSString *order;
 - (void)start
 {
     order = @"DESC";
+    NSArray *disabledNetworks = [self.preferences objectForKey:TXDumperDisabledNetworksKey];
+    if([disabledNetworks containsObject:self.worldController.selectedClient.config.itemUUID]){
+        [self.disableDumpingBox setState:1];
+    }
     NSRect rect = NSMakeRect(self.sheet.frame.origin.x, self.sheet.frame.origin.y, self.dumperSheetWidth, self.dumperSheetHeight);
     [self.sheet setFrame:rect display:YES];
     [self loadDataSortedBy:@"timestamp" order:order];
@@ -141,6 +145,17 @@ NSString *order;
     [self updateRecordsLabel];
 }
 
+- (IBAction)disableDumping:(id)sender {
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:[self preferences]];
+    NSMutableArray *disabledNetworks = [[NSMutableArray alloc] initWithArray:self.disabledNetworks];
+    if([self.disableDumpingBox state] == 1)
+        [disabledNetworks addObject:self.worldController.selectedClient.config.itemUUID];
+    else
+        [disabledNetworks removeObject:self.worldController.selectedClient.config.itemUUID];
+    [dict setObject:disabledNetworks forKey:TXDumperDisabledNetworksKey];
+    [self setPreferences:dict];
+}
+
 - (void)setWindowSizeWidth:(NSInteger)width height:(NSInteger)height
 {
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:[self preferences]];
@@ -189,8 +204,9 @@ NSString *order;
 #pragma mark -
 #pragma mark Window Delegate
 
-- (void)windowDidResize:(NSNotification *)notification
+- (void)windowDidEndLiveResize:(NSNotification *)notification
 {
-    [self setWindowSizeWidth:(int)self.sheet.frame.size.width height:(int)self.sheet.frame.size.height];
+        [self setWindowSizeWidth:(int)self.sheet.frame.size.width height:(int)self.sheet.frame.size.height];
 }
+
 @end

@@ -39,6 +39,7 @@ extern NSString *TXDumperOpenInBrowserEnabledKey;
 extern NSString *TXDumperDoubleEntryHandlingKey;
 extern NSString *TXDumperSheetWidthKey;
 extern NSString *TXDumperSheetHeightKey;
+extern NSString *TXDumperDisabledNetworksKey;
 
 @interface NSObject (TXDumperPrefs)
 
@@ -52,4 +53,5 @@ extern NSString *TXDumperSheetHeightKey;
 @property (readonly) NSInteger doubleEntryHandling;
 @property (readonly) NSInteger dumperSheetWidth;
 @property (readonly) NSInteger dumperSheetHeight;
+@property (readonly) NSArray *disabledNetworks;
 @end
