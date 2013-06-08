@@ -71,12 +71,8 @@
 						message:(NSDictionary *)messageDict;
 
 - (id)interceptUserInput:(id)input command:(NSString *)command;
-- (void)messageSentByUser:(IRCClient *)client
-                  message:(NSString *)messageString
-                  command:(NSString *)commandString;
 
 - (NSArray *)pluginSupportsServerInputCommands;
-- (NSArray *)pluginSupportsUserInputCommands;
 - (void)loadDataSortedBy:(NSString *)column order:(NSString*)order;
 - (void)echo:(NSString *)msg,...;
 @end

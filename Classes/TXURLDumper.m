@@ -141,21 +141,9 @@ TXDumperSheet *dumperSheet;
     return input;
 }
 
-- (void)messageSentByUser:(IRCClient *)client
-                  message:(NSString *)messageString
-                  command:(NSString *)commandString
-{
-    [self showDumperForClient:client];
-}
-
 - (NSArray *)pluginSupportsServerInputCommands
 {
 	return @[@"privmsg"];
-}
-
-- (NSArray *)pluginSupportsUserInputCommands
-{
-    return @[@"urls"];
 }
 
 #pragma mark -
