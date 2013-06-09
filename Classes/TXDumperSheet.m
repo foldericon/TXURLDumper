@@ -58,6 +58,17 @@ NSString *order;
 	[self startSheetWithWindow:self.window];
     [self.window makeKeyAndOrderFront:self.sheet];
     [self.sheet makeFirstResponder:self.searchBar];
+    if(self.dumpingEnabled == NO && self.dataSource.count < 1){
+        NSAlert *alert = [NSAlert alertWithMessageText:@"Dumping isn't enabled yet, to start dumping URLs you need to enable it in the Textual preferences."
+                                         defaultButton:@"OK"
+                                       alternateButton:nil
+                                           otherButton:@""
+                             informativeTextWithFormat:@""];
+        [alert beginSheetModalForWindow:self.sheet
+                          modalDelegate:self
+                         didEndSelector:nil
+                            contextInfo:nil];
+    }
 }
 
 - (void)startSheetWithWindow:(NSWindow *)awindow
