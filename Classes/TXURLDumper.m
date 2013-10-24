@@ -153,7 +153,7 @@ TXDumperSheet *dumperSheet;
 
 - (void)resetDBStructure
 {
-    [self updateDBWithSQL:@"DROP INDEX IDX_URLS_1on urls"];
+    [self updateDBWithSQL:@"DROP INDEX IDX_URLS_1 on urls"];
     [self updateDBWithSQL:@"DROP TABLE urls"];
     [self createDBStructure];
 }
