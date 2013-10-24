@@ -10,15 +10,17 @@
 		4C51BE9412D0471600E79CEB /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C51BE9312D0471600E79CEB /* Cocoa.framework */; };
 		8D576314048677EA00EA77CD /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AA1909FFE8422F4C02AAC07 /* CoreFoundation.framework */; };
 		DA0D27D81754B58D00318563 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DA0D27D71754B58D00318563 /* libsqlite3.dylib */; };
-		DA71508217588C3100DC2063 /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = DA71507717588C3100DC2063 /* FMDatabase.m */; };
-		DA71508317588C3100DC2063 /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = DA71507917588C3100DC2063 /* FMDatabasePool.m */; };
-		DA71508417588C3100DC2063 /* FMDatabaseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = DA71507B17588C3100DC2063 /* FMDatabaseQueue.m */; };
-		DA71508517588C3100DC2063 /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = DA71507D17588C3100DC2063 /* FMResultSet.m */; };
 		DA71508617588C3100DC2063 /* TXDumperSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = DA71507F17588C3100DC2063 /* TXDumperSheet.m */; };
 		DA71508717588C3100DC2063 /* TXURLDumper.m in Sources */ = {isa = PBXBuildFile; fileRef = DA71508117588C3100DC2063 /* TXURLDumper.m */; };
 		DA71508B17588C4200DC2063 /* DumperSheet.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA71508817588C4200DC2063 /* DumperSheet.xib */; };
 		DA71508D17588C4200DC2063 /* PreferencePane.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA71508A17588C4200DC2063 /* PreferencePane.xib */; };
 		DA71509717589B7800DC2063 /* TXDumperPrefs.m in Sources */ = {isa = PBXBuildFile; fileRef = DA71509617589B7800DC2063 /* TXDumperPrefs.m */; };
+		DA8869D1181927A3004EC151 /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = DA8869C7181927A3004EC151 /* FMDatabase.m */; };
+		DA8869D2181927A3004EC151 /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = DA8869C9181927A3004EC151 /* FMDatabaseAdditions.m */; };
+		DA8869D3181927A3004EC151 /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = DA8869CB181927A3004EC151 /* FMDatabasePool.m */; };
+		DA8869D4181927A3004EC151 /* FMDatabaseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = DA8869CD181927A3004EC151 /* FMDatabaseQueue.m */; };
+		DA8869D5181927A3004EC151 /* fmdb.m in Sources */ = {isa = PBXBuildFile; fileRef = DA8869CE181927A3004EC151 /* fmdb.m */; };
+		DA8869D6181927A3004EC151 /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = DA8869D0181927A3004EC151 /* FMResultSet.m */; };
 		DA8A7D44175F0B2700268228 /* AutoHyperlinks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA8A7D43175F0B2700268228 /* AutoHyperlinks.framework */; };
 /* End PBXBuildFile section */
 
@@ -27,14 +29,6 @@
 		4C51BE9312D0471600E79CEB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		8D576316048677EA00EA77CD /* TXURLDumper.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TXURLDumper.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA0D27D71754B58D00318563 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
-		DA71507617588C3100DC2063 /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabase.h; sourceTree = "<group>"; };
-		DA71507717588C3100DC2063 /* FMDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabase.m; sourceTree = "<group>"; };
-		DA71507817588C3100DC2063 /* FMDatabasePool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabasePool.h; sourceTree = "<group>"; };
-		DA71507917588C3100DC2063 /* FMDatabasePool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabasePool.m; sourceTree = "<group>"; };
-		DA71507A17588C3100DC2063 /* FMDatabaseQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseQueue.h; sourceTree = "<group>"; };
-		DA71507B17588C3100DC2063 /* FMDatabaseQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabaseQueue.m; sourceTree = "<group>"; };
-		DA71507C17588C3100DC2063 /* FMResultSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMResultSet.h; sourceTree = "<group>"; };
-		DA71507D17588C3100DC2063 /* FMResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMResultSet.m; sourceTree = "<group>"; };
 		DA71507E17588C3100DC2063 /* TXDumperSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TXDumperSheet.h; path = Classes/TXDumperSheet.h; sourceTree = "<group>"; };
 		DA71507F17588C3100DC2063 /* TXDumperSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TXDumperSheet.m; path = Classes/TXDumperSheet.m; sourceTree = "<group>"; };
 		DA71508017588C3100DC2063 /* TXURLDumper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TXURLDumper.h; path = Classes/TXURLDumper.h; sourceTree = "<group>"; };
@@ -44,6 +38,17 @@
 		DA71508A17588C4200DC2063 /* PreferencePane.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PreferencePane.xib; path = Resources/PreferencePane.xib; sourceTree = "<group>"; };
 		DA71509517589B7800DC2063 /* TXDumperPrefs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TXDumperPrefs.h; path = Classes/TXDumperPrefs.h; sourceTree = "<group>"; };
 		DA71509617589B7800DC2063 /* TXDumperPrefs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TXDumperPrefs.m; path = Classes/TXDumperPrefs.m; sourceTree = "<group>"; };
+		DA8869C6181927A3004EC151 /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FMDatabase.h; path = src/FMDatabase.h; sourceTree = "<group>"; };
+		DA8869C7181927A3004EC151 /* FMDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FMDatabase.m; path = src/FMDatabase.m; sourceTree = "<group>"; };
+		DA8869C8181927A3004EC151 /* FMDatabaseAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FMDatabaseAdditions.h; path = src/FMDatabaseAdditions.h; sourceTree = "<group>"; };
+		DA8869C9181927A3004EC151 /* FMDatabaseAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FMDatabaseAdditions.m; path = src/FMDatabaseAdditions.m; sourceTree = "<group>"; };
+		DA8869CA181927A3004EC151 /* FMDatabasePool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FMDatabasePool.h; path = src/FMDatabasePool.h; sourceTree = "<group>"; };
+		DA8869CB181927A3004EC151 /* FMDatabasePool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FMDatabasePool.m; path = src/FMDatabasePool.m; sourceTree = "<group>"; };
+		DA8869CC181927A3004EC151 /* FMDatabaseQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FMDatabaseQueue.h; path = src/FMDatabaseQueue.h; sourceTree = "<group>"; };
+		DA8869CD181927A3004EC151 /* FMDatabaseQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FMDatabaseQueue.m; path = src/FMDatabaseQueue.m; sourceTree = "<group>"; };
+		DA8869CE181927A3004EC151 /* fmdb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = fmdb.m; path = src/fmdb.m; sourceTree = "<group>"; };
+		DA8869CF181927A3004EC151 /* FMResultSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FMResultSet.h; path = src/FMResultSet.h; sourceTree = "<group>"; };
+		DA8869D0181927A3004EC151 /* FMResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FMResultSet.m; path = src/FMResultSet.m; sourceTree = "<group>"; };
 		DA8A7D43175F0B2700268228 /* AutoHyperlinks.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AutoHyperlinks.framework; path = Frameworks/AutoHyperlinks.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -119,14 +124,17 @@
 		DA71507517588C3100DC2063 /* fmdb */ = {
 			isa = PBXGroup;
 			children = (
-				DA71507617588C3100DC2063 /* FMDatabase.h */,
-				DA71507717588C3100DC2063 /* FMDatabase.m */,
-				DA71507817588C3100DC2063 /* FMDatabasePool.h */,
-				DA71507917588C3100DC2063 /* FMDatabasePool.m */,
-				DA71507A17588C3100DC2063 /* FMDatabaseQueue.h */,
-				DA71507B17588C3100DC2063 /* FMDatabaseQueue.m */,
-				DA71507C17588C3100DC2063 /* FMResultSet.h */,
-				DA71507D17588C3100DC2063 /* FMResultSet.m */,
+				DA8869C6181927A3004EC151 /* FMDatabase.h */,
+				DA8869C7181927A3004EC151 /* FMDatabase.m */,
+				DA8869C8181927A3004EC151 /* FMDatabaseAdditions.h */,
+				DA8869C9181927A3004EC151 /* FMDatabaseAdditions.m */,
+				DA8869CA181927A3004EC151 /* FMDatabasePool.h */,
+				DA8869CB181927A3004EC151 /* FMDatabasePool.m */,
+				DA8869CC181927A3004EC151 /* FMDatabaseQueue.h */,
+				DA8869CD181927A3004EC151 /* FMDatabaseQueue.m */,
+				DA8869CE181927A3004EC151 /* fmdb.m */,
+				DA8869CF181927A3004EC151 /* FMResultSet.h */,
+				DA8869D0181927A3004EC151 /* FMResultSet.m */,
 			);
 			name = fmdb;
 			path = Classes/fmdb;
@@ -197,13 +205,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DA71508217588C3100DC2063 /* FMDatabase.m in Sources */,
-				DA71508317588C3100DC2063 /* FMDatabasePool.m in Sources */,
-				DA71508417588C3100DC2063 /* FMDatabaseQueue.m in Sources */,
-				DA71508517588C3100DC2063 /* FMResultSet.m in Sources */,
 				DA71508617588C3100DC2063 /* TXDumperSheet.m in Sources */,
+				DA8869D3181927A3004EC151 /* FMDatabasePool.m in Sources */,
+				DA8869D5181927A3004EC151 /* fmdb.m in Sources */,
 				DA71508717588C3100DC2063 /* TXURLDumper.m in Sources */,
+				DA8869D4181927A3004EC151 /* FMDatabaseQueue.m in Sources */,
 				DA71509717589B7800DC2063 /* TXDumperPrefs.m in Sources */,
+				DA8869D6181927A3004EC151 /* FMResultSet.m in Sources */,
+				DA8869D1181927A3004EC151 /* FMDatabase.m in Sources */,
+				DA8869D2181927A3004EC151 /* FMDatabaseAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
