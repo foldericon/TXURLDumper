@@ -180,20 +180,25 @@ TXDumperSheet *dumperSheet;
                 NSString *sql;
                 if(self.doubleEntryHandling == 0 && [self checkDupe:url forClient:client] == YES) {
                     sql = [NSString stringWithFormat:@"UPDATE urls SET timestamp=:timestamp, channel=:channel, nick=:nick WHERE id=(SELECT max(id) from urls where client='%@' AND url='%@')", client.config.itemUUID, url];
+                    [self updateDBWithSQL:sql withParameterDictionary:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                                       timestamp, @"timestamp",
+                                                                       channel, @"channel",
+                                                                       nick, @"nick",
+                                                                       nil]];
                 } else {
                     sql = @"INSERT INTO urls (timestamp, client, channel, nick, url) VALUES (:timestamp, :client, :channel, :nick, :url)";
-                }
-                NSDictionary *argsDict = [NSDictionary dictionaryWithObjectsAndKeys:
-                                          timestamp, @"timestamp",
-                                          client.config.itemUUID, @"client",
-                                          channel, @"channel",
-                                          nick, @"nick",
-                                          url, @"url",
-                                          nil];
-                [self updateDBWithSQL:sql withParameterDictionary:argsDict];
-                if(self.debugModeEnabled) {
-                    NSString *log = [NSString stringWithFormat:@"URL: %@ has been dumped.", url];
-                    [client printDebugInformationToConsole:log];
+                    [self updateDBWithSQL:sql withParameterDictionary:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                                       timestamp, @"timestamp",
+                                                                       client.config.itemUUID, @"client",
+                                                                       channel, @"channel",
+                                                                       nick, @"nick",
+                                                                       url, @"url",
+                                                                       nil]];
+
+                    if(self.debugModeEnabled) {
+                        NSString *log = [NSString stringWithFormat:@"URL: %@ has been dumped.", url];
+                        [client printDebugInformationToConsole:log];
+                    }
                 }
             }
         }
