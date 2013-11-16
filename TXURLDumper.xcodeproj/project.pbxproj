@@ -27,7 +27,7 @@
 /* Begin PBXFileReference section */
 		0AA1909FFE8422F4C02AAC07 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = /System/Library/Frameworks/CoreFoundation.framework; sourceTree = "<absolute>"; };
 		4C51BE9312D0471600E79CEB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
-		8D576316048677EA00EA77CD /* TXURLDumper.TxtlPlugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TXURLDumper.TxtlPlugin; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D576316048677EA00EA77CD /* TXURLDumper.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TXURLDumper.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA0D27D71754B58D00318563 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		DA71507E17588C3100DC2063 /* TXDumperSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TXDumperSheet.h; path = Classes/TXDumperSheet.h; sourceTree = "<group>"; };
 		DA71507F17588C3100DC2063 /* TXDumperSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TXDumperSheet.m; path = Classes/TXDumperSheet.m; sourceTree = "<group>"; };
@@ -116,7 +116,7 @@
 		19C28FB6FE9D52B211CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				8D576316048677EA00EA77CD /* TXURLDumper.TxtlPlugin */,
+				8D576316048677EA00EA77CD /* TXURLDumper.bundle */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -158,7 +158,7 @@
 			name = TXURLDumper;
 			productInstallPath = "$(HOME)/Library/Bundles";
 			productName = PreferencePaneExample;
-			productReference = 8D576316048677EA00EA77CD /* TXURLDumper.TxtlPlugin */;
+			productReference = 8D576316048677EA00EA77CD /* TXURLDumper.bundle */;
 			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
@@ -240,7 +240,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = TXURLDumper;
 				SDKROOT = macosx;
-				WRAPPER_EXTENSION = TxtlPlugin;
+				WRAPPER_EXTENSION = bundle;
 			};
 			name = Debug;
 		};
@@ -262,7 +262,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = TXURLDumper;
 				SDKROOT = macosx;
-				WRAPPER_EXTENSION = TxtlPlugin;
+				WRAPPER_EXTENSION = bundle;
 			};
 			name = Release;
 		};
@@ -287,10 +287,9 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = /Applications/Textual.app/Contents/Headers/;
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
-				WRAPPER_EXTENSION = TxtlPlugin;
 			};
 			name = Debug;
 		};
@@ -314,10 +313,9 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = /Applications/Textual.app/Contents/Headers/;
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = macosx;
-				WRAPPER_EXTENSION = TxtlPlugin;
 			};
 			name = Release;
 		};
