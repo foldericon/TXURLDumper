@@ -47,14 +47,22 @@ TXDumperSheet *dumperSheet;
 
     NSMenu *windowMenu = [[[[NSApplication sharedApplication] mainMenu] itemWithTitle:@"Window"] submenu];
 
-    NSMenuItem *menuItem = [NSMenuItem menuItemWithTitle:@"URL List" target:self action:@selector(showDumper:) keyEquivalent:@"7" keyEquivalentMask:NSControlKeyMask];
+    NSString *title;
+    if([[TPCPreferences gitCommitCount] intValue] > 2570) {
+        title=@"File Transfers";
+    } else {
+        title=@"Highlight List";
+    }
+    
     int i=0;
     for (NSMenuItem *item in [windowMenu itemArray]) {
-        if([item.title isEqualTo:@"File Transfers"]){
+        if([item.title isEqualTo:title]){
             break;
         }
         i++;
     }
+    
+    NSMenuItem *menuItem = [NSMenuItem menuItemWithTitle:@"URL List" target:self action:@selector(showDumper:) keyEquivalent:[NSString stringWithFormat:@"%i", i-9] keyEquivalentMask:NSControlKeyMask];
     [windowMenu insertItem:menuItem atIndex:i+1];
  
 }
