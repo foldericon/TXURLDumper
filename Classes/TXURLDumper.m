@@ -47,10 +47,10 @@ TXDumperSheet *dumperSheet;
 
     NSMenu *windowMenu = [[[[NSApplication sharedApplication] mainMenu] itemWithTitle:@"Window"] submenu];
 
-    NSMenuItem *menuItem = [NSMenuItem menuItemWithTitle:@"URL List" target:self action:@selector(showDumper:) keyEquivalent:@"6" keyEquivalentMask:NSControlKeyMask];
+    NSMenuItem *menuItem = [NSMenuItem menuItemWithTitle:@"URL List" target:self action:@selector(showDumper:) keyEquivalent:@"7" keyEquivalentMask:NSControlKeyMask];
     int i=0;
     for (NSMenuItem *item in [windowMenu itemArray]) {
-        if([item.title isEqualTo:@"Highlight List"]){
+        if([item.title isEqualTo:@"File Transfers"]){
             break;
         }
         i++;
