@@ -107,7 +107,7 @@
 - (void)updateRecordsLabel
 {
     NSString *records = @"%i Record";
-    if(self.dataSource.count > 1) {
+    if(self.dataSource.count > 1 || self.dataSource.count == 0) {
         records = [records stringByAppendingString:@"s"];
     }
     [self.recordsLabel setStringValue:[NSString stringWithFormat:records, (int)self.dataSource.count]];
