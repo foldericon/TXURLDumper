@@ -231,7 +231,7 @@ TXDumperSheet *dumperSheet;
     IRCClient *client = self.worldController.selectedClient;
     NSMutableArray *data = [[NSMutableArray alloc] init];
     [self.queue inDatabase:^(FMDatabase *db) {
-        NSString *sql = [NSString stringWithFormat:@"SELECT channel,nick,url,timestamp FROM urls WHERE client=? ORDER BY %@;", column];        
+        NSString *sql = [NSString stringWithFormat:@"SELECT channel,nick,url,timestamp FROM urls WHERE client=? ORDER BY %@ DESC;", column];        
         FMResultSet *s = [db executeQuery:sql, client.config.itemUUID];
         while ([s next]) {
             NSDate *date = [NSDate dateWithTimeIntervalSince1970:[s doubleForColumn:@"timestamp"]];
