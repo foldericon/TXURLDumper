@@ -234,14 +234,11 @@ TXDumperSheet *dumperSheet;
         NSString *sql = [NSString stringWithFormat:@"SELECT channel,nick,url,timestamp FROM urls WHERE client=? ORDER BY %@ DESC;", column];        
         FMResultSet *s = [db executeQuery:sql, client.config.itemUUID];
         while ([s next]) {
-            NSDate *date = [NSDate dateWithTimeIntervalSince1970:[s doubleForColumn:@"timestamp"]];
-            NSString *timeString = [NSString stringWithFormat:@"%@ Ago",
-                                    TXSpecialReadableTime([NSDate secondsSinceUnixTimestamp:[date timeIntervalSince1970]], YES, nil)];
             NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
                                   [s stringForColumn:@"channel"], @"channel",
                                   [s stringForColumn:@"nick"], @"nick",
                                   [s stringForColumn:@"url"], @"url",
-                                  timeString, @"timestamp",
+                                  [s stringForColumn:@"timestamp"], @"timestamp",
                                   nil];
             [data addObject:dict];
         }

@@ -41,7 +41,7 @@
         [self.tableView setDelegate:self];        
         [self.tableView setDoubleAction:@selector(doubleClick:)];
         for (NSTableColumn *tableColumn in self.tableView.tableColumns ) {
-            NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:tableColumn.identifier ascending:YES selector:@selector(caseInsensitiveCompare:)];
+            NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:tableColumn.identifier ascending:YES selector:@selector(localizedStandardCompare:)];
             [tableColumn setSortDescriptorPrototype:sortDescriptor];
         }
     }
@@ -203,6 +203,11 @@
 
 - (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
 {
+    if([aTableColumn.identifier isEqualToString:@"timestamp"]) {
+        NSDate *date = [NSDate dateWithTimeIntervalSince1970:[[[self.dataSource objectAtIndex:rowIndex] objectForKey:aTableColumn.identifier] doubleValue]];
+        return [NSString stringWithFormat:@"%@ Ago",
+                TXSpecialReadableTime([NSDate secondsSinceUnixTimestamp:[date timeIntervalSince1970]], YES, nil)];
+    }
     return [[self.dataSource objectAtIndex:rowIndex] objectForKey:aTableColumn.identifier];
 }
 
@@ -221,7 +226,6 @@
 - (void)tableView:(NSTableView *)aTableView sortDescriptorsDidChange:(NSArray *)oldDescriptors
 {
     NSArray *newDescriptors = [self.tableView sortDescriptors];
-//    self.dataSource = [self.dataSource sortedArrayUsingDescriptors:newDescriptors];
     [self.dataSource sortUsingDescriptors:newDescriptors];
     [aTableView reloadData];
 }
