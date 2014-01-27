@@ -230,9 +230,14 @@ TXDumperSheet *dumperSheet;
 {
     IRCClient *client = self.worldController.selectedClient;
     NSMutableArray *data = [[NSMutableArray alloc] init];
+
     [self.queue inDatabase:^(FMDatabase *db) {
-        NSString *sql = [NSString stringWithFormat:@"SELECT channel,nick,url,timestamp FROM urls WHERE client=? ORDER BY %@ DESC;", column];        
+        NSString *sql = [NSString stringWithFormat:@"SELECT channel,nick,url,timestamp FROM urls WHERE client=? ORDER BY %@ DESC;", column];
         FMResultSet *s = [db executeQuery:sql, client.config.itemUUID];
+        if([self.worldController.selectedItem isClient] == NO) {
+            sql = [NSString stringWithFormat:@"SELECT channel,nick,url,timestamp FROM urls WHERE client=? AND channel=? ORDER BY %@ DESC;", column];
+            s = [db executeQuery:sql, client.config.itemUUID, self.worldController.selectedItem.name];
+        }
         while ([s next]) {
             NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
                                   [s stringForColumn:@"channel"], @"channel",

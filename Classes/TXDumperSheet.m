@@ -50,6 +50,10 @@
 
 - (void)start
 {
+    if([self.worldController.selectedItem isClient] == NO) {
+        [self.tableView removeTableColumn:[self.tableView tableColumnWithIdentifier:@"channel"]];
+    }
+    
     NSArray *disabledNetworks = [self.preferences objectForKey:TXDumperDisabledNetworksKey];
     if([disabledNetworks containsObject:self.worldController.selectedClient.config.itemUUID]){
         [self.disableDumpingBox setState:1];
