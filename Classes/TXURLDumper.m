@@ -181,6 +181,10 @@ TXDumperSheet *dumperSheet;
         NSRange r = NSRangeFromString(rn);
         if(r.length > 0) {
             url = [[message substringFromIndex:r.location] substringToIndex:r.length];
+            if([url hasPrefix:@"/r/"]) {
+                // Handle reddit short links
+                url = [NSString stringWithFormat:@"http://www.reddit.com%@", url];
+            }
             if ([url hasSuffix:@"…"] == NO) {
                 if(self.doubleEntryHandling == 2 && [self checkDupe:url forClient:client] == YES) {
                     return;
