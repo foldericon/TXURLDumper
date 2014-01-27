@@ -204,9 +204,8 @@
 - (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
 {
     if([aTableColumn.identifier isEqualToString:@"timestamp"]) {
-        NSDate *date = [NSDate dateWithTimeIntervalSince1970:[[[self.dataSource objectAtIndex:rowIndex] objectForKey:aTableColumn.identifier] doubleValue]];
         return [NSString stringWithFormat:@"%@ Ago",
-                TXSpecialReadableTime([NSDate secondsSinceUnixTimestamp:[date timeIntervalSince1970]], YES, nil)];
+                TXSpecialReadableTime([NSDate secondsSinceUnixTimestamp:[[[self.dataSource objectAtIndex:rowIndex] objectForKey:aTableColumn.identifier] doubleValue]], YES, nil)];
     }
     return [[self.dataSource objectAtIndex:rowIndex] objectForKey:aTableColumn.identifier];
 }
