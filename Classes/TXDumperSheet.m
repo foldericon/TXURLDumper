@@ -31,7 +31,6 @@
 
 #import "TXDumperSheet.h"
 
-NSString *order;
 @implementation TXDumperSheet
 
 - (id)init
@@ -41,20 +40,23 @@ NSString *order;
         [self.tableView setDataSource:self];
         [self.tableView setDelegate:self];        
         [self.tableView setDoubleAction:@selector(doubleClick:)];
+        for (NSTableColumn *tableColumn in self.tableView.tableColumns ) {
+            NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:tableColumn.identifier ascending:YES selector:@selector(caseInsensitiveCompare:)];
+            [tableColumn setSortDescriptorPrototype:sortDescriptor];
+        }
     }
 	return self;
 }
 
 - (void)start
 {
-    order = @"DESC";
     NSArray *disabledNetworks = [self.preferences objectForKey:TXDumperDisabledNetworksKey];
     if([disabledNetworks containsObject:self.worldController.selectedClient.config.itemUUID]){
         [self.disableDumpingBox setState:1];
     }
     NSRect rect = NSMakeRect(self.sheet.frame.origin.x, self.sheet.frame.origin.y, self.dumperSheetWidth, self.dumperSheetHeight);
     [self.sheet setFrame:rect display:YES];
-    [self loadDataSortedBy:@"timestamp" order:order];
+    [self loadDataSortedBy:@"timestamp"];
 	[self startSheetWithWindow:self.window];
     [self.window makeKeyAndOrderFront:self.sheet];
     [self.sheet makeFirstResponder:self.searchBar];
@@ -91,9 +93,9 @@ NSString *order;
 	[self.sheet close];
 }
 
-- (void)loadDataSortedBy:(NSString *)column order:(NSString *)order
+- (void)loadDataSortedBy:(NSString *)column
 {
-    [self.plugin loadDataSortedBy:column order:order];
+    [self.plugin loadDataSortedBy:column];
     [self.tableView reloadData];
     [self updateRecordsLabel];
 }
@@ -135,7 +137,7 @@ NSString *order;
 }
 
 - (IBAction)textEntered:(id)sender {
-    [self.plugin loadDataSortedBy:@"timestamp" order:order];
+    [self.plugin loadDataSortedBy:@"timestamp"];
     [self.tableView reloadData];
     NSString *str = [[sender stringValue] lowercaseString];
     if ([str isEqualTo:@""]) {
@@ -194,13 +196,6 @@ NSString *order;
     }
 }
 
-- (void)tableView:(NSTableView *)tableView mouseDownInHeaderOfTableColumn:(NSTableColumn *)tableColumn
-{
-    if([order isEqualTo:@"ASC"]) order = @"DESC";
-    else order = @"ASC";
-    [self loadDataSortedBy:tableColumn.identifier order:order];
-}
-
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView
 {
     return [self.dataSource count];
@@ -218,6 +213,17 @@ NSString *order;
 - (void)windowDidEndLiveResize:(NSNotification *)notification
 {
         [self setWindowSizeWidth:(int)self.sheet.frame.size.width height:(int)self.sheet.frame.size.height];
+}
+
+#pragma mark -
+#pragma mark TableView Delegate
+
+- (void)tableView:(NSTableView *)aTableView sortDescriptorsDidChange:(NSArray *)oldDescriptors
+{
+    NSArray *newDescriptors = [self.tableView sortDescriptors];
+//    self.dataSource = [self.dataSource sortedArrayUsingDescriptors:newDescriptors];
+    [self.dataSource sortUsingDescriptors:newDescriptors];
+    [aTableView reloadData];
 }
 
 @end

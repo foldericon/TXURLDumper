@@ -73,6 +73,6 @@
 - (id)interceptUserInput:(id)input command:(NSString *)command;
 
 - (NSArray *)pluginSupportsServerInputCommands;
-- (void)loadDataSortedBy:(NSString *)column order:(NSString*)order;
+- (void)loadDataSortedBy:(NSString *)column;
 - (void)echo:(NSString *)msg,...;
 @end
