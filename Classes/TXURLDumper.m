@@ -224,7 +224,11 @@ TXDumperSheet *dumperSheet;
 {
     dumperSheet = [[TXDumperSheet alloc] init];
     dumperSheet.window = self.masterController.mainWindow;
-    dumperSheet.networkLabel.stringValue = [dumperSheet.networkLabel.stringValue stringByAppendingFormat:@" \"%@\"", client.altNetworkName];
+    dumperSheet.networkLabel.stringValue = [dumperSheet.networkLabel.stringValue stringByAppendingFormat:@" %@", client.altNetworkName];
+    IRCTreeItem *channel = self.worldController.selectedItem;
+    if([channel isClient] == NO) {
+        dumperSheet.networkLabel.stringValue = [dumperSheet.networkLabel.stringValue stringByAppendingFormat:@" > %@", channel.name];
+    }
     dumperSheet.plugin = self;
     [dumperSheet start];
 }
