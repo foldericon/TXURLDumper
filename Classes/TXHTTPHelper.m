@@ -95,6 +95,9 @@
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
     [receivedData appendData:data];
+    if((unsigned long)receivedData.length > 2097152) {
+        [connection cancel];
+    }
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
