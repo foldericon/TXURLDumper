@@ -31,7 +31,6 @@
 
 #import "TXHTTPHelper.h"
 
-
 @implementation TXHTTPHelper
 
 @synthesize receivedData;
@@ -106,7 +105,7 @@
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
 	
-	NSString *dataStr=[[NSString alloc] initWithData:receivedData encoding:NSASCIIStringEncoding];
+	NSString *dataStr=[[NSString alloc] initWithData:receivedData encoding:NSUTF8StringEncoding];
     NSArray *responseArray = [NSArray arrayWithObjects:connection.currentRequest.URL.absoluteString, dataStr, nil];
 	
     if ([delegate respondsToSelector:@selector(didFinishDownload:)]) {

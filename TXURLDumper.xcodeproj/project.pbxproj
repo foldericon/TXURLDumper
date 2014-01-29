@@ -23,6 +23,7 @@
 		DA8869D6181927A3004EC151 /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = DA8869D0181927A3004EC151 /* FMResultSet.m */; };
 		DA8A7D44175F0B2700268228 /* AutoHyperlinks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA8A7D43175F0B2700268228 /* AutoHyperlinks.framework */; };
 		DACF177118992AB800990028 /* TXHTTPHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = DACF177018992AB800990028 /* TXHTTPHelper.m */; };
+		DAE869821899789900C89901 /* GTMNSString+HTML.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE869811899789900C89901 /* GTMNSString+HTML.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -53,6 +54,8 @@
 		DA8A7D43175F0B2700268228 /* AutoHyperlinks.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AutoHyperlinks.framework; path = Frameworks/AutoHyperlinks.framework; sourceTree = "<group>"; };
 		DACF176F18992AB800990028 /* TXHTTPHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TXHTTPHelper.h; path = Classes/TXHTTPHelper.h; sourceTree = "<group>"; };
 		DACF177018992AB800990028 /* TXHTTPHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TXHTTPHelper.m; path = Classes/TXHTTPHelper.m; sourceTree = "<group>"; };
+		DAE869801899789900C89901 /* GTMNSString+HTML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "GTMNSString+HTML.h"; path = "Classes/GTMNSString+HTML.h"; sourceTree = "<group>"; };
+		DAE869811899789900C89901 /* GTMNSString+HTML.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "GTMNSString+HTML.m"; path = "Classes/GTMNSString+HTML.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,6 +117,8 @@
 				DA71507F17588C3100DC2063 /* TXDumperSheet.m */,
 				DA71508017588C3100DC2063 /* TXURLDumper.h */,
 				DA71508117588C3100DC2063 /* TXURLDumper.m */,
+				DAE869801899789900C89901 /* GTMNSString+HTML.h */,
+				DAE869811899789900C89901 /* GTMNSString+HTML.m */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -214,6 +219,7 @@
 				DA8869D3181927A3004EC151 /* FMDatabasePool.m in Sources */,
 				DA8869D5181927A3004EC151 /* fmdb.m in Sources */,
 				DA71508717588C3100DC2063 /* TXURLDumper.m in Sources */,
+				DAE869821899789900C89901 /* GTMNSString+HTML.m in Sources */,
 				DA8869D4181927A3004EC151 /* FMDatabaseQueue.m in Sources */,
 				DA71509717589B7800DC2063 /* TXDumperPrefs.m in Sources */,
 				DA8869D6181927A3004EC151 /* FMResultSet.m in Sources */,

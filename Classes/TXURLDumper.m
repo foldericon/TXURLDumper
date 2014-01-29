@@ -227,9 +227,10 @@ TXDumperSheet *dumperSheet;
 
 - (void)didFinishDownload:(NSArray *)array
 {
+    NSString *title = [self scanString:[array[1] gtm_stringByUnescapingFromHTML] startTag:@"<title>" endTag:@"</title>"];    
     NSString *sql = [NSString stringWithFormat:@"UPDATE urls SET title=:title WHERE url='%@'", array[0]];
     [self updateDBWithSQL:sql withParameterDictionary:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                       [self scanString:array[1] startTag:@"<title>" endTag:@"</title>"], @"title",
+                                                       title, @"title",
                                                        nil]];
 }
 
