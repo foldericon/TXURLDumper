@@ -96,7 +96,6 @@
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
 	NSLog(@"Error receiving response: %@", error);
-    [[NSAlert alertWithError:error] runModal];
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
