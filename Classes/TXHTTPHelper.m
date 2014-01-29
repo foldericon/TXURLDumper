@@ -87,6 +87,9 @@
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
+    if([response.MIMEType isNotEqualTo:@"text/html"]) {
+        [connection cancel];
+    }
     [receivedData setLength:0];
 }
 
