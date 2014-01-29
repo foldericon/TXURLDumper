@@ -115,7 +115,7 @@ Gw
                                             </textFieldCell>
                                             <tableColumnResizingMask key="resizingMask" userResizable="YES"/>
                                         </tableColumn>
-                                        <tableColumn identifier="url" editable="NO" width="230.296875" minWidth="10" maxWidth="3.4028234663852886e+38" id="202">
+                                        <tableColumn identifier="url" editable="NO" width="325.66015625" minWidth="10" maxWidth="3.4028234663852886e+38" id="202">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="URL">
                                                 <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -128,7 +128,7 @@ Gw
                                             </textFieldCell>
                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                         </tableColumn>
-                                        <tableColumn identifier="title" width="190" minWidth="10" maxWidth="3.4028234663852886e+38" id="eag-dc-4I2">
+                                        <tableColumn identifier="title" width="121.68359375" minWidth="10" maxWidth="3.4028234663852886e+38" id="eag-dc-4I2">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Title">
                                                 <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -141,7 +141,7 @@ Gw
                                             </textFieldCell>
                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                         </tableColumn>
-                                        <tableColumn identifier="timestamp" editable="NO" width="121.23828125" minWidth="10" maxWidth="3.4028234663852886e+38" id="204">
+                                        <tableColumn identifier="timestamp" editable="NO" width="93.15234375" minWidth="10" maxWidth="3.4028234663852886e+38" id="204">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Time">
                                                 <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
