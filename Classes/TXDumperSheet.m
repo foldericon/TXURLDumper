@@ -32,6 +32,7 @@
 #import "TXDumperSheet.h"
 
 @implementation TXDumperSheet
+BOOL networkSheet = YES;
 
 - (id)init
 {
@@ -52,6 +53,7 @@
 {
     if([self.worldController.selectedItem isClient] == NO) {
         [self.tableView removeTableColumn:[self.tableView tableColumnWithIdentifier:@"channel"]];
+        networkSheet = NO;
     }
     
     // Get Sizes
@@ -165,11 +167,21 @@
     }
     NSMutableArray *new = [[NSMutableArray alloc] init];
     for (NSDictionary *dict in self.dataSource){
-        if ([[[dict stringForKey:@"channel"] lowercaseString] rangeOfString:str].location != NSNotFound ||
-            [[[dict stringForKey:@"nick"] lowercaseString] rangeOfString:str].location != NSNotFound ||
-            [[[dict stringForKey:@"url"] lowercaseString] rangeOfString:str].location != NSNotFound ||
-            [[[dict stringForKey:@"timestamp"] lowercaseString] rangeOfString:str].location != NSNotFound) {
-            [new addObject:dict];
+        if(networkSheet) {
+            if ([[[dict stringForKey:@"channel"] lowercaseString] rangeOfString:str].location != NSNotFound ||
+                [[[dict stringForKey:@"nick"] lowercaseString] rangeOfString:str].location != NSNotFound ||
+                [[[dict stringForKey:@"url"] lowercaseString] rangeOfString:str].location != NSNotFound ||
+                [[[dict stringForKey:@"title"] lowercaseString] rangeOfString:str].location != NSNotFound ||
+                [[[dict stringForKey:@"timestamp"] lowercaseString] rangeOfString:str].location != NSNotFound) {
+                [new addObject:dict];
+            }
+        } else {
+            if ([[[dict stringForKey:@"nick"] lowercaseString] rangeOfString:str].location != NSNotFound ||
+                [[[dict stringForKey:@"url"] lowercaseString] rangeOfString:str].location != NSNotFound ||
+                [[[dict stringForKey:@"title"] lowercaseString] rangeOfString:str].location != NSNotFound ||
+                [[[dict stringForKey:@"timestamp"] lowercaseString] rangeOfString:str].location != NSNotFound) {
+                [new addObject:dict];
+            }
         }
     }
     self.dataSource = new;
