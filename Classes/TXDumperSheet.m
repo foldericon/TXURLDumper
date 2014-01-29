@@ -54,6 +54,16 @@
         [self.tableView removeTableColumn:[self.tableView tableColumnWithIdentifier:@"channel"]];
     }
     
+    // Get Sizes
+    NSDictionary *columns = [self columnWidths];
+    if (columns != nil) {
+        for (NSTableColumn *column in self.tableView.tableColumns) {
+            if(columns[column.identifier] != nil) {
+                column.width = [columns[column.identifier] floatValue];
+            }
+        }
+    }
+    
     NSArray *disabledNetworks = [self.preferences objectForKey:TXDumperDisabledNetworksKey];
     if([disabledNetworks containsObject:self.worldController.selectedClient.config.itemUUID]){
         [self.disableDumpingBox setState:1];
@@ -95,6 +105,11 @@
 - (void)sheetDidEnd:(NSWindow *)sender returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
 	[self.sheet close];
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+    for (NSTableColumn *column in self.tableView.tableColumns) {
+        [dict setObject:[NSNumber numberWithFloat:column.width] forKey:column.identifier];
+    }
+    [self setColumnWidths:dict];
 }
 
 - (void)loadDataSortedBy:(NSString *)column
@@ -178,6 +193,13 @@
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:[self preferences]];
     [dict setObject:[NSNumber numberWithInteger:width] forKey:TXDumperSheetWidthKey];
     [dict setObject:[NSNumber numberWithInteger:height] forKey:TXDumperSheetHeightKey];
+    [self setPreferences:dict];
+}
+
+- (void)setColumnWidths:(NSDictionary *)widths
+{
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:[self preferences]];
+    [dict setObject:widths forKey:TXDumperSheetColumnWidthsKey];
     [self setPreferences:dict];
 }
 

@@ -40,6 +40,7 @@ extern NSString *TXDumperDoubleEntryHandlingKey;
 extern NSString *TXDumperSheetWidthKey;
 extern NSString *TXDumperSheetHeightKey;
 extern NSString *TXDumperDisabledNetworksKey;
+extern NSString *TXDumperSheetColumnWidthsKey;
 
 @interface NSObject (TXDumperPrefs)
 
@@ -54,4 +55,5 @@ extern NSString *TXDumperDisabledNetworksKey;
 @property (readonly) NSInteger dumperSheetWidth;
 @property (readonly) NSInteger dumperSheetHeight;
 @property (readonly) NSArray *disabledNetworks;
+@property (readonly) NSDictionary *columnWidths;
 @end
