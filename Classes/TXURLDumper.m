@@ -30,6 +30,7 @@
 
 
 #import "TXURLDumper.h"
+#import "TXHTTPHelper.h"
 
 @implementation TXURLDumper
 
@@ -157,6 +158,7 @@ TXDumperSheet *dumperSheet;
 {
     [self updateDBWithSQL:@"CREATE TABLE IF NOT EXISTS urls (id integer primary key asc, timestamp integer(10), client char(36), channel varchar(255), nick varchar(32), url text)"];
     [self updateDBWithSQL:@"CREATE UNIQUE INDEX IF NOT EXISTS IDX_URLS_1 on urls (timestamp, client, channel, nick, url)"];
+    [self updateDBWithSQL:@"ALTER TABLE urls ADD COLUMN title text"];
 }
 
 - (void)resetDBStructure
@@ -184,14 +186,15 @@ TXDumperSheet *dumperSheet;
         NSRange r = NSRangeFromString(rn);
         if(r.length > 0) {
             url = [[message substringFromIndex:r.location] substringToIndex:r.length];
-            if([url hasPrefix:@"/r/"]) {
-                // Handle reddit short links
-                url = [NSString stringWithFormat:@"http://www.reddit.com%@", url];
-            }
             if ([url hasSuffix:@"…"] == NO) {
+                if([url hasPrefix:@"/r/"]) {
+                    // Handle reddit short links
+                    url = [NSString stringWithFormat:@"http://www.reddit.com%@", url];
+                }
                 if(self.doubleEntryHandling == 2 && [self checkDupe:url forClient:client] == YES) {
                     return;
                 }
+                
                 NSString *sql;
                 if(self.doubleEntryHandling == 0 && [self checkDupe:url forClient:client] == YES) {
                     sql = [NSString stringWithFormat:@"UPDATE urls SET timestamp=:timestamp, channel=:channel, nick=:nick WHERE id=(SELECT max(id) from urls where client='%@' AND url='%@')", client.config.itemUUID, url];
@@ -209,15 +212,49 @@ TXDumperSheet *dumperSheet;
                                                                        nick, @"nick",
                                                                        url, @"url",
                                                                        nil]];
-
                     if(self.debugModeEnabled) {
                         NSString *log = [NSString stringWithFormat:@"URL: %@ has been dumped.", url];
                         [client printDebugInformationToConsole:log];
                     }
+                    TXHTTPHelper *http = [[TXHTTPHelper alloc] init];
+                    http.delegate = self;
+                    [http get:url];
                 }
             }
         }
     }
+}
+
+- (void)didFinishDownload:(NSArray *)array
+{
+    NSString *sql = [NSString stringWithFormat:@"UPDATE urls SET title=:title WHERE url='%@'", array[0]];
+    [self updateDBWithSQL:sql withParameterDictionary:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                       [self scanString:array[1] startTag:@"<title>" endTag:@"</title>"], @"title",
+                                                       nil]];
+}
+
+- (NSString *)scanString:(NSString *)string startTag:(NSString *)startTag endTag:(NSString *)endTag
+{
+    
+    NSString* scanString = @"";
+    
+    if (string.length > 0) {
+        
+        NSScanner* scanner = [[NSScanner alloc] initWithString:string];
+            
+        @try {
+            [scanner scanUpToString:startTag intoString:nil];
+            scanner.scanLocation += [startTag length];
+            [scanner scanUpToString:endTag intoString:&scanString];
+        }
+        @catch (NSException *exception) {
+            return nil;
+        }
+        @finally {
+            return scanString;
+        }
+    }
+    return scanString;
 }
 
 - (void)showDumperForClient:(IRCClient *)client
@@ -239,10 +276,10 @@ TXDumperSheet *dumperSheet;
     NSMutableArray *data = [[NSMutableArray alloc] init];
 
     [self.queue inDatabase:^(FMDatabase *db) {
-        NSString *sql = [NSString stringWithFormat:@"SELECT channel,nick,url,timestamp FROM urls WHERE client=? ORDER BY %@ DESC;", column];
+        NSString *sql = [NSString stringWithFormat:@"SELECT channel,nick,url,title,timestamp FROM urls WHERE client=? ORDER BY %@ DESC;", column];
         FMResultSet *s = [db executeQuery:sql, client.config.itemUUID];
         if([self.worldController.selectedItem isClient] == NO) {
-            sql = [NSString stringWithFormat:@"SELECT channel,nick,url,timestamp FROM urls WHERE client=? AND channel=? ORDER BY %@ DESC;", column];
+            sql = [NSString stringWithFormat:@"SELECT channel,nick,url,title,timestamp FROM urls WHERE client=? AND channel=? ORDER BY %@ DESC;", column];
             s = [db executeQuery:sql, client.config.itemUUID, self.worldController.selectedItem.name];
         }
         while ([s next]) {
@@ -250,6 +287,7 @@ TXDumperSheet *dumperSheet;
                                   [s stringForColumn:@"channel"], @"channel",
                                   [s stringForColumn:@"nick"], @"nick",
                                   [s stringForColumn:@"url"], @"url",
+                                  [s stringForColumn:@"title"], @"title",
                                   [s stringForColumn:@"timestamp"], @"timestamp",
                                   nil];
             [data addObject:dict];

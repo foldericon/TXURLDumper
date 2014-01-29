@@ -22,6 +22,7 @@
 		DA8869D5181927A3004EC151 /* fmdb.m in Sources */ = {isa = PBXBuildFile; fileRef = DA8869CE181927A3004EC151 /* fmdb.m */; };
 		DA8869D6181927A3004EC151 /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = DA8869D0181927A3004EC151 /* FMResultSet.m */; };
 		DA8A7D44175F0B2700268228 /* AutoHyperlinks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA8A7D43175F0B2700268228 /* AutoHyperlinks.framework */; };
+		DACF177118992AB800990028 /* TXHTTPHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = DACF177018992AB800990028 /* TXHTTPHelper.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -50,6 +51,8 @@
 		DA8869CF181927A3004EC151 /* FMResultSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FMResultSet.h; path = src/FMResultSet.h; sourceTree = "<group>"; };
 		DA8869D0181927A3004EC151 /* FMResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FMResultSet.m; path = src/FMResultSet.m; sourceTree = "<group>"; };
 		DA8A7D43175F0B2700268228 /* AutoHyperlinks.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AutoHyperlinks.framework; path = Frameworks/AutoHyperlinks.framework; sourceTree = "<group>"; };
+		DACF176F18992AB800990028 /* TXHTTPHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TXHTTPHelper.h; path = Classes/TXHTTPHelper.h; sourceTree = "<group>"; };
+		DACF177018992AB800990028 /* TXHTTPHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TXHTTPHelper.m; path = Classes/TXHTTPHelper.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +106,8 @@
 			isa = PBXGroup;
 			children = (
 				DA71507517588C3100DC2063 /* fmdb */,
+				DACF176F18992AB800990028 /* TXHTTPHelper.h */,
+				DACF177018992AB800990028 /* TXHTTPHelper.m */,
 				DA71509517589B7800DC2063 /* TXDumperPrefs.h */,
 				DA71509617589B7800DC2063 /* TXDumperPrefs.m */,
 				DA71507E17588C3100DC2063 /* TXDumperSheet.h */,
@@ -212,6 +217,7 @@
 				DA8869D4181927A3004EC151 /* FMDatabaseQueue.m in Sources */,
 				DA71509717589B7800DC2063 /* TXDumperPrefs.m in Sources */,
 				DA8869D6181927A3004EC151 /* FMResultSet.m in Sources */,
+				DACF177118992AB800990028 /* TXHTTPHelper.m in Sources */,
 				DA8869D1181927A3004EC151 /* FMDatabase.m in Sources */,
 				DA8869D2181927A3004EC151 /* FMDatabaseAdditions.m in Sources */,
 			);

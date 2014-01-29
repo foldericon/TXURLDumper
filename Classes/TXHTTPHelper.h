@@ -30,50 +30,16 @@
 
 
 #import <Cocoa/Cocoa.h>
-#import <Foundation/Foundation.h>
-#import "AutoHyperlinks/AutoHyperlinks.h"
-#import "TextualApplication.h"
-#import "TXDumperPrefs.h"
-#import "TXDumperSheet.h"
-#import "FMDatabase.h"
-#import "FMResultSet.h"
-#import "FMDatabaseQueue.h"
+#import "TXURLDumper.h"
 
-@interface TXURLDumper : NSObject
+@interface TXHTTPHelper : NSObject {
+	id delegate;
+	NSMutableData *receivedData;
+	NSURL *url;
+}
+@property (nonatomic,retain) NSMutableData *receivedData;
+@property (retain) id delegate;
 
-@property (nonatomic, strong) IBOutlet NSView *ourView;
-@property (assign) IBOutlet NSButton *enableBox;
-@property (assign) IBOutlet NSButton *selfDumpsBox;
-@property (assign) IBOutlet NSButton *debugBox;
-@property (assign) IBOutlet NSPopUpButtonCell *matchingBox;
-@property (assign) IBOutlet NSPopUpButtonCell *doubleClickActionBox;
-@property (assign) IBOutlet NSPopUpButtonCell *doubleEntryHandlingBox;
+- (void)get: (NSString *)urlString;
 
-@property (nonatomic, strong) FMDatabaseQueue *queue;
-
-- (IBAction)setEnable:(id)sender;
-- (IBAction)setSelfDumps:(id)sender;
-- (IBAction)setDebugMode:(id)sender;
-- (IBAction)setMatching:(id)sender;
-- (IBAction)setDoubleClickAction:(id)sender;
-- (IBAction)setDoubleEntryHandling:(id)sender;
-- (IBAction)resetDatabase:(id)sender;
-
-- (void)pluginLoadedIntoMemory:(IRCWorld *)world;
-- (void)pluginUnloadedFromMemory;
-
-- (NSView *)preferencesView;
-- (NSString *)preferencesMenuItemName;
-
-- (void)clearDB;
-- (void)messageReceivedByServer:(IRCClient *)client
-						 sender:(NSDictionary *)senderDict
-						message:(NSDictionary *)messageDict;
-
-- (id)interceptUserInput:(id)input command:(NSString *)command;
-
-- (NSArray *)pluginSupportsServerInputCommands;
-- (void)loadDataSortedBy:(NSString *)column;
-- (void)echo:(NSString *)msg,...;
-- (void)didFinishDownload:(NSArray *)array;
 @end
