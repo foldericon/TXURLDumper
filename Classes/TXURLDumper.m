@@ -212,12 +212,9 @@ TXDumperSheet *dumperSheet;
                                                                        nick, @"nick",
                                                                        url, @"url",
                                                                        nil]];
-                    if(self.debugModeEnabled) {
-                        NSString *log = [NSString stringWithFormat:@"URL: %@ has been dumped.", url];
-                        [client printDebugInformationToConsole:log];
-                    }
                     TXHTTPHelper *http = [[TXHTTPHelper alloc] init];
                     http.delegate = self;
+                    http.client = client;
                     [http get:url];
                 }
             }
@@ -227,11 +224,27 @@ TXDumperSheet *dumperSheet;
 
 - (void)didFinishDownload:(NSArray *)array
 {
-    NSString *title = [self scanString:array[1] startTag:@"<title>" endTag:@"</title>"];
-    NSString *sql = [NSString stringWithFormat:@"UPDATE urls SET title=:title WHERE url='%@'", array[0]];
+    NSString *sql = [NSString stringWithFormat:@"UPDATE urls SET title=:title WHERE url='%@'", array[1]];
+    NSString *title = [self scanString:array[2] startTag:@"<title>" endTag:@"</title>"];
+
     [self updateDBWithSQL:sql withParameterDictionary:[NSDictionary dictionaryWithObjectsAndKeys:
                                                        [title gtm_stringByUnescapingFromHTML], @"title",
                                                        nil]];
+    
+    if(self.debugModeEnabled) {
+        IRCClient *client = array[0];
+        NSString *log = [NSString stringWithFormat:@"URL: %@ with title: \"%@\" has been dumped.", array[1], title];
+        [client printDebugInformationToConsole:log];
+    }
+}
+
+- (void)didCancelDownload:(NSArray *)ret
+{
+    if(self.debugModeEnabled) {
+        IRCClient *client = ret[0];
+        NSString *log = [NSString stringWithFormat:@"URL: %@ has been dumped.", ret[1]];
+        [client printDebugInformationToConsole:log];
+    }
 }
 
 - (NSString *)scanString:(NSString *)string startTag:(NSString *)startTag endTag:(NSString *)endTag

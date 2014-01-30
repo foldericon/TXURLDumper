@@ -39,6 +39,7 @@
 }
 @property (nonatomic,retain) NSMutableData *receivedData;
 @property (retain) id delegate;
+@property (retain) IRCClient *client;
 
 - (void)get: (NSString *)urlString;
 

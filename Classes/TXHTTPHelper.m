@@ -88,6 +88,10 @@
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
     if([response.MIMEType isNotEqualTo:@"text/html"]) {
         [connection cancel];
+        if ([delegate respondsToSelector:@selector(didCancelDownload:)]) {
+            NSArray *responseArray = [NSArray arrayWithObjects:self.client, connection.currentRequest.URL.absoluteString, nil];
+            [delegate performSelector:@selector(didCancelDownload:) withObject:responseArray];
+        }
     }
     [receivedData setLength:0];
 }
@@ -96,17 +100,21 @@
     [receivedData appendData:data];
     if((unsigned long)receivedData.length > 2097152) {
         [connection cancel];
+        if ([delegate respondsToSelector:@selector(didCancelDownload:)]) {
+            NSArray *responseArray = [NSArray arrayWithObjects:self.client, connection.currentRequest.URL.absoluteString, nil];
+            [delegate performSelector:@selector(didCancelDownload:) withObject:responseArray];
+        }
     }
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
-	NSLog(@"Error receiving response: %@", error);
+    NSLog(@"Error receiving response: %@", error);
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
 	
 	NSString *dataStr=[[NSString alloc] initWithData:receivedData encoding:NSUTF8StringEncoding];
-    NSArray *responseArray = [NSArray arrayWithObjects:connection.currentRequest.URL.absoluteString, dataStr, nil];
+    NSArray *responseArray = [NSArray arrayWithObjects:self.client, connection.currentRequest.URL.absoluteString, dataStr, nil];
 	
     if ([delegate respondsToSelector:@selector(didFinishDownload:)]) {
 		//NSString* dataAsString = [[[NSString alloc] initWithData:receivedData encoding:NSUTF8StringEncoding] autorelease];
