@@ -174,7 +174,7 @@ TXDumperSheet *dumperSheet;
     if([channel isEqualToString:self.worldController.selectedClient.localNickname]) {
         channel = nick;
     }
-    NSNumber *timestamp = [NSNumber numberWithInt:(int)[time timeIntervalSince1970]];
+    NSNumber *timestamp = [NSNumber numberWithDouble:[time timeIntervalSince1970]];
 	AHHyperlinkScanner *scanner = [AHHyperlinkScanner new];
     NSArray *urlAry;
     if(self.strictMatching)
@@ -284,13 +284,12 @@ TXDumperSheet *dumperSheet;
             s = [db executeQuery:sql, client.config.itemUUID, self.worldController.selectedItem.name];
         }
         while ([s next]) {
-            NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
-                                  [s stringForColumn:@"channel"], @"channel",
-                                  [s stringForColumn:@"nick"], @"nick",
-                                  [s stringForColumn:@"url"], @"url",
-                                  [s stringForColumn:@"title"], @"title",
-                                  [s stringForColumn:@"timestamp"], @"timestamp",
-                                  nil];
+            NSDictionary *dict = @{ @"channel"      : [s stringForColumn:@"channel"],
+                                    @"nick"         : [s stringForColumn:@"nick"],
+                                    @"url"          : [s stringForColumn:@"url"],
+                                    @"title"        : [s stringForColumn:@"title"] ? [s stringForColumn:@"title"] : @"",
+                                    @"timestamp"    : [s stringForColumn:@"timestamp"],
+                                 };
             [data addObject:dict];
         }
     }];

@@ -234,7 +234,7 @@ BOOL networkSheet = YES;
 {
     if([aTableColumn.identifier isEqualToString:@"timestamp"]) {
         return [NSString stringWithFormat:@"%@ Ago",
-                TXSpecialReadableTime([NSDate secondsSinceUnixTimestamp:[[[self.dataSource objectAtIndex:rowIndex] objectForKey:aTableColumn.identifier] doubleValue]], YES, nil)];
+                             TXSpecialReadableTime([NSDate secondsSinceUnixTimestamp:[[[self.dataSource objectAtIndex:rowIndex] objectForKey:aTableColumn.identifier] doubleValue]], YES, nil)];
     }
     return [[self.dataSource objectAtIndex:rowIndex] objectForKey:aTableColumn.identifier];
 }
