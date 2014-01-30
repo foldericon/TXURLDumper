@@ -226,7 +226,10 @@ TXDumperSheet *dumperSheet;
 {
     NSString *sql = [NSString stringWithFormat:@"UPDATE urls SET title=:title WHERE url='%@'", array[1]];
     NSString *title = [self scanString:array[2] startTag:@"<title>" endTag:@"</title>"];
-
+    // Replace double space with single space
+    title = [title stringByReplacingOccurrencesOfString:@"  " withString:@" "];
+    // Replace newline characters with single space
+    title = [[[title componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"length > 0"]] componentsJoinedByString:@" "];
     [self updateDBWithSQL:sql withParameterDictionary:[NSDictionary dictionaryWithObjectsAndKeys:
                                                        [title gtm_stringByUnescapingFromHTML], @"title",
                                                        nil]];
