@@ -229,9 +229,9 @@ TXDumperSheet *dumperSheet;
     // Replace double space with single space
     title = [title stringByReplacingOccurrencesOfString:@"  " withString:@" "];
     // Replace newline characters with single space
-    title = [[[title componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"length > 0"]] componentsJoinedByString:@" "];
+    title = [[[[title gtm_stringByUnescapingFromHTML] componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"length > 0"]] componentsJoinedByString:@" "];
     [self updateDBWithSQL:sql withParameterDictionary:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                       [title gtm_stringByUnescapingFromHTML], @"title",
+                                                       title, @"title",
                                                        nil]];
     
     if(self.debugModeEnabled) {
