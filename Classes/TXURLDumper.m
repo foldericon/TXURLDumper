@@ -158,6 +158,17 @@ TXDumperSheet *dumperSheet;
 {
     [self updateDBWithSQL:@"CREATE TABLE IF NOT EXISTS urls (id integer primary key asc, timestamp integer(10), client char(36), channel varchar(255), nick varchar(32), url text)"];
     [self updateDBWithSQL:@"CREATE UNIQUE INDEX IF NOT EXISTS IDX_URLS_1 on urls (timestamp, client, channel, nick, url)"];
+
+    NSMutableArray *data = [[NSMutableArray alloc] init];
+    [self.queue inDatabase:^(FMDatabase *db) {
+        FMResultSet *s = [db executeQuery:@"SELECT title from urls"];
+        while ([s next]) {
+            [data addObject:[s resultDictionary]];
+        }
+    }];
+    
+    if(data.count > 0) return;
+    
     [self updateDBWithSQL:@"ALTER TABLE urls ADD COLUMN title text"];
 }
 
