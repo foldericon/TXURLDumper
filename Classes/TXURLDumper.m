@@ -197,11 +197,12 @@ TXDumperSheet *dumperSheet;
                 
                 NSString *sql;
                 if(self.doubleEntryHandling == 0 && [self checkDupe:url forClient:client] == YES) {
-                    sql = [NSString stringWithFormat:@"UPDATE urls SET timestamp=:timestamp, channel=:channel, nick=:nick WHERE id=(SELECT max(id) from urls where client='%@' AND url='%@')", client.config.itemUUID, url];
-                    [self updateDBWithSQL:sql withParameterDictionary:[NSDictionary dictionaryWithObjectsAndKeys:
+                    [self updateDBWithSQL:@"UPDATE urls SET timestamp=:timestamp, channel=:channel, nick=:nick WHERE id=(SELECT max(id) from urls where client=:client AND url=:url)" withParameterDictionary:[NSDictionary dictionaryWithObjectsAndKeys:
                                                                        timestamp, @"timestamp",
                                                                        channel, @"channel",
                                                                        nick, @"nick",
+                                                                       client.config.itemUUID, @"client",
+                                                                       url, @"url",
                                                                        nil]];
                 } else {
                     sql = @"INSERT INTO urls (timestamp, client, channel, nick, url) VALUES (:timestamp, :client, :channel, :nick, :url)";
@@ -224,14 +225,14 @@ TXDumperSheet *dumperSheet;
 
 - (void)didFinishDownload:(NSArray *)array
 {
-    NSString *sql = [NSString stringWithFormat:@"UPDATE urls SET title=:title WHERE url='%@'", array[1]];
     NSString *title = [self scanString:array[2] startTag:@"<title>" endTag:@"</title>"];
     // Replace double space with single space
     title = [title stringByReplacingOccurrencesOfString:@"  " withString:@" "];
     // Replace newline characters with single space
     title = [[[[title gtm_stringByUnescapingFromHTML] componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"length > 0"]] componentsJoinedByString:@" "];
-    [self updateDBWithSQL:sql withParameterDictionary:[NSDictionary dictionaryWithObjectsAndKeys:
+    [self updateDBWithSQL:@"UPDATE urls SET title=:title WHERE url=:url" withParameterDictionary:[NSDictionary dictionaryWithObjectsAndKeys:
                                                        title, @"title",
+                                                       array[1], @"url",
                                                        nil]];
     
     if(self.debugModeEnabled) {
