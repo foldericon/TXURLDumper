@@ -223,31 +223,30 @@ TXDumperSheet *dumperSheet;
     }
 }
 
-- (void)didFinishDownload:(NSArray *)array
+- (void)didFinishDownload:(TXHTTPHelper *)http
 {
-    NSString *title = [self scanString:array[2] startTag:@"<title>" endTag:@"</title>"];
+    NSString *dataStr=[[NSString alloc] initWithData:http.receivedData encoding:NSUTF8StringEncoding];
+    NSString *title = [self scanString:dataStr startTag:@"<title>" endTag:@"</title>"];
     // Replace double space with single space
     title = [title stringByReplacingOccurrencesOfString:@"  " withString:@" "];
     // Replace newline characters with single space
     title = [[[[title gtm_stringByUnescapingFromHTML] componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"length > 0"]] componentsJoinedByString:@" "];
     [self updateDBWithSQL:@"UPDATE urls SET title=:title WHERE url=:url" withParameterDictionary:[NSDictionary dictionaryWithObjectsAndKeys:
                                                        title, @"title",
-                                                       array[1], @"url",
+                                                       http.url, @"url",
                                                        nil]];
     
     if(self.debugModeEnabled) {
-        IRCClient *client = array[0];
-        NSString *log = [NSString stringWithFormat:@"URL: %@ with title: \"%@\" has been dumped.", array[1], title];
-        [client printDebugInformationToConsole:log];
+        NSString *log = [NSString stringWithFormat:@"URL: %@ with title: \"%@\" has been dumped.", http.url, title];
+        [http.client printDebugInformationToConsole:log];
     }
 }
 
-- (void)didCancelDownload:(NSArray *)ret
+- (void)didCancelDownload:(TXHTTPHelper *)http
 {
     if(self.debugModeEnabled) {
-        IRCClient *client = ret[0];
-        NSString *log = [NSString stringWithFormat:@"URL: %@ has been dumped.", ret[1]];
-        [client printDebugInformationToConsole:log];
+        NSString *log = [NSString stringWithFormat:@"URL: %@ has been dumped.", http.url];
+        [http.client printDebugInformationToConsole:log];
     }
 }
 

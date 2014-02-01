@@ -33,7 +33,7 @@
 
 @implementation TXHTTPHelper
 
-@synthesize receivedData;
+@synthesize receivedData, url;
 
 - init {
     if ((self = [super init])) {
@@ -59,7 +59,8 @@
 
 - (void)get: (NSString *)urlString {
 	
-	self.receivedData = [[NSMutableData alloc] init];
+    self.url = urlString;
+	receivedData = [[NSMutableData alloc] init];
     
     NSURLRequest *request = [[NSURLRequest alloc]
 							 initWithURL: [NSURL URLWithString:urlString]
@@ -89,8 +90,7 @@
     if([response.MIMEType isNotEqualTo:@"text/html"]) {
         [connection cancel];
         if ([delegate respondsToSelector:@selector(didCancelDownload:)]) {
-            NSArray *responseArray = [NSArray arrayWithObjects:self.client, connection.currentRequest.URL.absoluteString, nil];
-            [delegate performSelector:@selector(didCancelDownload:) withObject:responseArray];
+            [delegate performSelector:@selector(didCancelDownload:) withObject:self];
         }
     }
     [receivedData setLength:0];
@@ -101,8 +101,7 @@
     if((unsigned long)receivedData.length > 2097152) {
         [connection cancel];
         if ([delegate respondsToSelector:@selector(didCancelDownload:)]) {
-            NSArray *responseArray = [NSArray arrayWithObjects:self.client, connection.currentRequest.URL.absoluteString, nil];
-            [delegate performSelector:@selector(didCancelDownload:) withObject:responseArray];
+            [delegate performSelector:@selector(didCancelDownload:) withObject:self];
         }
     }
 }
@@ -113,12 +112,9 @@
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
 	
-	NSString *dataStr=[[NSString alloc] initWithData:receivedData encoding:NSUTF8StringEncoding];
-    NSArray *responseArray = [NSArray arrayWithObjects:self.client, connection.currentRequest.URL.absoluteString, dataStr, nil];
-	
     if ([delegate respondsToSelector:@selector(didFinishDownload:)]) {
 		//NSString* dataAsString = [[[NSString alloc] initWithData:receivedData encoding:NSUTF8StringEncoding] autorelease];
-		[delegate performSelector:@selector(didFinishDownload:) withObject:responseArray];
+		[delegate performSelector:@selector(didFinishDownload:) withObject:self];
 	}
  
 }
