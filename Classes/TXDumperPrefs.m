@@ -33,6 +33,7 @@
 
 NSString *TXDumperDumpingEnabledKey = @"TXDumperDumpingEnabled";
 NSString *TXDumperSelfDumpsEnabledKey = @"TXDumperSelfDumpsEnabled";
+NSString *TXDumperGetTitlesEnabledKey = @"TXDumperGetTitlesEnabled";
 NSString *TXDumperDebugModeEnabledKey = @"TXDumperDebugModeEnabled";
 NSString *TXDumperStrictMatchingEnabledKey = @"TXDumperStrictMatchingEnabled";
 NSString *TXDumperOpenInBrowserEnabledKey = @"TXDumperOpenInBrowserEnabled";
@@ -50,6 +51,7 @@ NSString *TXDumperSheetColumnWidthsKey = @"TXDumperSheetColumnWidths";
         NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
                               @"yes", TXDumperDumpingEnabledKey,
                               @"yes", TXDumperSelfDumpsEnabledKey,
+                              @"yes", TXDumperGetTitlesEnabledKey,
                               @"no", TXDumperDebugModeEnabledKey,
                               @"no", TXDumperStrictMatchingEnabledKey,
                               @"no", TXDumperOpenInBrowserEnabledKey,
@@ -60,7 +62,7 @@ NSString *TXDumperSheetColumnWidthsKey = @"TXDumperSheetColumnWidths";
                               nil];
         [self setPreferences:dict];
     }
-    
+ 
     return [NSDictionary dictionaryWithContentsOfFile:[self preferencesPath]];
 }
 
@@ -82,6 +84,11 @@ NSString *TXDumperSheetColumnWidthsKey = @"TXDumperSheetColumnWidths";
 - (BOOL)selfDumpsEnabled
 {
     return [[self.preferences objectForKey:TXDumperSelfDumpsEnabledKey] boolValue];
+}
+
+- (BOOL)getTitlesEnabled
+{
+    return [[self.preferences objectForKey:TXDumperGetTitlesEnabledKey] boolValue];
 }
 
 - (BOOL)debugModeEnabled

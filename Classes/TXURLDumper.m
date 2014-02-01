@@ -46,6 +46,13 @@ TXDumperSheet *dumperSheet;
         [self createDBStructure];
     }
 
+    // Legacy code to get titles enabled per default on older versions
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:self.preferences];
+    if([dict objectForKey:TXDumperGetTitlesEnabledKey] == nil) {
+        [dict setObject:[NSNumber numberWithBool:YES] forKey:TXDumperGetTitlesEnabledKey];
+        [self setPreferences:dict];
+    }
+    
     NSMenu *windowMenu = [[[[NSApplication sharedApplication] mainMenu] itemWithTitle:@"Window"] submenu];
 
     NSString *title;
@@ -98,6 +105,7 @@ TXDumperSheet *dumperSheet;
 {
     [self.enableBox setState:(self.dumpingEnabled ? NSOnState : NSOffState)];
     [self.selfDumpsBox setState:(self.selfDumpsEnabled ? NSOnState : NSOffState)];
+    [self.titlesBox setState:(self.getTitlesEnabled ? NSOnState : NSOffState)];
     [self.debugBox setState:(self.debugModeEnabled ? NSOnState : NSOffState)];
     [self.matchingBox selectItemWithTag:(self.strictMatching ? 1 : 0)];
     [self.doubleClickActionBox selectItemWithTag:(self.openInBrowser ? 1 : 0)];
@@ -224,10 +232,15 @@ TXDumperSheet *dumperSheet;
                                                                        nick, @"nick",
                                                                        url, @"url",
                                                                        nil]];
-                    TXHTTPHelper *http = [[TXHTTPHelper alloc] init];
-                    http.delegate = self;
-                    http.client = client;
-                    [http get:url];
+                    if(self.getTitlesEnabled) {
+                        TXHTTPHelper *http = [[TXHTTPHelper alloc] init];
+                        http.delegate = self;
+                        http.client = client;
+                        [http get:url];
+                    } else if(self.debugModeEnabled) {
+                        NSString *log = [NSString stringWithFormat:@"URL: %@ has been dumped.", url];
+                        [client printDebugInformationToConsole:log];
+                    }
                 }
             }
         }
@@ -411,6 +424,13 @@ TXDumperSheet *dumperSheet;
     BOOL enabled = ([self.selfDumpsBox state]==NSOnState);
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:[self preferences]];
     [dict setObject:[NSNumber numberWithBool:enabled] forKey:TXDumperSelfDumpsEnabledKey];
+    [self setPreferences:dict];
+}
+
+- (IBAction)setGetTitles:(id)sender {
+    BOOL enabled = ([self.titlesBox state]==NSOnState);
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:[self preferences]];
+    [dict setObject:[NSNumber numberWithBool:enabled] forKey:TXDumperGetTitlesEnabledKey];
     [self setPreferences:dict];
 }
 

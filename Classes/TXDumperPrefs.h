@@ -33,6 +33,7 @@
 
 extern NSString *TXDumperDumpingEnabledKey;
 extern NSString *TXDumperSelfDumpsEnabledKey;
+extern NSString *TXDumperGetTitlesEnabledKey;
 extern NSString *TXDumperDebugModeEnabledKey;
 extern NSString *TXDumperStrictMatchingEnabledKey;
 extern NSString *TXDumperOpenInBrowserEnabledKey;
@@ -48,6 +49,7 @@ extern NSString *TXDumperSheetColumnWidthsKey;
 @property (readonly) NSString *preferencesPath;
 @property (readonly) BOOL dumpingEnabled;
 @property (readonly) BOOL selfDumpsEnabled;
+@property (readonly) BOOL getTitlesEnabled;
 @property (readonly) BOOL debugModeEnabled;
 @property (readonly) BOOL strictMatching;
 @property (readonly) BOOL openInBrowser;

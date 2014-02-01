@@ -44,6 +44,7 @@
 @property (nonatomic, strong) IBOutlet NSView *ourView;
 @property (assign) IBOutlet NSButton *enableBox;
 @property (assign) IBOutlet NSButton *selfDumpsBox;
+@property (assign) IBOutlet NSButton *titlesBox;
 @property (assign) IBOutlet NSButton *debugBox;
 @property (assign) IBOutlet NSPopUpButtonCell *matchingBox;
 @property (assign) IBOutlet NSPopUpButtonCell *doubleClickActionBox;
@@ -53,6 +54,7 @@
 
 - (IBAction)setEnable:(id)sender;
 - (IBAction)setSelfDumps:(id)sender;
+- (IBAction)setGetTitles:(id)sender;
 - (IBAction)setDebugMode:(id)sender;
 - (IBAction)setMatching:(id)sender;
 - (IBAction)setDoubleClickAction:(id)sender;
