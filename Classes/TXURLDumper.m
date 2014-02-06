@@ -162,6 +162,15 @@ TXDumperSheet *dumperSheet;
 #pragma mark -
 #pragma mark Private API
 
+static inline BOOL isEmpty(id thing) {
+    return thing == nil
+    || [thing isKindOfClass:[NSNull class]]
+    || ([thing respondsToSelector:@selector(length)]
+        && [(NSData *)thing length] == 0)
+    || ([thing respondsToSelector:@selector(count)]
+        && [(NSArray *)thing count] == 0);
+}
+
 - (void)createDBStructure
 {
     [self updateDBWithSQL:@"CREATE TABLE IF NOT EXISTS urls (id integer primary key asc, timestamp integer(10), client char(36), channel varchar(255), nick varchar(32), url text)"];
@@ -255,6 +264,15 @@ TXDumperSheet *dumperSheet;
     title = [title stringByReplacingOccurrencesOfString:@"  " withString:@" "];
     // Replace newline characters with single space
     title = [[[[title gtm_stringByUnescapingFromHTML] componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"length > 0"]] componentsJoinedByString:@" "];
+
+    if(isEmpty(title)) {
+        if(self.debugModeEnabled) {
+            NSString *log = [NSString stringWithFormat:@"URL: %@ has been dumped.", http.url];
+            [http.client printDebugInformationToConsole:log];
+        }
+        return;
+    }
+    
     [self updateDBWithSQL:@"UPDATE urls SET title=:title WHERE url=:url" withParameterDictionary:[NSDictionary dictionaryWithObjectsAndKeys:
                                                        title, @"title",
                                                        http.url, @"url",
