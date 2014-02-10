@@ -31,7 +31,7 @@
 
 #import "TXHTTPHelper.h"
 
-#define _requestUserAgent @"Textual/1.0 (+http://www.codeux.com/textual/wiki/Inline-Media-Scanner-User-Agent.wiki)"
+#define _requestUserAgent @"Textual/1.0 (+http://www.codeux.com/textual)"
 
 @implementation TXHTTPHelper
 
