@@ -31,6 +31,8 @@
 
 #import "TXHTTPHelper.h"
 
+#define _requestUserAgent @"Textual/1.0 (+http://www.codeux.com/textual/wiki/Inline-Media-Scanner-User-Agent.wiki)"
+
 @implementation TXHTTPHelper
 
 @synthesize receivedData, url;
@@ -62,15 +64,16 @@
     self.url = urlString;
 	receivedData = [[NSMutableData alloc] init];
     
-    NSURLRequest *request = [[NSURLRequest alloc]
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc]
 							 initWithURL: [NSURL URLWithString:urlString]
 							 cachePolicy: NSURLRequestReloadIgnoringLocalCacheData
 							 timeoutInterval: 60
 							 ];
 
-    NSURLConnection * connection = [[NSURLConnection alloc]
-                                    initWithRequest:request
-                                    delegate:self startImmediately:NO];
+
+    [request setValue:_requestUserAgent forHTTPHeaderField:@"User-Agent"];
+    
+    NSURLConnection * connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
     
     [connection scheduleInRunLoop:[NSRunLoop mainRunLoop]
                           forMode:NSDefaultRunLoopMode];
