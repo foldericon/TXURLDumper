@@ -130,6 +130,11 @@ BOOL networkSheet = YES;
     [self.recordsLabel setStringValue:[NSString stringWithFormat:records, (int)self.dataSource.count]];
 }
 
+- (NSString *)timeAgoString:(double)timestamp
+{
+    return [NSString stringWithFormat:@"%@ Ago", TXSpecialReadableTime([NSDate secondsSinceUnixTimestamp:timestamp], YES, nil)];
+}
+
 #pragma mark -
 #pragma mark Actions
 - (void)AlertHasConfirmed:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo
@@ -171,7 +176,7 @@ BOOL networkSheet = YES;
             [[[dict stringForKey:@"nick"] lowercaseString] rangeOfString:str].location != NSNotFound ||
             [[[dict stringForKey:@"url"] lowercaseString] rangeOfString:str].location != NSNotFound ||
             [[[dict stringForKey:@"title"] lowercaseString] rangeOfString:str].location != NSNotFound ||
-            [[[dict stringForKey:@"timestamp"] lowercaseString] rangeOfString:str].location != NSNotFound) {
+            [[[self timeAgoString:[[dict objectForKey:@"timestamp"] doubleValue]] lowercaseString] rangeOfString:str].location != NSNotFound) {
             [new addObject:dict];
         }
     }
@@ -233,8 +238,7 @@ BOOL networkSheet = YES;
 - (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
 {
     if([aTableColumn.identifier isEqualToString:@"timestamp"]) {
-        return [NSString stringWithFormat:@"%@ Ago",
-                             TXSpecialReadableTime([NSDate secondsSinceUnixTimestamp:[[[self.dataSource objectAtIndex:rowIndex] objectForKey:aTableColumn.identifier] doubleValue]], YES, nil)];
+        return [self timeAgoString:[[[self.dataSource objectAtIndex:rowIndex] objectForKey:aTableColumn.identifier] doubleValue]];
     }
     return [[self.dataSource objectAtIndex:rowIndex] objectForKey:aTableColumn.identifier];
 }
