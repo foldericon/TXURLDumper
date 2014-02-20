@@ -10,6 +10,7 @@
 		4C51BE9412D0471600E79CEB /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C51BE9312D0471600E79CEB /* Cocoa.framework */; };
 		8D576314048677EA00EA77CD /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AA1909FFE8422F4C02AAC07 /* CoreFoundation.framework */; };
 		DA0D27D81754B58D00318563 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DA0D27D71754B58D00318563 /* libsqlite3.dylib */; };
+		DA1F50F718B65A0D00B07AF8 /* AutoHyperlinks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA1F50F618B65A0D00B07AF8 /* AutoHyperlinks.framework */; };
 		DA71508617588C3100DC2063 /* TXDumperSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = DA71507F17588C3100DC2063 /* TXDumperSheet.m */; };
 		DA71508717588C3100DC2063 /* TXURLDumper.m in Sources */ = {isa = PBXBuildFile; fileRef = DA71508117588C3100DC2063 /* TXURLDumper.m */; };
 		DA71508B17588C4200DC2063 /* DumperSheet.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA71508817588C4200DC2063 /* DumperSheet.xib */; };
@@ -21,7 +22,6 @@
 		DA8869D4181927A3004EC151 /* FMDatabaseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = DA8869CD181927A3004EC151 /* FMDatabaseQueue.m */; };
 		DA8869D5181927A3004EC151 /* fmdb.m in Sources */ = {isa = PBXBuildFile; fileRef = DA8869CE181927A3004EC151 /* fmdb.m */; };
 		DA8869D6181927A3004EC151 /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = DA8869D0181927A3004EC151 /* FMResultSet.m */; };
-		DA8A7D44175F0B2700268228 /* AutoHyperlinks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA8A7D43175F0B2700268228 /* AutoHyperlinks.framework */; };
 		DACF177118992AB800990028 /* TXHTTPHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = DACF177018992AB800990028 /* TXHTTPHelper.m */; };
 		DAE869821899789900C89901 /* GTMNSString+HTML.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE869811899789900C89901 /* GTMNSString+HTML.m */; };
 /* End PBXBuildFile section */
@@ -31,6 +31,7 @@
 		4C51BE9312D0471600E79CEB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		8D576316048677EA00EA77CD /* TXURLDumper.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TXURLDumper.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA0D27D71754B58D00318563 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		DA1F50F618B65A0D00B07AF8 /* AutoHyperlinks.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AutoHyperlinks.framework; path = Frameworks/AutoHyperlinks.framework; sourceTree = "<group>"; };
 		DA71507E17588C3100DC2063 /* TXDumperSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TXDumperSheet.h; path = Classes/TXDumperSheet.h; sourceTree = "<group>"; };
 		DA71507F17588C3100DC2063 /* TXDumperSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TXDumperSheet.m; path = Classes/TXDumperSheet.m; sourceTree = "<group>"; };
 		DA71508017588C3100DC2063 /* TXURLDumper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TXURLDumper.h; path = Classes/TXURLDumper.h; sourceTree = "<group>"; };
@@ -51,7 +52,6 @@
 		DA8869CE181927A3004EC151 /* fmdb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = fmdb.m; path = src/fmdb.m; sourceTree = "<group>"; };
 		DA8869CF181927A3004EC151 /* FMResultSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FMResultSet.h; path = src/FMResultSet.h; sourceTree = "<group>"; };
 		DA8869D0181927A3004EC151 /* FMResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FMResultSet.m; path = src/FMResultSet.m; sourceTree = "<group>"; };
-		DA8A7D43175F0B2700268228 /* AutoHyperlinks.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AutoHyperlinks.framework; path = Frameworks/AutoHyperlinks.framework; sourceTree = "<group>"; };
 		DACF176F18992AB800990028 /* TXHTTPHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TXHTTPHelper.h; path = Classes/TXHTTPHelper.h; sourceTree = "<group>"; };
 		DACF177018992AB800990028 /* TXHTTPHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TXHTTPHelper.m; path = Classes/TXHTTPHelper.m; sourceTree = "<group>"; };
 		DAE869801899789900C89901 /* GTMNSString+HTML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "GTMNSString+HTML.h"; path = "Classes/GTMNSString+HTML.h"; sourceTree = "<group>"; };
@@ -64,9 +64,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				DA0D27D81754B58D00318563 /* libsqlite3.dylib in Frameworks */,
+				DA1F50F718B65A0D00B07AF8 /* AutoHyperlinks.framework in Frameworks */,
 				8D576314048677EA00EA77CD /* CoreFoundation.framework in Frameworks */,
 				4C51BE9412D0471600E79CEB /* Cocoa.framework in Frameworks */,
-				DA8A7D44175F0B2700268228 /* AutoHyperlinks.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -88,7 +88,7 @@
 			isa = PBXGroup;
 			children = (
 				DA0D27D71754B58D00318563 /* libsqlite3.dylib */,
-				DA8A7D43175F0B2700268228 /* AutoHyperlinks.framework */,
+				DA1F50F618B65A0D00B07AF8 /* AutoHyperlinks.framework */,
 				4C51BE9312D0471600E79CEB /* Cocoa.framework */,
 				0AA1909FFE8422F4C02AAC07 /* CoreFoundation.framework */,
 			);
@@ -238,20 +238,17 @@
 				BUNDLE_LOADER = /Applications/Textual.app/Contents/MacOS/Textual;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)\"",
-					"\"$(SRCROOT)/Frameworks\"",
-				);
+				FRAMEWORK_SEARCH_PATHS = "/Applications/Textual.app/Contents/Frameworks/**";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				HEADER_SEARCH_PATHS = "/Applications/Textual.app/Contents/Headers/**";
+				HEADER_SEARCH_PATHS = /Applications/Textual.app/Contents/Headers;
 				INFOPLIST_FILE = Resources/Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Bundles";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = TXURLDumper;
 				SDKROOT = macosx;
+				VALID_ARCHS = "i386 x86_64";
 				WRAPPER_EXTENSION = bundle;
 			};
 			name = Debug;
@@ -262,18 +259,15 @@
 				BUNDLE_LOADER = /Applications/Textual.app/Contents/MacOS/Textual;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)\"",
-					"\"$(SRCROOT)/Frameworks\"",
-				);
+				FRAMEWORK_SEARCH_PATHS = "/Applications/Textual.app/Contents/Frameworks/**";
 				GCC_MODEL_TUNING = G5;
-				HEADER_SEARCH_PATHS = "/Applications/Textual.app/Contents/Headers/**";
+				HEADER_SEARCH_PATHS = /Applications/Textual.app/Contents/Headers;
 				INFOPLIST_FILE = Resources/Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Bundles";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = TXURLDumper;
 				SDKROOT = macosx;
+				VALID_ARCHS = "i386 x86_64";
 				WRAPPER_EXTENSION = bundle;
 			};
 			name = Release;
@@ -298,10 +292,11 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = /Applications/Textual.app/Contents/Headers/;
+				HEADER_SEARCH_PATHS = /Applications/Textual.app/Contents/Headers;
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
+				VALID_ARCHS = x86_64;
 			};
 			name = Debug;
 		};
@@ -324,10 +319,11 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = /Applications/Textual.app/Contents/Headers/;
+				HEADER_SEARCH_PATHS = /Applications/Textual.app/Contents/Headers;
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = macosx;
+				VALID_ARCHS = x86_64;
 			};
 			name = Release;
 		};

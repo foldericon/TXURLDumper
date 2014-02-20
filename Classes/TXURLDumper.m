@@ -210,8 +210,8 @@ static inline BOOL isEmpty(id thing) {
     else
         urlAry = [scanner matchesForString:message];
     NSString *url;
-    for (NSString *rn in urlAry) {
-        NSRange r = NSRangeFromString(rn);
+    for (NSArray *rn in urlAry) {
+        NSRange r = NSRangeFromString(rn[0]);
         if(r.length > 0) {
             url = [[message substringFromIndex:r.location] substringToIndex:r.length];
             if ([url hasSuffix:@"…"] == NO) {
