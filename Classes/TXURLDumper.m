@@ -213,7 +213,7 @@ static inline BOOL isEmpty(id thing) {
     for (NSArray *rn in urlAry) {
         NSRange r = NSRangeFromString(rn[0]);
         if(r.length > 0) {
-            url = [[message substringFromIndex:r.location] substringToIndex:r.length];
+            url = rn[1];
             if ([url hasSuffix:@"…"] == NO) {
                 if([url hasPrefix:@"/r/"]) {
                     // Handle reddit short links
