@@ -77,7 +77,4 @@
 - (NSArray *)pluginSupportsServerInputCommands;
 - (void)loadDataSortedBy:(NSString *)column;
 - (void)echo:(NSString *)msg,...;
-- (void)didFinishDownload:(NSObject *)http;
-- (void)didReceiveRedirect:(NSObject *)http;
-- (void)didCancelDownload:(NSObject *)http;
 @end

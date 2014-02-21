@@ -39,11 +39,9 @@
 }
 @property (nonatomic,retain) NSMutableData *receivedData;
 @property (retain) id delegate;
-@property (assign) IRCClient *client;
-@property (assign) NSString *nick;
-@property (assign) NSString *channel;
 @property (assign) NSString *url;
 @property (assign) NSString *finalURL;
+@property (nonatomic,copy)void (^completionBlock) (NSError *error);
 
 - (void)get: (NSString *)urlString;
 

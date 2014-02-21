@@ -35,7 +35,7 @@
 
 @implementation TXHTTPHelper
 
-@synthesize receivedData, url;
+@synthesize receivedData, url, completionBlock;
 
 - init {
     if ((self = [super init])) {
@@ -94,15 +94,13 @@
     self.finalURL = response.URL.absoluteString;
     if([self.finalURL isNotEqualTo:self.url]) {
         [connection cancel];
-        if ([delegate respondsToSelector:@selector(didReceiveRedirect:)]) {
-            [delegate performSelector:@selector(didReceiveRedirect:) withObject:self];
-        }
+        if([self completionBlock])
+            [self completionBlock]([NSError errorWithDomain:@"TXURLDumper" code:102 userInfo:nil]);
     }
     if([response.MIMEType isNotEqualTo:@"text/html"]) {
         [connection cancel];
-        if ([delegate respondsToSelector:@selector(didCancelDownload:)]) {
-            [delegate performSelector:@selector(didCancelDownload:) withObject:self];
-        }
+        if([self completionBlock])
+            [self completionBlock]([NSError errorWithDomain:@"TXURLDumper" code:101 userInfo:nil]);
     }
     [receivedData setLength:0];
 }
@@ -111,22 +109,20 @@
     [receivedData appendData:data];
     if((unsigned long)receivedData.length > 2097152) {
         [connection cancel];
-        if ([delegate respondsToSelector:@selector(didCancelDownload:)]) {
-            [delegate performSelector:@selector(didCancelDownload:) withObject:self];
-        }
+        if([self completionBlock])
+            [self completionBlock]([NSError errorWithDomain:@"TXURLDumper" code:101 userInfo:nil]);
     }
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
-    NSLog(@"Error receiving response: %@", error);
+    if([self completionBlock])
+        [self completionBlock]([NSError errorWithDomain:@"TXURLDumper" code:error.code userInfo:error.userInfo]);
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
 	
-    if ([delegate respondsToSelector:@selector(didFinishDownload:)]) {
-		//NSString* dataAsString = [[[NSString alloc] initWithData:receivedData encoding:NSUTF8StringEncoding] autorelease];
-		[delegate performSelector:@selector(didFinishDownload:) withObject:self];
-	}
+    if([self completionBlock])
+        [self completionBlock]([NSError errorWithDomain:@"TXURLDumper" code:100 userInfo:nil]);
  
 }
 
