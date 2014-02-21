@@ -73,7 +73,7 @@
 
     [request setValue:_requestUserAgent forHTTPHeaderField:@"User-Agent"];
     
-    NSURLConnection * connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+    NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
     
     [connection scheduleInRunLoop:[NSRunLoop mainRunLoop]
                           forMode:NSDefaultRunLoopMode];
@@ -90,6 +90,14 @@
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
+
+    self.finalURL = response.URL.absoluteString;
+    if([self.finalURL isNotEqualTo:self.url]) {
+        [connection cancel];
+        if ([delegate respondsToSelector:@selector(didReceiveRedirect:)]) {
+            [delegate performSelector:@selector(didReceiveRedirect:) withObject:self];
+        }
+    }
     if([response.MIMEType isNotEqualTo:@"text/html"]) {
         [connection cancel];
         if ([delegate respondsToSelector:@selector(didCancelDownload:)]) {

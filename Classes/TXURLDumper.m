@@ -241,9 +241,12 @@ static inline BOOL isEmpty(id thing) {
                                                                        nick, @"nick",
                                                                        url, @"url",
                                                                        nil]];
+                    
                     if(self.getTitlesEnabled) {
                         TXHTTPHelper *http = [[TXHTTPHelper alloc] init];
                         http.delegate = self;
+                        http.channel = channel;
+                        http.nick = nick;
                         http.client = client;
                         [http get:url];
                     } else if(self.debugModeEnabled) {
@@ -264,7 +267,7 @@ static inline BOOL isEmpty(id thing) {
     title = [title stringByReplacingOccurrencesOfString:@"  " withString:@" "];
     // Replace newline characters with single space
     title = [[[[title gtm_stringByUnescapingFromHTML] componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"length > 0"]] componentsJoinedByString:@" "];
-
+    
     if(isEmpty(title)) {
         if(self.debugModeEnabled) {
             NSString *log = [NSString stringWithFormat:@"URL: %@ has been dumped.", http.url];
@@ -273,15 +276,33 @@ static inline BOOL isEmpty(id thing) {
         return;
     }
     
-    [self updateDBWithSQL:@"UPDATE urls SET title=:title WHERE url=:url" withParameterDictionary:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                       title, @"title",
-                                                       http.url, @"url",
-                                                       nil]];
+    [self updateDBWithSQL:@"UPDATE urls SET title=:title WHERE url=:url" withParameterDictionary:
+     [NSDictionary dictionaryWithObjectsAndKeys:title, @"title", http.url, @"url", nil]];
+    
     
     if(self.debugModeEnabled) {
         NSString *log = [NSString stringWithFormat:@"URL: %@ with title: \"%@\" has been dumped.", http.url, title];
         [http.client printDebugInformationToConsole:log];
     }
+}
+
+- (void)didReceiveRedirect:(TXHTTPHelper *)http
+{
+    if(self.doubleEntryHandling == 2 && [self checkDupe:http.finalURL forClient:http.client] == YES) {
+        [self updateDBWithSQL:@"DELETE FROM urls WHERE url=:url" withParameterDictionary:
+         [NSDictionary dictionaryWithObjectsAndKeys:http.url, @"url", nil]];
+        return;
+    } else if(self.doubleEntryHandling == 0 && [self checkDupe:http.finalURL forClient:http.client] == YES) {
+        NSNumber *timestamp = [NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970]];
+        [self updateDBWithSQL:@"DELETE FROM urls WHERE url=:url" withParameterDictionary:
+         [NSDictionary dictionaryWithObjectsAndKeys:http.url, @"url", nil]];
+        [self updateDBWithSQL:@"UPDATE urls SET timestamp=:timestamp, nick=:nick, channel=:channel WHERE client=:client AND url=:url" withParameterDictionary:
+         [NSDictionary dictionaryWithObjectsAndKeys:timestamp, @"timestamp", http.nick, @"nick", http.channel, @"channel", http.finalURL, @"url", http.client.uniqueIdentifier, @"client", nil]];
+    } else {
+        [self updateDBWithSQL:@"UPDATE urls SET url=:finalurl WHERE url=:url" withParameterDictionary:
+         [NSDictionary dictionaryWithObjectsAndKeys:http.finalURL, @"finalurl", http.url, @"url", nil]];
+    }
+    [http get:http.finalURL];
 }
 
 - (void)didCancelDownload:(TXHTTPHelper *)http
