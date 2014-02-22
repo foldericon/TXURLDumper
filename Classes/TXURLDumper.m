@@ -234,7 +234,7 @@ static inline BOOL isEmpty(id thing) {
                                                                        nil]];
                 } else {
                     sql = @"INSERT INTO urls (timestamp, client, channel, nick, url) VALUES (:timestamp, :client, :channel, :nick, :url)";
-                    [self updateDBWithSQL:sql withParameterDictionary:[NSDictionary dictionaryWithObjectsAndKeys:
+                    int errCode = [self updateDBWithSQL:sql withParameterDictionary:[NSDictionary dictionaryWithObjectsAndKeys:
                                                                        timestamp, @"timestamp",
                                                                        client.config.itemUUID, @"client",
                                                                        channel, @"channel",
@@ -242,15 +242,14 @@ static inline BOOL isEmpty(id thing) {
                                                                        urlString, @"url",
                                                                        nil]];
                     
-                    
-                    if(self.resolveShortURLsEnabled || self.getTitlesEnabled) {
+                    if(errCode == 0 && (self.resolveShortURLsEnabled || self.getTitlesEnabled)) {
                         TXHTTPHelper *http = [[TXHTTPHelper alloc] init];
                         [http setDelegate:self];
                         [http setCompletionBlock:^(NSError *error) {
                             NSString *dataStr;
                             NSString *title;
                             switch (error.code){
-                                case 100:
+                                case 100: {
                                     // SUCCESS
                                     dataStr=[[NSString alloc] initWithData:http.receivedData encoding:NSUTF8StringEncoding];
                                     title = [self scanString:dataStr startTag:@"<title>" endTag:@"</title>"];
@@ -267,6 +266,18 @@ static inline BOOL isEmpty(id thing) {
                                         return;
                                     }
                                     
+
+                                    // Check if we already have a title
+                                    __block BOOL dupe = NO;
+                                    [self.queue inDatabase:^(FMDatabase *db) {
+                                        FMResultSet *s = [db executeQuery:@"SELECT id from urls where url=? AND timestamp=? AND title=?", http.url.absoluteString, timestamp, title];
+                                        while ([s next]) {
+                                            dupe = YES;
+                                        }
+                                    }];
+                                    
+                                    if(dupe) break;
+                                    
                                     [self updateDBWithSQL:@"UPDATE urls SET title=:title WHERE url=:url" withParameterDictionary:
                                      [NSDictionary dictionaryWithObjectsAndKeys:title, @"title", http.url.absoluteString, @"url", nil]];
                                     
@@ -275,14 +286,16 @@ static inline BOOL isEmpty(id thing) {
                                         [client printDebugInformationToConsole:log];
                                     }
                                     break;
-                                case 101:
+                                }
+                                case 101: {
                                     // CANCEL
                                     if(self.debugModeEnabled) {
                                         NSString *log = [NSString stringWithFormat:@"URL: %@ has been dumped.", http.url.absoluteString];
                                         [client printDebugInformationToConsole:log];
                                     }
                                     break;
-                                case 102:
+                                }
+                                case 102: {
                                     // REDIRECT
                                     if(self.doubleEntryHandling == 2 && [self checkDupe:http.finalURL.absoluteString forClient:client withTimestamp:timestamp] == YES) {
                                         [self updateDBWithSQL:@"DELETE FROM urls WHERE url=:url" withParameterDictionary:
@@ -299,14 +312,16 @@ static inline BOOL isEmpty(id thing) {
                                     }
                                     [http get:http.finalURL];
                                     break;
-                                case 103:
+                                }
+                                case 103: {
                                     // ERROR
                                     NSLog(@"Error receiving response: %@", error);                                    
                                     break;
+                                }
                             }
                         }];
                         [http get:[NSURL URLWithString:urlString]];
-                    } else if(self.debugModeEnabled) {
+                    } else if(errCode == 0 && self.debugModeEnabled) {
                         NSString *log = [NSString stringWithFormat:@"URL: %@ has been dumped.", urlString];
                         [client printDebugInformationToConsole:log];
                     }
@@ -405,8 +420,10 @@ static inline BOOL isEmpty(id thing) {
         }
     }];
 }
-- (void)updateDBWithSQL:(NSString *)sql withParameterDictionary:(NSDictionary *)dict
+
+- (int)updateDBWithSQL:(NSString *)sql withParameterDictionary:(NSDictionary *)dict
 {
+    __block int code = 0;
     [self.queue inTransaction:^(FMDatabase *db, BOOL *rollback) {
         BOOL ret = NO;
         ret = [db executeUpdate:sql withParameterDictionary:dict];
@@ -415,10 +432,12 @@ static inline BOOL isEmpty(id thing) {
                 // Don't show unique index errors when we get scrollback buffers.
                 if(self.debugModeEnabled) [self echo:@"TXURLDumper: Transaction failed: %@", db.lastErrorMessage];
             }
+            code = db.lastErrorCode;
             *rollback = YES;
             return;
         }
     }];
+    return code;
 }
 
 - (void)updateDBWithSQL:(NSString *)sql
