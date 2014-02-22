@@ -96,12 +96,12 @@
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
 
     self.finalURL = response.URL;
-    if([self.finalURL.absoluteString isNotEqualTo:self.url] && [self.shortenerList containsObject:self.url.host]) {
+    if([self.delegate resolveShortURLsEnabled] && [self.finalURL.absoluteString isNotEqualTo:self.url] && [self.shortenerList containsObject:self.url.host]) {
         [connection cancel];
         if([self completionBlock])
             [self completionBlock]([NSError errorWithDomain:@"TXURLDumper" code:102 userInfo:nil]);
     }
-    if([response.MIMEType isNotEqualTo:@"text/html"]) {
+    if([self.delegate getTitlesEnabled] == NO || [response.MIMEType isNotEqualTo:@"text/html"]) {
         [connection cancel];
         if([self completionBlock])
             [self completionBlock]([NSError errorWithDomain:@"TXURLDumper" code:101 userInfo:nil]);

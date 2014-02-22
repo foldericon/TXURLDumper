@@ -243,8 +243,9 @@ static inline BOOL isEmpty(id thing) {
                                                                        nil]];
                     
                     
-                    if(self.getTitlesEnabled) {
+                    if(self.resolveShortURLsEnabled || self.getTitlesEnabled) {
                         TXHTTPHelper *http = [[TXHTTPHelper alloc] init];
+                        [http setDelegate:self];
                         [http setCompletionBlock:^(NSError *error) {
                             NSString *dataStr;
                             NSString *title;
@@ -466,6 +467,13 @@ static inline BOOL isEmpty(id thing) {
     BOOL enabled = ([self.selfDumpsBox state]==NSOnState);
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:[self preferences]];
     [dict setObject:[NSNumber numberWithBool:enabled] forKey:TXDumperSelfDumpsEnabledKey];
+    [self setPreferences:dict];
+}
+
+- (IBAction)setResolveShortURLs:(id)sender {
+    BOOL enabled = ([self.shortenerBox state]==NSOnState);
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:[self preferences]];
+    [dict setObject:[NSNumber numberWithBool:enabled] forKey:TXDumperResolveShortURLsEnabledKey];
     [self setPreferences:dict];
 }
 

@@ -33,6 +33,7 @@
 
 NSString *TXDumperDumpingEnabledKey = @"TXDumperDumpingEnabled";
 NSString *TXDumperSelfDumpsEnabledKey = @"TXDumperSelfDumpsEnabled";
+NSString *TXDumperResolveShortURLsEnabledKey = @"TXDumperResolveShortURLsEnabled";
 NSString *TXDumperGetTitlesEnabledKey = @"TXDumperGetTitlesEnabled";
 NSString *TXDumperDebugModeEnabledKey = @"TXDumperDebugModeEnabled";
 NSString *TXDumperStrictMatchingEnabledKey = @"TXDumperStrictMatchingEnabled";
@@ -51,6 +52,7 @@ NSString *TXDumperSheetColumnWidthsKey = @"TXDumperSheetColumnWidths";
         NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
                               @"yes", TXDumperDumpingEnabledKey,
                               @"yes", TXDumperSelfDumpsEnabledKey,
+                              @"yes", TXDumperResolveShortURLsEnabledKey,
                               @"yes", TXDumperGetTitlesEnabledKey,
                               @"no", TXDumperDebugModeEnabledKey,
                               @"no", TXDumperStrictMatchingEnabledKey,
@@ -84,6 +86,11 @@ NSString *TXDumperSheetColumnWidthsKey = @"TXDumperSheetColumnWidths";
 - (BOOL)selfDumpsEnabled
 {
     return [[self.preferences objectForKey:TXDumperSelfDumpsEnabledKey] boolValue];
+}
+
+- (BOOL)resolveShortURLsEnabled
+{
+    return [[self.preferences objectForKey:TXDumperResolveShortURLsEnabledKey] boolValue];
 }
 
 - (BOOL)getTitlesEnabled
