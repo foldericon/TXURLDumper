@@ -209,28 +209,28 @@ static inline BOOL isEmpty(id thing) {
         urlAry = [scanner strictMatchesForString:message];
     else
         urlAry = [scanner matchesForString:message];
-    NSString *url;
+    NSString *urlString;
     for (NSArray *rn in urlAry) {
         NSRange r = NSRangeFromString(rn[0]);
         if(r.length > 0) {
-            url = rn[1];
-            if ([url hasSuffix:@"…"] == NO) {
-                if([url hasPrefix:@"/r/"]) {
+            urlString = rn[1];
+            if ([urlString hasSuffix:@"…"] == NO) {
+                if([urlString hasPrefix:@"/r/"]) {
                     // Handle reddit short links
-                    url = [NSString stringWithFormat:@"http://www.reddit.com%@", url];
+                    urlString = [NSString stringWithFormat:@"http://www.reddit.com%@", urlString];
                 }
-                if(self.doubleEntryHandling == 2 && [self checkDupe:url forClient:client] == YES) {
+                if(self.doubleEntryHandling == 2 && [self checkDupe:urlString forClient:client] == YES) {
                     return;
                 }
                 
                 NSString *sql;
-                if(self.doubleEntryHandling == 0 && [self checkDupe:url forClient:client] == YES) {
+                if(self.doubleEntryHandling == 0 && [self checkDupe:urlString forClient:client] == YES) {
                     [self updateDBWithSQL:@"UPDATE urls SET timestamp=:timestamp, channel=:channel, nick=:nick WHERE id=(SELECT max(id) from urls where client=:client AND url=:url)" withParameterDictionary:[NSDictionary dictionaryWithObjectsAndKeys:
                                                                        timestamp, @"timestamp",
                                                                        channel, @"channel",
                                                                        nick, @"nick",
                                                                        client.config.itemUUID, @"client",
-                                                                       url, @"url",
+                                                                       urlString, @"url",
                                                                        nil]];
                 } else {
                     sql = @"INSERT INTO urls (timestamp, client, channel, nick, url) VALUES (:timestamp, :client, :channel, :nick, :url)";
@@ -239,7 +239,7 @@ static inline BOOL isEmpty(id thing) {
                                                                        client.config.itemUUID, @"client",
                                                                        channel, @"channel",
                                                                        nick, @"nick",
-                                                                       url, @"url",
+                                                                       urlString, @"url",
                                                                        nil]];
                     
                     
@@ -260,41 +260,41 @@ static inline BOOL isEmpty(id thing) {
                                     
                                     if(isEmpty(title)) {
                                         if(self.debugModeEnabled) {
-                                            NSString *log = [NSString stringWithFormat:@"URL: %@ has been dumped.", http.url];
+                                            NSString *log = [NSString stringWithFormat:@"URL: %@ has been dumped.", http.url.absoluteString];
                                             [client printDebugInformationToConsole:log];
                                         }
                                         return;
                                     }
                                     
                                     [self updateDBWithSQL:@"UPDATE urls SET title=:title WHERE url=:url" withParameterDictionary:
-                                     [NSDictionary dictionaryWithObjectsAndKeys:title, @"title", http.url, @"url", nil]];
+                                     [NSDictionary dictionaryWithObjectsAndKeys:title, @"title", http.url.absoluteString, @"url", nil]];
                                     
                                     if(self.debugModeEnabled) {
-                                        NSString *log = [NSString stringWithFormat:@"URL: %@ with title: \"%@\" has been dumped.", http.url, title];
+                                        NSString *log = [NSString stringWithFormat:@"URL: %@ with title: \"%@\" has been dumped.", http.url.absoluteString, title];
                                         [client printDebugInformationToConsole:log];
                                     }
                                     break;
                                 case 101:
                                     // CANCEL
                                     if(self.debugModeEnabled) {
-                                        NSString *log = [NSString stringWithFormat:@"URL: %@ has been dumped.", http.url];
+                                        NSString *log = [NSString stringWithFormat:@"URL: %@ has been dumped.", http.url.absoluteString];
                                         [client printDebugInformationToConsole:log];
                                     }
                                     break;
                                 case 102:
                                     // REDIRECT
-                                    if(self.doubleEntryHandling == 2 && [self checkDupe:http.finalURL forClient:client] == YES) {
+                                    if(self.doubleEntryHandling == 2 && [self checkDupe:http.finalURL.absoluteString forClient:client] == YES) {
                                         [self updateDBWithSQL:@"DELETE FROM urls WHERE url=:url" withParameterDictionary:
-                                         [NSDictionary dictionaryWithObjectsAndKeys:http.url, @"url", nil]];
+                                         [NSDictionary dictionaryWithObjectsAndKeys:http.url.absoluteString, @"url", nil]];
                                         return;
-                                    } else if(self.doubleEntryHandling == 0 && [self checkDupe:http.finalURL forClient:client] == YES) {
+                                    } else if(self.doubleEntryHandling == 0 && [self checkDupe:http.finalURL.absoluteString forClient:client] == YES) {
                                         [self updateDBWithSQL:@"DELETE FROM urls WHERE url=:url" withParameterDictionary:
-                                         [NSDictionary dictionaryWithObjectsAndKeys:http.url, @"url", nil]];
+                                         [NSDictionary dictionaryWithObjectsAndKeys:http.url.absoluteString, @"url", nil]];
                                         [self updateDBWithSQL:@"UPDATE urls SET timestamp=:timestamp, nick=:nick, channel=:channel WHERE client=:client AND url=:url" withParameterDictionary:
-                                         [NSDictionary dictionaryWithObjectsAndKeys:timestamp, @"timestamp", nick, @"nick", channel, @"channel", http.finalURL, @"url", client.uniqueIdentifier, @"client", nil]];
+                                         [NSDictionary dictionaryWithObjectsAndKeys:timestamp, @"timestamp", nick, @"nick", channel, @"channel", http.finalURL.absoluteString, @"url", client.uniqueIdentifier, @"client", nil]];
                                     } else {
                                         [self updateDBWithSQL:@"UPDATE urls SET url=:finalurl WHERE url=:url" withParameterDictionary:
-                                         [NSDictionary dictionaryWithObjectsAndKeys:http.finalURL, @"finalurl", http.url, @"url", nil]];
+                                         [NSDictionary dictionaryWithObjectsAndKeys:http.finalURL.absoluteString, @"finalurl", http.url.absoluteString, @"url", nil]];
                                     }
                                     [http get:http.finalURL];
                                     break;
@@ -304,9 +304,9 @@ static inline BOOL isEmpty(id thing) {
                                     break;
                             }
                         }];
-                        [http get:url];
+                        [http get:[NSURL URLWithString:urlString]];
                     } else if(self.debugModeEnabled) {
-                        NSString *log = [NSString stringWithFormat:@"URL: %@ has been dumped.", url];
+                        NSString *log = [NSString stringWithFormat:@"URL: %@ has been dumped.", urlString];
                         [client printDebugInformationToConsole:log];
                     }
                 }

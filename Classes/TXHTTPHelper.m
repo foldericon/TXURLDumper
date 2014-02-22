@@ -59,14 +59,18 @@
     return delegate;
 }
 
-- (void)get: (NSString *)urlString {
+- (NSArray *)shortenerList {
+    return @[@"bit.do", @"t.co", @"go2.do", @"adf.ly", @"goo.gl", @"bitly.com", @"tinyurl.com", @"ow.ly", @"bit.ly", @"adcrun.ch", @"zpag.es", @"ity.im", @"q.gs", @"link.co", @"viralurl.com", @"is.gd", @"vur.me", @"bc.vc", @"yu2.it", @"twitthis.com", @"u.to", @"j.mp", @"bee4.biz", @"adflav.com", @"buzurl.com", @"xlinkz.info", @"cutt.us", @"u.bb", @"yourls.org", @"fun.ly", @"hit.my", @"nov.io", @"crsco.com", @"x.co", @"shortquik.com", @"prettylinkpro.com", @"viralurl.biz", @"longurl.org", @"tota2.org", @"adcraft.co", @"virl.ws", @"scrnch.me", @"filoops.info", @"linkto.im", @"vurl.bz", @"fzy.co", @"vzturl.com", @"picz.us", @"lernde.fr", @"golinks.co", @"xtu.me", @"qr.net", @"1url.com", @"tweez.me", @"sk.gy", @"gog.li", @"cektkp.com", @"v.gd", @"p6l.org", @"id.tl", @"dft.ba", @"aka.gr"];
+}
+
+- (void)get:(NSURL *)theurl {
 	
-    self.url = urlString;
+    self.url = theurl;
 	receivedData = [[NSMutableData alloc] init];
     
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]
-							 initWithURL: [NSURL URLWithString:urlString]
-							 cachePolicy: NSURLRequestReloadIgnoringLocalCacheData
+							 initWithURL:self.url
+							 cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
 							 timeoutInterval: 60
 							 ];
 
@@ -91,8 +95,8 @@
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
 
-    self.finalURL = response.URL.absoluteString;
-    if([self.finalURL isNotEqualTo:self.url]) {
+    self.finalURL = response.URL;
+    if([self.finalURL.absoluteString isNotEqualTo:self.url] && [self.shortenerList containsObject:self.url.host]) {
         [connection cancel];
         if([self completionBlock])
             [self completionBlock]([NSError errorWithDomain:@"TXURLDumper" code:102 userInfo:nil]);

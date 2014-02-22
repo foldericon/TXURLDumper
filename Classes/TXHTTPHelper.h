@@ -35,14 +35,13 @@
 @interface TXHTTPHelper : NSObject {
 	id delegate;
 	NSMutableData *receivedData;
-	NSString *url;
 }
 @property (nonatomic,retain) NSMutableData *receivedData;
 @property (retain) id delegate;
-@property (assign) NSString *url;
-@property (assign) NSString *finalURL;
+@property (assign) NSURL *url;
+@property (assign) NSURL *finalURL;
 @property (nonatomic,copy)void (^completionBlock) (NSError *error);
 
-- (void)get: (NSString *)urlString;
+- (void)get: (NSURL *)url;
 
 @end
