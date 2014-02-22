@@ -251,6 +251,18 @@ static inline BOOL isEmpty(id thing) {
                             switch (error.code){
                                 case 100: {
                                     // SUCCESS
+                                    
+                                    // Check if we already have a title
+                                    __block BOOL dupe = NO;
+                                    [self.queue inDatabase:^(FMDatabase *db) {
+                                        FMResultSet *s = [db executeQuery:@"SELECT id from urls where url=? AND timestamp=? AND title IS NOT NULL", http.url.absoluteString, timestamp];
+                                        while ([s next]) {
+                                            dupe = YES;
+                                        }
+                                    }];
+                                    
+                                    if(dupe) break;
+                                    
                                     dataStr=[[NSString alloc] initWithData:http.receivedData encoding:NSUTF8StringEncoding];
                                     title = [self scanString:dataStr startTag:@"<title>" endTag:@"</title>"];
                                     // Replace double space with single space
@@ -265,18 +277,6 @@ static inline BOOL isEmpty(id thing) {
                                         }
                                         return;
                                     }
-                                    
-
-                                    // Check if we already have a title
-                                    __block BOOL dupe = NO;
-                                    [self.queue inDatabase:^(FMDatabase *db) {
-                                        FMResultSet *s = [db executeQuery:@"SELECT id from urls where url=? AND timestamp=? AND title=?", http.url.absoluteString, timestamp, title];
-                                        while ([s next]) {
-                                            dupe = YES;
-                                        }
-                                    }];
-                                    
-                                    if(dupe) break;
                                     
                                     [self updateDBWithSQL:@"UPDATE urls SET title=:title WHERE url=:url" withParameterDictionary:
                                      [NSDictionary dictionaryWithObjectsAndKeys:title, @"title", http.url.absoluteString, @"url", nil]];
