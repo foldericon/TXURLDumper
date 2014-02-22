@@ -219,12 +219,12 @@ static inline BOOL isEmpty(id thing) {
                     // Handle reddit short links
                     urlString = [NSString stringWithFormat:@"http://www.reddit.com%@", urlString];
                 }
-                if(self.doubleEntryHandling == 2 && [self checkDupe:urlString forClient:client] == YES) {
+                if(self.doubleEntryHandling == 2 && [self checkDupe:urlString forClient:client withTimestamp:timestamp] == YES) {
                     return;
                 }
                 
                 NSString *sql;
-                if(self.doubleEntryHandling == 0 && [self checkDupe:urlString forClient:client] == YES) {
+                if(self.doubleEntryHandling == 0 && [self checkDupe:urlString forClient:client withTimestamp:timestamp] == YES) {
                     [self updateDBWithSQL:@"UPDATE urls SET timestamp=:timestamp, channel=:channel, nick=:nick WHERE id=(SELECT max(id) from urls where client=:client AND url=:url)" withParameterDictionary:[NSDictionary dictionaryWithObjectsAndKeys:
                                                                        timestamp, @"timestamp",
                                                                        channel, @"channel",
@@ -284,11 +284,11 @@ static inline BOOL isEmpty(id thing) {
                                     break;
                                 case 102:
                                     // REDIRECT
-                                    if(self.doubleEntryHandling == 2 && [self checkDupe:http.finalURL.absoluteString forClient:client] == YES) {
+                                    if(self.doubleEntryHandling == 2 && [self checkDupe:http.finalURL.absoluteString forClient:client withTimestamp:timestamp] == YES) {
                                         [self updateDBWithSQL:@"DELETE FROM urls WHERE url=:url" withParameterDictionary:
                                          [NSDictionary dictionaryWithObjectsAndKeys:http.url.absoluteString, @"url", nil]];
                                         return;
-                                    } else if(self.doubleEntryHandling == 0 && [self checkDupe:http.finalURL.absoluteString forClient:client] == YES) {
+                                    } else if(self.doubleEntryHandling == 0 && [self checkDupe:http.finalURL.absoluteString forClient:client withTimestamp:timestamp] == YES) {
                                         [self updateDBWithSQL:@"DELETE FROM urls WHERE url=:url" withParameterDictionary:
                                          [NSDictionary dictionaryWithObjectsAndKeys:http.url.absoluteString, @"url", nil]];
                                         [self updateDBWithSQL:@"UPDATE urls SET timestamp=:timestamp, nick=:nick, channel=:channel WHERE client=:client AND url=:url" withParameterDictionary:
@@ -379,12 +379,12 @@ static inline BOOL isEmpty(id thing) {
     dumperSheet.dataSource = data;
 }
 
-- (BOOL)checkDupe:(NSString *)url forClient:(IRCClient *)client
+- (BOOL)checkDupe:(NSString *)url forClient:(IRCClient *)client withTimestamp:(NSNumber *)timestamp
 {
     BOOL dupe = NO;
     NSMutableArray *data = [[NSMutableArray alloc] init];
     [self.queue inDatabase:^(FMDatabase *db) {
-        FMResultSet *s = [db executeQuery:@"SELECT id from urls where url=? AND client=?", url, client.config.itemUUID];
+        FMResultSet *s = [db executeQuery:@"SELECT id from urls where url=? AND client=? AND timestamp<>?", url, client.config.itemUUID, timestamp];
         while ([s next]) {
             [data addObject:[s resultDictionary]];
         }

@@ -77,7 +77,7 @@
 
     [request setValue:_requestUserAgent forHTTPHeaderField:@"User-Agent"];
     
-    NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+    NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:NO];
     
     [connection scheduleInRunLoop:[NSRunLoop mainRunLoop]
                           forMode:NSDefaultRunLoopMode];
@@ -110,6 +110,7 @@
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
+    
     [receivedData appendData:data];
     if((unsigned long)receivedData.length > 2097152) {
         [connection cancel];
