@@ -45,6 +45,7 @@
 @property (assign) IBOutlet NSButton *clearButton;
 @property (assign) IBOutlet NSButton *closeButton;
 @property (assign) IBOutlet NSButton *disableDumpingBox;
+@property (assign) BOOL networkSheet;
 
 - (IBAction)clear:(id)sender;
 - (IBAction)close:(id)sender;

@@ -32,7 +32,7 @@
 #import "TXDumperSheet.h"
 
 @implementation TXDumperSheet
-BOOL networkSheet = YES;
+@synthesize networkSheet;
 
 - (id)init
 {
@@ -165,12 +165,18 @@ BOOL networkSheet = YES;
     if(returnCode == 1){
         self.dataSource = nil;
         [self.tableView setNeedsDisplay:YES];
-        [self.plugin clearDB];
+        [self.tableView reloadData];
+        [self updateRecordsLabel];
+        [self.plugin clearList];
     }
 }
 
 - (IBAction)clear:(id)sender {
-    NSAlert *alert = [NSAlert alertWithMessageText:@"Do you really want to clear the list and lose all dumped URLs for the selected network?"
+    NSString *msg = @"Do you really want to clear the list and lose all dumped URLs for the selected channel?";
+    if(networkSheet)
+        msg = [msg stringByReplacingOccurrencesOfString:@"channel" withString:@"network"];
+    
+    NSAlert *alert = [NSAlert alertWithMessageText:msg
                                      defaultButton:@"OK"
                                    alternateButton:nil
                                        otherButton:@"Cancel"

@@ -70,7 +70,7 @@
 - (NSView *)preferencesView;
 - (NSString *)preferencesMenuItemName;
 
-- (void)clearDB;
+- (void)clearList;
 - (void)messageReceivedByServer:(IRCClient *)client
 						 sender:(NSDictionary *)senderDict
 						message:(NSDictionary *)messageDict;

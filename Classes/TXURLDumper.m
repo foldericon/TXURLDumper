@@ -469,9 +469,15 @@ static inline BOOL isEmpty(id thing) {
     }];
 }
 
-- (void)clearDB {
-    IRCClient *client = self.worldController.selectedClient;
-    [self updateDBWithSQL:@"DELETE FROM urls where client=?" withArgsArray:[NSArray arrayWithObject:client.config.itemUUID]];
+- (void)clearList {
+    if(dumperSheet.networkSheet) {
+        IRCClient *client = self.worldController.selectedClient;
+        [self updateDBWithSQL:@"DELETE FROM urls where client=?" withArgsArray:[NSArray arrayWithObject:client.config.itemUUID]];
+    } else {
+        IRCClient *client = self.worldController.selectedClient;
+        IRCChannel *channel = self.worldController.selectedChannel;
+        [self updateDBWithSQL:@"DELETE FROM urls where client=? AND channel=?" withArgsArray:[NSArray arrayWithObjects:client.config.itemUUID, channel.name, nil]];
+    }
 }
 
 - (void)echo:(NSString *)msg,...
