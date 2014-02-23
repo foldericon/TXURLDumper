@@ -265,6 +265,8 @@ static inline BOOL isEmpty(id thing) {
                                     
                                     dataStr=[[NSString alloc] initWithData:http.receivedData encoding:NSUTF8StringEncoding];
                                     title = [self scanString:dataStr startTag:@"<title>" endTag:@"</title>"];
+                                    // Trim Whitespace
+                                    title = [title stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
                                     // Replace double space with single space
                                     title = [title stringByReplacingOccurrencesOfString:@"  " withString:@" "];
                                     // Replace newline characters with single space
