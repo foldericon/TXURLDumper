@@ -242,94 +242,106 @@ static inline BOOL isEmpty(id thing) {
                                                                        urlString, @"url",
                                                                        nil]];
                     
-                    if(errCode == 0 && (self.resolveShortURLsEnabled || self.getTitlesEnabled)) {
-                        TXHTTPHelper *http = [[TXHTTPHelper alloc] init];
-                        [http setDelegate:self];
-                        [http setCompletionBlock:^(NSError *error) {
-                            NSString *dataStr;
-                            NSString *title;
-                            switch (error.code){
-                                case 100: {
-                                    // SUCCESS
-                                    
-                                    // Check if we already have a title
-                                    __block BOOL dupe = NO;
-                                    [self.queue inDatabase:^(FMDatabase *db) {
-                                        FMResultSet *s = [db executeQuery:@"SELECT id from urls where url=? AND timestamp=? AND title IS NOT NULL", http.url.absoluteString, timestamp];
-                                        while ([s next]) {
-                                            dupe = YES;
+                    if(errCode == 0) {
+                        [self updateSheet];                        
+                        if(self.resolveShortURLsEnabled || self.getTitlesEnabled) {
+                            TXHTTPHelper *http = [[TXHTTPHelper alloc] init];
+                            [http setDelegate:self];
+                            [http setCompletionBlock:^(NSError *error) {
+                                NSString *dataStr;
+                                NSString *title;
+                                switch (error.code){
+                                    case 100: {
+                                        // SUCCESS
+                                        
+                                        // Check if we already have a title
+                                        __block BOOL dupe = NO;
+                                        [self.queue inDatabase:^(FMDatabase *db) {
+                                            FMResultSet *s = [db executeQuery:@"SELECT id from urls where url=? AND timestamp=? AND title IS NOT NULL", http.url.absoluteString, timestamp];
+                                            while ([s next]) {
+                                                dupe = YES;
+                                            }
+                                        }];
+                                        
+                                        if(dupe) break;
+                                        
+                                        dataStr=[[NSString alloc] initWithData:http.receivedData encoding:NSUTF8StringEncoding];
+                                        title = [self scanString:dataStr startTag:@"<title>" endTag:@"</title>"];
+                                        // Trim Whitespace
+                                        title = [title stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+                                        // Replace double space with single space
+                                        title = [title stringByReplacingOccurrencesOfString:@"  " withString:@" "];
+                                        // Replace newline characters with single space
+                                        title = [[[[title gtm_stringByUnescapingFromHTML] componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"length > 0"]] componentsJoinedByString:@" "];
+                                        
+                                        if(isEmpty(title)) {
+                                            if(self.debugModeEnabled) {
+                                                NSString *log = [NSString stringWithFormat:@"URL: %@ has been dumped.", http.url.absoluteString];
+                                                [client printDebugInformationToConsole:log];
+                                            }
+                                            return;
                                         }
-                                    }];
-                                    
-                                    if(dupe) break;
-                                    
-                                    dataStr=[[NSString alloc] initWithData:http.receivedData encoding:NSUTF8StringEncoding];
-                                    title = [self scanString:dataStr startTag:@"<title>" endTag:@"</title>"];
-                                    // Trim Whitespace
-                                    title = [title stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-                                    // Replace double space with single space
-                                    title = [title stringByReplacingOccurrencesOfString:@"  " withString:@" "];
-                                    // Replace newline characters with single space
-                                    title = [[[[title gtm_stringByUnescapingFromHTML] componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"length > 0"]] componentsJoinedByString:@" "];
-                                    
-                                    if(isEmpty(title)) {
+                                        
+                                        [self updateDBWithSQL:@"UPDATE urls SET title=:title WHERE url=:url" withParameterDictionary:
+                                         [NSDictionary dictionaryWithObjectsAndKeys:title, @"title", http.url.absoluteString, @"url", nil]];
+                                        [self updateSheet];
+                                        if(self.debugModeEnabled) {
+                                            NSString *log = [NSString stringWithFormat:@"URL: %@ with title: \"%@\" has been dumped.", http.url.absoluteString, title];
+                                            [client printDebugInformationToConsole:log];
+                                        }
+                                        break;
+                                    }
+                                    case 101: {
+                                        // CANCEL
+                                        [self updateSheet];                                        
                                         if(self.debugModeEnabled) {
                                             NSString *log = [NSString stringWithFormat:@"URL: %@ has been dumped.", http.url.absoluteString];
                                             [client printDebugInformationToConsole:log];
                                         }
-                                        return;
+                                        break;
                                     }
-                                    
-                                    [self updateDBWithSQL:@"UPDATE urls SET title=:title WHERE url=:url" withParameterDictionary:
-                                     [NSDictionary dictionaryWithObjectsAndKeys:title, @"title", http.url.absoluteString, @"url", nil]];
-                                    
-                                    if(self.debugModeEnabled) {
-                                        NSString *log = [NSString stringWithFormat:@"URL: %@ with title: \"%@\" has been dumped.", http.url.absoluteString, title];
-                                        [client printDebugInformationToConsole:log];
+                                    case 102: {
+                                        // REDIRECT
+                                        if(self.doubleEntryHandling == 2 && [self checkDupe:http.finalURL.absoluteString forClient:client withTimestamp:timestamp] == YES) {
+                                            [self updateDBWithSQL:@"DELETE FROM urls WHERE url=:url" withParameterDictionary:
+                                             [NSDictionary dictionaryWithObjectsAndKeys:http.url.absoluteString, @"url", nil]];
+                                            return;
+                                        } else if(self.doubleEntryHandling == 0 && [self checkDupe:http.finalURL.absoluteString forClient:client withTimestamp:timestamp] == YES) {
+                                            [self updateDBWithSQL:@"DELETE FROM urls WHERE url=:url" withParameterDictionary:
+                                             [NSDictionary dictionaryWithObjectsAndKeys:http.url.absoluteString, @"url", nil]];
+                                            [self updateDBWithSQL:@"UPDATE urls SET timestamp=:timestamp, nick=:nick, channel=:channel WHERE client=:client AND url=:url" withParameterDictionary:
+                                             [NSDictionary dictionaryWithObjectsAndKeys:timestamp, @"timestamp", nick, @"nick", channel, @"channel", http.finalURL.absoluteString, @"url", client.uniqueIdentifier, @"client", nil]];
+                                        } else {
+                                            [self updateDBWithSQL:@"UPDATE urls SET url=:finalurl WHERE url=:url" withParameterDictionary:
+                                             [NSDictionary dictionaryWithObjectsAndKeys:http.finalURL.absoluteString, @"finalurl", http.url.absoluteString, @"url", nil]];
+                                        }
+                                        [http get:http.finalURL];
+                                        break;
                                     }
-                                    break;
-                                }
-                                case 101: {
-                                    // CANCEL
-                                    if(self.debugModeEnabled) {
-                                        NSString *log = [NSString stringWithFormat:@"URL: %@ has been dumped.", http.url.absoluteString];
-                                        [client printDebugInformationToConsole:log];
+                                    case 103: {
+                                        // ERROR
+                                        NSLog(@"Error receiving response: %@", error);                                    
+                                        break;
                                     }
-                                    break;
                                 }
-                                case 102: {
-                                    // REDIRECT
-                                    if(self.doubleEntryHandling == 2 && [self checkDupe:http.finalURL.absoluteString forClient:client withTimestamp:timestamp] == YES) {
-                                        [self updateDBWithSQL:@"DELETE FROM urls WHERE url=:url" withParameterDictionary:
-                                         [NSDictionary dictionaryWithObjectsAndKeys:http.url.absoluteString, @"url", nil]];
-                                        return;
-                                    } else if(self.doubleEntryHandling == 0 && [self checkDupe:http.finalURL.absoluteString forClient:client withTimestamp:timestamp] == YES) {
-                                        [self updateDBWithSQL:@"DELETE FROM urls WHERE url=:url" withParameterDictionary:
-                                         [NSDictionary dictionaryWithObjectsAndKeys:http.url.absoluteString, @"url", nil]];
-                                        [self updateDBWithSQL:@"UPDATE urls SET timestamp=:timestamp, nick=:nick, channel=:channel WHERE client=:client AND url=:url" withParameterDictionary:
-                                         [NSDictionary dictionaryWithObjectsAndKeys:timestamp, @"timestamp", nick, @"nick", channel, @"channel", http.finalURL.absoluteString, @"url", client.uniqueIdentifier, @"client", nil]];
-                                    } else {
-                                        [self updateDBWithSQL:@"UPDATE urls SET url=:finalurl WHERE url=:url" withParameterDictionary:
-                                         [NSDictionary dictionaryWithObjectsAndKeys:http.finalURL.absoluteString, @"finalurl", http.url.absoluteString, @"url", nil]];
-                                    }
-                                    [http get:http.finalURL];
-                                    break;
-                                }
-                                case 103: {
-                                    // ERROR
-                                    NSLog(@"Error receiving response: %@", error);                                    
-                                    break;
-                                }
-                            }
-                        }];
-                        [http get:[NSURL URLWithString:urlString]];
-                    } else if(errCode == 0 && self.debugModeEnabled) {
-                        NSString *log = [NSString stringWithFormat:@"URL: %@ has been dumped.", urlString];
-                        [client printDebugInformationToConsole:log];
+                            }];
+                            [http get:[NSURL URLWithString:urlString]];
+                        } else if(self.debugModeEnabled) {
+                            NSString *log = [NSString stringWithFormat:@"URL: %@ has been dumped.", urlString];
+                            [client printDebugInformationToConsole:log];
+                        }
                     }
                 }
             }
         }
+    }
+}
+
+- (void)updateSheet
+{
+    if(self.dumperSheetVisible) {
+        NSString *col = [[dumperSheet.tableView.tableColumns objectAtIndex:dumperSheet.tableView.selectedColumn] identifier];
+        [dumperSheet loadDataSortedBy:col];
     }
 }
 

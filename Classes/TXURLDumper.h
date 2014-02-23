@@ -42,6 +42,7 @@
 @interface TXURLDumper : NSObject
 
 @property (nonatomic, strong) IBOutlet NSView *ourView;
+@property (assign) BOOL dumperSheetVisible;
 @property (assign) IBOutlet NSButton *enableBox;
 @property (assign) IBOutlet NSButton *selfDumpsBox;
 @property (assign) IBOutlet NSButton *shortenerBox;

@@ -91,6 +91,7 @@ BOOL networkSheet = YES;
 
 - (void)startSheetWithWindow:(NSWindow *)awindow
 {
+    [self.plugin setDumperSheetVisible:YES];
 	[NSApp beginSheet:self.sheet
 	   modalForWindow:awindow
 		modalDelegate:self
@@ -100,6 +101,7 @@ BOOL networkSheet = YES;
 
 - (void)endSheet
 {
+    [self.plugin setDumperSheetVisible:YES];
     self.dataSource = nil;
 	[NSApp endSheet:self.sheet];
 }

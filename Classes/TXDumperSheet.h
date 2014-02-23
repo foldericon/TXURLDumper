@@ -52,5 +52,6 @@
 - (IBAction)disableDumping:(id)sender;
 
 - (void)start;
+- (void)loadDataSortedBy:(NSString *)column;
 
 @end
