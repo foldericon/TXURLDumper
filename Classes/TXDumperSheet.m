@@ -101,7 +101,7 @@ BOOL networkSheet = YES;
 
 - (void)endSheet
 {
-    [self.plugin setDumperSheetVisible:YES];
+    [self.plugin setDumperSheetVisible:NO];
     self.dataSource = nil;
 	[NSApp endSheet:self.sheet];
 }
