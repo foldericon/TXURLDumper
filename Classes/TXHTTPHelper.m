@@ -118,6 +118,12 @@
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
     
     [receivedData appendData:data];
+    NSString *dataStr=[[NSString alloc] initWithData:receivedData encoding:NSUTF8StringEncoding];
+    if([dataStr contains:@"</title>"]) {
+        [connection cancel];
+        if([self completionBlock])
+            [self completionBlock]([NSError errorWithDomain:@"TXURLDumper" code:100 userInfo:nil]);
+    }
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
@@ -126,10 +132,8 @@
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
-	
     if([self completionBlock])
         [self completionBlock]([NSError errorWithDomain:@"TXURLDumper" code:100 userInfo:nil]);
- 
 }
 
 @end
