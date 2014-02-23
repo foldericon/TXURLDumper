@@ -243,7 +243,6 @@ static inline BOOL isEmpty(id thing) {
                                                                        nil]];
                     
                     if(errCode == 0) {
-                        [self updateSheet];
                         if(self.resolveShortURLsEnabled || self.getTitlesEnabled) {
                             TXHTTPHelper *http = [[TXHTTPHelper alloc] init];
                             [http setDelegate:self];
@@ -326,9 +325,12 @@ static inline BOOL isEmpty(id thing) {
                                 }
                             }];
                             [http get:[NSURL URLWithString:urlString]];
-                        } else if(self.debugModeEnabled) {
-                            NSString *log = [NSString stringWithFormat:@"URL: %@ has been dumped.", urlString];
-                            [client printDebugInformationToConsole:log];
+                        } else {
+                            [self updateSheet];
+                            if(self.debugModeEnabled) {
+                                NSString *log = [NSString stringWithFormat:@"URL: %@ has been dumped.", urlString];
+                                [client printDebugInformationToConsole:log];
+                            }
                         }
                     }
                 }
