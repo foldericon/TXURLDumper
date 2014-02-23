@@ -133,7 +133,7 @@
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
     if([self completionBlock])
-        [self completionBlock]([NSError errorWithDomain:@"TXURLDumper" code:100 userInfo:nil]);
+        [self completionBlock]([NSError errorWithDomain:@"TXURLDumper" code:101 userInfo:nil]);
 }
 
 @end
