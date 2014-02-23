@@ -116,6 +116,12 @@ BOOL networkSheet = YES;
     [self setColumnWidths:dict];
 }
 
+- (void)reloadData
+{
+    NSString *col = [[self.tableView.tableColumns objectAtIndex:self.tableView.selectedColumn] identifier];
+    [self loadDataSortedBy:col];
+}
+
 - (void)loadDataSortedBy:(NSString *)column
 {
     [self.plugin loadDataSortedBy:column];

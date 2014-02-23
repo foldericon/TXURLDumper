@@ -243,7 +243,7 @@ static inline BOOL isEmpty(id thing) {
                                                                        nil]];
                     
                     if(errCode == 0) {
-                        [self updateSheet];                        
+                        [self updateSheet];
                         if(self.resolveShortURLsEnabled || self.getTitlesEnabled) {
                             TXHTTPHelper *http = [[TXHTTPHelper alloc] init];
                             [http setDelegate:self];
@@ -340,8 +340,7 @@ static inline BOOL isEmpty(id thing) {
 - (void)updateSheet
 {
     if(self.dumperSheetVisible) {
-        NSString *col = [[dumperSheet.tableView.tableColumns objectAtIndex:dumperSheet.tableView.selectedColumn] identifier];
-        [dumperSheet loadDataSortedBy:col];
+        [dumperSheet reloadData];
     }
 }
 
