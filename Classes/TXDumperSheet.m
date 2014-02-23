@@ -53,7 +53,14 @@ BOOL networkSheet = YES;
 {
     if([self.worldController.selectedItem isClient] == NO) {
         [self.tableView removeTableColumn:[self.tableView tableColumnWithIdentifier:@"channel"]];
+        if(self.worldController.selectedChannel.isChannel)
+            [self.disableDumpingBox setTitle:@"Disable dumping for this channel"];
+        else
+            [self.disableDumpingBox setTitle:@"Disable dumping for this query"];
         networkSheet = NO;
+    } else {
+        [self.disableDumpingBox setTitle:@"Disable dumping for this network"];
+        networkSheet = YES;
     }
     
     // Get Sizes
@@ -66,10 +73,18 @@ BOOL networkSheet = YES;
         }
     }
     
-    NSArray *disabledNetworks = [self.preferences objectForKey:TXDumperDisabledNetworksKey];
-    if([disabledNetworks containsObject:self.worldController.selectedClient.config.itemUUID]){
-        [self.disableDumpingBox setState:1];
+    if(networkSheet) {
+        if([self.disabledNetworks containsObject:self.worldController.selectedClient.config.itemUUID])
+            [self.disableDumpingBox setState:1];
+        else
+            [self.disableDumpingBox setState:0];
+    } else {
+        if([self.disabledChannels containsObject:self.worldController.selectedChannel.config.itemUUID])
+            [self.disableDumpingBox setState:1];
+        else
+            [self.disableDumpingBox setState:0];
     }
+    
     NSRect rect = NSMakeRect(self.sheet.frame.origin.x, self.sheet.frame.origin.y, self.dumperSheetWidth, self.dumperSheetHeight);
     [self.sheet setFrame:rect display:YES];
     [self loadDataSortedBy:@"timestamp"];
@@ -196,11 +211,32 @@ BOOL networkSheet = YES;
 - (IBAction)disableDumping:(id)sender {
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:[self preferences]];
     NSMutableArray *disabledNetworks = [[NSMutableArray alloc] initWithArray:self.disabledNetworks];
-    if([self.disableDumpingBox state] == 1)
-        [disabledNetworks addObject:self.worldController.selectedClient.config.itemUUID];
-    else
-        [disabledNetworks removeObject:self.worldController.selectedClient.config.itemUUID];
+    NSMutableArray *disabledChannels = [[NSMutableArray alloc] initWithArray:self.disabledChannels];
+    if(networkSheet) {
+        IRCClient *cl = self.worldController.selectedClient;
+        if([self.disableDumpingBox state] == 1) {
+            for(IRCChannel *ch in cl.channels) {
+                [disabledChannels addObject:ch.config.itemUUID];
+            }
+            [disabledNetworks addObject:cl.config.itemUUID];
+        } else {
+            for(IRCChannel *ch in cl.channels) {
+                [disabledChannels removeObject:ch.config.itemUUID];
+            }
+            [disabledNetworks removeObject:cl.config.itemUUID];
+        }
+    } else {
+        IRCChannel *ch = self.worldController.selectedChannel;
+        if([self.disableDumpingBox state] == 1) {
+            [disabledChannels addObject:ch.config.itemUUID];
+        }
+        else {
+            [disabledNetworks removeObject:ch.client.config.itemUUID];
+            [disabledChannels removeObject:ch.config.itemUUID];
+        }
+    }
     [dict setObject:disabledNetworks forKey:TXDumperDisabledNetworksKey];
+    [dict setObject:disabledChannels forKey:TXDumperDisabledChannelsKey];
     [self setPreferences:dict];
 }
 

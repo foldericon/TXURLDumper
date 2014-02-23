@@ -198,7 +198,8 @@ static inline BOOL isEmpty(id thing) {
 
 - (void)dumpURLsFromMessage:(NSString *)message client:(IRCClient *)client time:(NSDate *)time channel:(NSString *)channel nick:(NSString *)nick
 {
-    if(self.dumpingEnabled == NO || [self.disabledNetworks containsObject:client.config.itemUUID]) NSAssertReturn(nil);
+    if(self.dumpingEnabled == NO || [self.disabledNetworks containsObject:client.config.itemUUID] || [self.disabledChannels containsObject:[client findChannel:channel].config.itemUUID]) NSAssertReturn(nil);
+    
     if([channel isEqualToString:self.worldController.selectedClient.localNickname]) {
         channel = nick;
     }

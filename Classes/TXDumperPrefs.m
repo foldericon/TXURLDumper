@@ -42,6 +42,7 @@ NSString *TXDumperDoubleEntryHandlingKey = @"TXDumperDoubleEntryHandling";
 NSString *TXDumperSheetWidthKey = @"TXDumperSheetWidth";
 NSString *TXDumperSheetHeightKey = @"TXDumperSheetHeight";
 NSString *TXDumperDisabledNetworksKey = @"TXDumperDisabledNetworks";
+NSString *TXDumperDisabledChannelsKey = @"TXDumperDisabledChannels";
 NSString *TXDumperSheetColumnWidthsKey = @"TXDumperSheetColumnWidths";
 
 @implementation NSObject (TXDumperPrefs)
@@ -61,6 +62,7 @@ NSString *TXDumperSheetColumnWidthsKey = @"TXDumperSheetColumnWidths";
                               @"778", TXDumperSheetWidthKey,
                               @"350", TXDumperSheetHeightKey,
                               [NSArray array], TXDumperDisabledNetworksKey,
+                              [NSArray array], TXDumperDisabledChannelsKey,
                               nil];
         [self setPreferences:dict];
     }
@@ -131,6 +133,11 @@ NSString *TXDumperSheetColumnWidthsKey = @"TXDumperSheetColumnWidths";
 - (NSArray *)disabledNetworks
 {
     return [self.preferences objectForKey:TXDumperDisabledNetworksKey];
+}
+
+- (NSArray *)disabledChannels
+{
+    return [self.preferences objectForKey:TXDumperDisabledChannelsKey];
 }
 
 - (NSDictionary *)columnWidths
