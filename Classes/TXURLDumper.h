@@ -63,6 +63,7 @@
 - (IBAction)setDoubleClickAction:(id)sender;
 - (IBAction)setDoubleEntryHandling:(id)sender;
 - (IBAction)resetDatabase:(id)sender;
+- (IBAction)github:(id)sender;
 
 - (void)pluginLoadedIntoMemory:(IRCWorld *)world;
 - (void)pluginUnloadedFromMemory;

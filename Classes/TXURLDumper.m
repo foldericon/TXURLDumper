@@ -578,4 +578,8 @@ static inline BOOL isEmpty(id thing) {
                         contextInfo:nil];
 }
 
+- (IBAction)github:(id)sender {
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://github.com/foldericon/TXURLDumper"]];
+}
+
 @end
