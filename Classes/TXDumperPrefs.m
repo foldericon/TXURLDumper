@@ -57,7 +57,7 @@ NSString *TXDumperSheetColumnWidthsKey = @"TXDumperSheetColumnWidths";
                               @"yes", TXDumperGetTitlesEnabledKey,
                               @"no", TXDumperDebugModeEnabledKey,
                               @"no", TXDumperStrictMatchingEnabledKey,
-                              @"no", TXDumperOpenInBrowserEnabledKey,
+                              @"yes", TXDumperOpenInBrowserEnabledKey,
                               @"0", TXDumperDoubleEntryHandlingKey,
                               @"778", TXDumperSheetWidthKey,
                               @"350", TXDumperSheetHeightKey,
