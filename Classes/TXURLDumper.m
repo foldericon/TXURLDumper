@@ -562,6 +562,7 @@ static inline BOOL isEmpty(id thing) {
 {
     if(returnCode == 1){
         [self resetDBStructure];
+        [self updateSheet];
         [self echo:@"TXURLDumper: Database reset."];
     }
 }
