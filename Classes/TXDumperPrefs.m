@@ -45,7 +45,7 @@ NSString *TXDumperDisabledNetworksKey = @"TXDumperDisabledNetworks";
 NSString *TXDumperDisabledChannelsKey = @"TXDumperDisabledChannels";
 NSString *TXDumperSheetColumnWidthsKey = @"TXDumperSheetColumnWidths";
 
-@implementation NSObject (TXDumperPrefs)
+@implementation TXDumperPrefs
 - (NSDictionary *)preferences
 {
     if (![[NSFileManager defaultManager] fileExistsAtPath:[self preferencesPath]])

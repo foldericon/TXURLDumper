@@ -39,7 +39,7 @@
 #import "FMResultSet.h"
 #import "FMDatabaseQueue.h"
 
-@interface TXURLDumper : NSObject
+@interface TXURLDumper : TXDumperPrefs
 
 @property (nonatomic, strong) IBOutlet NSView *ourView;
 @property (assign) BOOL dumperSheetVisible;

@@ -45,7 +45,7 @@ extern NSString *TXDumperDisabledNetworksKey;
 extern NSString *TXDumperDisabledChannelsKey;
 extern NSString *TXDumperSheetColumnWidthsKey;
 
-@interface NSObject (TXDumperPrefs)
+@interface TXDumperPrefs : NSObject
 
 @property (assign) NSDictionary *preferences;
 @property (readonly) NSString *preferencesPath;
