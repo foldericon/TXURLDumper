@@ -277,7 +277,7 @@
                     <font key="titleFont" metaFont="system"/>
                 </box>
                 <textField verticalHuggingPriority="750" id="30">
-                    <rect key="frame" x="121" y="20" width="270" height="17"/>
+                    <rect key="frame" x="121" y="10" width="270" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Copyright © 2013-2014, Tobias Pollmann" id="31">
                         <font key="font" metaFont="system"/>
