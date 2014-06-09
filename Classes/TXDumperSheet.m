@@ -88,9 +88,9 @@
     NSRect rect = NSMakeRect(self.sheet.frame.origin.x, self.sheet.frame.origin.y, self.dumperSheetWidth, self.dumperSheetHeight);
     [self.sheet setFrame:rect display:YES];
     [self loadDataSortedBy:@"timestamp"];
-	[self startSheetWithWindow:self.window];
     [self.window makeKeyAndOrderFront:self.sheet];
-    [self.sheet makeFirstResponder:self.searchBar];
+    [self.sheet makeFirstResponder:self.tableView];
+	[self startSheetWithWindow:self.window];
     if(self.dumpingEnabled == NO && self.dataSource.count < 1){
         NSAlert *alert = [NSAlert alertWithMessageText:@"Dumping isn't enabled yet, to start dumping URLs you need to enable it in the Textual preferences."
                                          defaultButton:@"OK"
