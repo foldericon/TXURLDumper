@@ -441,6 +441,7 @@ static inline BOOL isEmpty(id thing) {
 {
     __block int code = 0;
     [self.queue inTransaction:^(FMDatabase *db, BOOL *rollback) {
+        [db setLogsErrors:NO];
         BOOL ret = NO;
         ret = [db executeUpdate:sql withParameterDictionary:dict];
         if (!ret) {
