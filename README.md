@@ -10,7 +10,7 @@ Requirements
 ------------
 
 - [Xcode 5](https://itunes.apple.com/de/app/xcode/id497799835)
-- [Textual 4.1.4](https://github.com/codeux/Textual)
+- [Textual 5](https://github.com/codeux/Textual)
 
 
 Instructions
