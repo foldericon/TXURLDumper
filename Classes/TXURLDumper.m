@@ -54,17 +54,10 @@ TXDumperSheet *dumperSheet;
     }
     
     NSMenu *windowMenu = [[[[NSApplication sharedApplication] mainMenu] itemWithTitle:@"Window"] submenu];
-
-    NSString *title;
-    if([[TPCPreferences gitCommitCount] intValue] > 2570) {
-        title=@"File Transfers";
-    } else {
-        title=@"Highlight List";
-    }
     
     int i=0;
     for (NSMenuItem *item in [windowMenu itemArray]) {
-        if([item.title isEqualTo:title]){
+        if([item.title isEqualTo:@"File Transfers"]){
             break;
         }
         i++;
@@ -114,7 +107,7 @@ TXDumperSheet *dumperSheet;
 
 - (void)showDumper:(id)sender
 {
-    IRCClient *client = self.worldController.selectedClient;
+    IRCClient *client = self.masterController.mainWindow.selectedClient;
     [self showDumperForClient:client];
 }
 
@@ -142,13 +135,14 @@ TXDumperSheet *dumperSheet;
     if(self.selfDumpsEnabled == NO) {
         return input;
     }
-    IRCChannel *channel = self.worldController.selectedChannel;
+    IRCClient *client = self.masterController.mainWindow.selectedClient;
+    IRCChannel *channel = self.masterController.mainWindow.selectedChannel;
     if([command isEqualTo:@"PRIVMSG"]) {
         [self dumpURLsFromMessage:[input string]
-                           client:channel.client
+                           client:client
                              time:[NSDate date]
                           channel:channel.name
-                             nick:channel.client.localNickname
+                             nick:client.localNickname
          ];
     }
     return input;
@@ -200,7 +194,7 @@ static inline BOOL isEmpty(id thing) {
 {
     if(self.dumpingEnabled == NO || [self.disabledNetworks containsObject:client.config.itemUUID] || [self.disabledChannels containsObject:[client findChannel:channel].config.itemUUID]) NSAssertReturn(nil);
     
-    if([channel isEqualToString:self.worldController.selectedClient.localNickname]) {
+    if([channel isEqualToString:self.masterController.mainWindow.selectedClient.localNickname]) {
         channel = nick;
     }
     NSNumber *timestamp = [NSNumber numberWithDouble:[time timeIntervalSince1970]];
@@ -375,7 +369,7 @@ static inline BOOL isEmpty(id thing) {
 {
     dumperSheet = [[TXDumperSheet alloc] init];
     dumperSheet.window = self.masterController.mainWindow;
-    IRCTreeItem *channel = self.worldController.selectedItem;
+    IRCTreeItem *channel = self.masterController.mainWindow.selectedItem;
     if(channel.isClient == NO) {
         dumperSheet.networkLabel.stringValue = [dumperSheet.networkLabel.stringValue stringByAppendingFormat:@"%@ on %@", channel.name, client.altNetworkName];
     } else {
@@ -387,15 +381,15 @@ static inline BOOL isEmpty(id thing) {
 
 - (void)loadDataSortedBy:(NSString *)column
 {
-    IRCClient *client = self.worldController.selectedClient;
+    IRCClient *client = self.masterController.mainWindow.selectedClient;
     NSMutableArray *data = [[NSMutableArray alloc] init];
 
     [self.queue inDatabase:^(FMDatabase *db) {
         NSString *sql = [NSString stringWithFormat:@"SELECT channel,nick,url,title,timestamp FROM urls WHERE client=? ORDER BY %@ DESC;", column];
         FMResultSet *s = [db executeQuery:sql, client.config.itemUUID];
-        if([self.worldController.selectedItem isClient] == NO) {
+        if([self.masterController.mainWindow.selectedItem isClient] == NO) {
             sql = [NSString stringWithFormat:@"SELECT channel,nick,url,title,timestamp FROM urls WHERE client=? AND channel=? ORDER BY %@ DESC;", column];
-            s = [db executeQuery:sql, client.config.itemUUID, self.worldController.selectedItem.name];
+            s = [db executeQuery:sql, client.config.itemUUID, self.masterController.mainWindow.selectedItem.name];
         }
         while ([s next]) {
             NSDictionary *dict = @{ @"channel"      : [s stringForColumn:@"channel"],
@@ -471,11 +465,11 @@ static inline BOOL isEmpty(id thing) {
 
 - (void)clearList {
     if(dumperSheet.networkSheet) {
-        IRCClient *client = self.worldController.selectedClient;
+        IRCClient *client = self.masterController.mainWindow.selectedClient;
         [self updateDBWithSQL:@"DELETE FROM urls where client=?" withArgsArray:[NSArray arrayWithObject:client.config.itemUUID]];
     } else {
-        IRCClient *client = self.worldController.selectedClient;
-        IRCChannel *channel = self.worldController.selectedChannel;
+        IRCClient *client = self.masterController.mainWindow.selectedClient;
+        IRCChannel *channel = self.masterController.mainWindow.selectedChannel;
         [self updateDBWithSQL:@"DELETE FROM urls where client=? AND channel=?" withArgsArray:[NSArray arrayWithObjects:client.config.itemUUID, channel.name, nil]];
     }
 }
@@ -486,12 +480,12 @@ static inline BOOL isEmpty(id thing) {
     va_start(args,msg);
     NSString *s=[[NSString alloc] initWithFormat:msg arguments:args];
     va_end(args);
-    [self.worldController.selectedClient printDebugInformation:s forCommand:@"372"];
+    [self.masterController.mainWindow.selectedClient printDebugInformation:s forCommand:@"372"];
 }
 
 - (NSString *)dbPath
 {
-    return [[NSString stringWithFormat:@"%@/Library/Application Support/Textual IRC/Extensions/%@.db", NSHomeDirectory(), [[NSBundle bundleForClass:[self class]] principalClass]] stringByExpandingTildeInPath];
+    return [[NSString stringWithFormat:@"%@/Extensions/%@.db", [TPCPathInfo applicationSupportFolderPath], [[NSBundle bundleForClass:[self class]] principalClass]] stringByExpandingTildeInPath];
 }
 
 #pragma mark -

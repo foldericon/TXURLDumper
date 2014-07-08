@@ -51,9 +51,9 @@
 
 - (void)start
 {
-    if([self.worldController.selectedItem isClient] == NO) {
+    if([self.masterController.mainWindow.selectedItem isClient] == NO) {
         [self.tableView removeTableColumn:[self.tableView tableColumnWithIdentifier:@"channel"]];
-        if(self.worldController.selectedChannel.isChannel)
+        if(self.masterController.mainWindow.selectedChannel.isChannel)
             [self.disableDumpingBox setTitle:@"Disable dumping for this channel"];
         else
             [self.disableDumpingBox setTitle:@"Disable dumping for this query"];
@@ -74,12 +74,12 @@
     }
     
     if(networkSheet) {
-        if([self.disabledNetworks containsObject:self.worldController.selectedClient.config.itemUUID])
+        if([self.disabledNetworks containsObject:self.masterController.mainWindow.selectedClient.config.itemUUID])
             [self.disableDumpingBox setState:1];
         else
             [self.disableDumpingBox setState:0];
     } else {
-        if([self.disabledChannels containsObject:self.worldController.selectedChannel.config.itemUUID])
+        if([self.disabledChannels containsObject:self.masterController.mainWindow.selectedChannel.config.itemUUID])
             [self.disableDumpingBox setState:1];
         else
             [self.disableDumpingBox setState:0];
@@ -155,7 +155,7 @@
 
 - (NSString *)timeAgoString:(double)timestamp
 {
-    return [NSString stringWithFormat:@"%@ Ago", TXSpecialReadableTime([NSDate secondsSinceUnixTimestamp:timestamp], YES, nil)];
+    return [NSString stringWithFormat:@"%@ Ago", TXHumanReadableTimeInterval([NSDate secondsSinceUnixTimestamp:timestamp], YES, 0)];
 }
 
 #pragma mark -
@@ -219,25 +219,25 @@
     NSMutableArray *disabledNetworks = [[NSMutableArray alloc] initWithArray:self.disabledNetworks];
     NSMutableArray *disabledChannels = [[NSMutableArray alloc] initWithArray:self.disabledChannels];
     if(networkSheet) {
-        IRCClient *cl = self.worldController.selectedClient;
+        IRCClient *cl = self.masterController.mainWindow.selectedClient;
         if([self.disableDumpingBox state] == 1) {
-            for(IRCChannel *ch in cl.channels) {
+            for(IRCChannel *ch in cl.channelList) {
                 [disabledChannels addObject:ch.config.itemUUID];
             }
             [disabledNetworks addObject:cl.config.itemUUID];
         } else {
-            for(IRCChannel *ch in cl.channels) {
+            for(IRCChannel *ch in cl.channelList) {
                 [disabledChannels removeObject:ch.config.itemUUID];
             }
             [disabledNetworks removeObject:cl.config.itemUUID];
         }
     } else {
-        IRCChannel *ch = self.worldController.selectedChannel;
+        IRCChannel *ch = self.masterController.mainWindow.selectedChannel;
         if([self.disableDumpingBox state] == 1) {
             [disabledChannels addObject:ch.config.itemUUID];
         }
         else {
-            [disabledNetworks removeObject:ch.client.config.itemUUID];
+            [disabledNetworks removeObject:ch.associatedClient];
             [disabledChannels removeObject:ch.config.itemUUID];
         }
     }
