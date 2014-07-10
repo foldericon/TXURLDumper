@@ -39,7 +39,7 @@
 
 TXDumperSheet *dumperSheet;
 
-- (void)pluginLoadedIntoMemory:(IRCWorld *)world
+- (void)pluginLoadedIntoMemory
 {
     if(!self.queue){
         self.queue = [FMDatabaseQueue databaseQueueWithPath:[self dbPath]];
@@ -69,7 +69,7 @@ TXDumperSheet *dumperSheet;
 }
 
 
-- (void)pluginUnloadedFromMemory {
+- (void)pluginWillBeUnloadedFromMemory {
     NSMenu *windowMenu = [[[[NSApplication sharedApplication] mainMenu] itemWithTitle:@"Window"] submenu];
     NSMenuItem *item = [windowMenu itemWithTitle:@"URL List"];
     [windowMenu removeItem:item];
@@ -79,7 +79,7 @@ TXDumperSheet *dumperSheet;
 #pragma mark -
 #pragma mark Preference Pane
 
-- (NSView *)preferencesView
+- (NSView *)pluginPreferencesPaneView
 {
 	if (self.ourView == nil) {
 		if ([NSBundle loadNibNamed:@"PreferencePane" owner:self] == NO) {
@@ -89,7 +89,7 @@ TXDumperSheet *dumperSheet;
 	return self.ourView;
 }
 
-- (NSString *)preferencesMenuItemName
+- (NSString *)pluginPreferencesPaneMenuItemName
 {
 	return @"URL Dumper";
 }
@@ -114,9 +114,9 @@ TXDumperSheet *dumperSheet;
 #pragma mark -
 #pragma mark Plugin API
 
-- (void)messageReceivedByServer:(IRCClient *)client
-						 sender:(NSDictionary *)senderDict
-						message:(NSDictionary *)messageDict
+- (void)didReceiveServerInputOnClient:(IRCClient *)client
+                    senderInformation:(NSDictionary *)senderDict
+                   messageInformation:(NSDictionary *)messageDict
 {
     id date = [messageDict objectForKey:@"messageReceived"];
     if(!date) {
@@ -129,6 +129,7 @@ TXDumperSheet *dumperSheet;
                          nick:[senderDict objectForKey:@"senderNickname"]
      ];
 }
+
 
 - (id)interceptUserInput:(id)input command:(NSString *)command
 {
@@ -148,7 +149,7 @@ TXDumperSheet *dumperSheet;
     return input;
 }
 
-- (NSArray *)pluginSupportsServerInputCommands
+- (NSArray *)subscribedUserInputCommands
 {
 	return @[@"privmsg"];
 }
@@ -486,6 +487,7 @@ static inline BOOL isEmpty(id thing) {
 
 - (NSString *)dbPath
 {
+    NSLog(@"BUNDLE: %@", [[NSBundle bundleForClass:[self class]] principalClass]);
     return [[NSString stringWithFormat:@"%@/Extensions/%@.db", [TPCPathInfo applicationSupportFolderPath], [[NSBundle bundleForClass:[self class]] principalClass]] stringByExpandingTildeInPath];
 }
 
@@ -567,7 +569,7 @@ static inline BOOL isEmpty(id thing) {
                                    alternateButton:nil
                                        otherButton:@"Cancel"
                          informativeTextWithFormat:@"There is no way to undo this."];
-    [alert beginSheetModalForWindow:self.preferencesView.window
+    [alert beginSheetModalForWindow:self.pluginPreferencesPaneView.window
                       modalDelegate:self
                      didEndSelector:@selector(AlertHasConfirmed:returnCode:contextInfo:)
                         contextInfo:nil];

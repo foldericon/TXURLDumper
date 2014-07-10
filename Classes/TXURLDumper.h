@@ -65,20 +65,20 @@
 - (IBAction)resetDatabase:(id)sender;
 - (IBAction)github:(id)sender;
 
-- (void)pluginLoadedIntoMemory:(IRCWorld *)world;
-- (void)pluginUnloadedFromMemory;
+- (void)pluginLoadedIntoMemory;
+- (void)pluginWillBeUnloadedFromMemory;
 
-- (NSView *)preferencesView;
-- (NSString *)preferencesMenuItemName;
+- (NSView *)pluginPreferencesPaneView;
+- (NSString *)pluginPreferencesPaneMenuItemName;
 
 - (void)clearList;
-- (void)messageReceivedByServer:(IRCClient *)client
-						 sender:(NSDictionary *)senderDict
-						message:(NSDictionary *)messageDict;
+- (void)didReceiveServerInputOnClient:(IRCClient *)client
+                    senderInformation:(NSDictionary *)senderDict
+                   messageInformation:(NSDictionary *)messageDict;
 
 - (id)interceptUserInput:(id)input command:(NSString *)command;
 
-- (NSArray *)pluginSupportsServerInputCommands;
+- (NSArray *)subscribedUserInputCommands;
 - (void)loadDataSortedBy:(NSString *)column;
 - (void)echo:(NSString *)msg,...;
 @end

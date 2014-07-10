@@ -9,7 +9,7 @@ __An URL Dumper for Textual__
 Requirements
 ------------
 
-- [Xcode 5](https://itunes.apple.com/de/app/xcode/id497799835)
+- [Xcode 5](https://itunes.apple.com/app/xcode/id497799835)
 - [Textual 5](https://github.com/codeux/Textual)
 
 
