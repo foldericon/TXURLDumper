@@ -155,7 +155,7 @@
 
 - (NSString *)timeAgoString:(double)timestamp
 {
-    return [NSString stringWithFormat:@"%@ Ago", TXHumanReadableTimeInterval([NSDate secondsSinceUnixTimestamp:timestamp], YES, 0)];
+    return [NSString stringWithFormat:@"%@ ago", TXHumanReadableTimeInterval([NSDate secondsSinceUnixTimestamp:timestamp], YES, 0)];
 }
 
 #pragma mark -
