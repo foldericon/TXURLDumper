@@ -81,7 +81,7 @@ TXDumperSheet *dumperSheet;
 - (NSView *)pluginPreferencesPaneView
 {
 	if (self.ourView == nil) {
-		if ([NSBundle loadNibNamed:@"PreferencePane" owner:self] == NO) {
+        if ([[NSBundle bundleForClass:[self class]] loadNibNamed:@"PreferencePane" owner:self topLevelObjects:nil] == NO) {
 			NSLog(@"TXURLDumper: Failed to load view.");
 		}
 	}

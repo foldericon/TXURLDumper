@@ -37,7 +37,7 @@
 - (id)init
 {
 	if ((self = [super init])) {
-		[NSBundle loadNibNamed:@"DumperSheet" owner:self];
+        [[NSBundle bundleForClass:[self class]] loadNibNamed:@"DumperSheet" owner:self topLevelObjects:nil];
         [self.tableView setDataSource:self];
         [self.tableView setDelegate:self];        
         [self.tableView setDoubleAction:@selector(doubleClick:)];

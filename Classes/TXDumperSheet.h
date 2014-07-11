@@ -37,7 +37,7 @@
 @property (assign) id plugin;
 @property (assign) NSMutableArray *dataSource;
 @property (assign) NSWindow *window;
-@property (assign) IBOutlet NSWindow *sheet;
+@property (nonatomic, strong) IBOutlet NSWindow *sheet;
 @property (assign) IBOutlet NSSearchField *searchBar;
 @property (assign) IBOutlet NSTableView *tableView;
 @property (assign) IBOutlet NSTextField *networkLabel;
