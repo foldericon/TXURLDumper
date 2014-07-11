@@ -10,7 +10,6 @@
 		4C51BE9412D0471600E79CEB /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C51BE9312D0471600E79CEB /* Cocoa.framework */; };
 		8D576314048677EA00EA77CD /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AA1909FFE8422F4C02AAC07 /* CoreFoundation.framework */; };
 		DA0D27D81754B58D00318563 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DA0D27D71754B58D00318563 /* libsqlite3.dylib */; };
-		DA1F50F718B65A0D00B07AF8 /* AutoHyperlinks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA1F50F618B65A0D00B07AF8 /* AutoHyperlinks.framework */; };
 		DA71508617588C3100DC2063 /* TXDumperSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = DA71507F17588C3100DC2063 /* TXDumperSheet.m */; };
 		DA71508717588C3100DC2063 /* TXURLDumper.m in Sources */ = {isa = PBXBuildFile; fileRef = DA71508117588C3100DC2063 /* TXURLDumper.m */; };
 		DA71508B17588C4200DC2063 /* DumperSheet.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA71508817588C4200DC2063 /* DumperSheet.xib */; };
@@ -31,7 +30,6 @@
 		4C51BE9312D0471600E79CEB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		8D576316048677EA00EA77CD /* TXURLDumper.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TXURLDumper.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA0D27D71754B58D00318563 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
-		DA1F50F618B65A0D00B07AF8 /* AutoHyperlinks.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AutoHyperlinks.framework; path = Frameworks/AutoHyperlinks.framework; sourceTree = "<group>"; };
 		DA71507E17588C3100DC2063 /* TXDumperSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TXDumperSheet.h; path = Classes/TXDumperSheet.h; sourceTree = "<group>"; };
 		DA71507F17588C3100DC2063 /* TXDumperSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TXDumperSheet.m; path = Classes/TXDumperSheet.m; sourceTree = "<group>"; };
 		DA71508017588C3100DC2063 /* TXURLDumper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TXURLDumper.h; path = Classes/TXURLDumper.h; sourceTree = "<group>"; };
@@ -64,7 +62,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				DA0D27D81754B58D00318563 /* libsqlite3.dylib in Frameworks */,
-				DA1F50F718B65A0D00B07AF8 /* AutoHyperlinks.framework in Frameworks */,
 				8D576314048677EA00EA77CD /* CoreFoundation.framework in Frameworks */,
 				4C51BE9412D0471600E79CEB /* Cocoa.framework in Frameworks */,
 			);
@@ -88,7 +85,6 @@
 			isa = PBXGroup;
 			children = (
 				DA0D27D71754B58D00318563 /* libsqlite3.dylib */,
-				DA1F50F618B65A0D00B07AF8 /* AutoHyperlinks.framework */,
 				4C51BE9312D0471600E79CEB /* Cocoa.framework */,
 				0AA1909FFE8422F4C02AAC07 /* CoreFoundation.framework */,
 			);
@@ -245,7 +241,7 @@
 				HEADER_SEARCH_PATHS = "\"/Applications/Textual 5.app/Contents/Headers\"";
 				INFOPLIST_FILE = Resources/Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Bundles";
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_NAME = TXURLDumper;
 				SDKROOT = macosx;
 				VALID_ARCHS = "i386 x86_64";
@@ -264,7 +260,7 @@
 				HEADER_SEARCH_PATHS = "\"/Applications/Textual 5.app/Contents/Headers\"";
 				INFOPLIST_FILE = Resources/Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Bundles";
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_NAME = TXURLDumper;
 				SDKROOT = macosx;
 				VALID_ARCHS = "i386 x86_64";

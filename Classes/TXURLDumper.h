@@ -71,14 +71,12 @@
 - (NSView *)pluginPreferencesPaneView;
 - (NSString *)pluginPreferencesPaneMenuItemName;
 
+- (void)didPostNewMessageForViewController:(TVCLogController *)logController
+                               messageInfo:(NSDictionary *)messageInfo
+                             isThemeReload:(BOOL)isThemeReload
+                           isHistoryReload:(BOOL)isHistoryReload;
+
 - (void)clearList;
-- (void)didReceiveServerInputOnClient:(IRCClient *)client
-                    senderInformation:(NSDictionary *)senderDict
-                   messageInformation:(NSDictionary *)messageDict;
-
-- (id)interceptUserInput:(id)input command:(NSString *)command;
-
-- (NSArray *)subscribedUserInputCommands;
 - (void)loadDataSortedBy:(NSString *)column;
 - (void)echo:(NSString *)msg,...;
 @end
