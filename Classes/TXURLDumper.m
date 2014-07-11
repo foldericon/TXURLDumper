@@ -125,6 +125,9 @@ TXDumperSheet *dumperSheet;
     if( self.dumpingEnabled == NO ||
        [self.disabledNetworks containsObject:client.config.itemUUID] ||
        [self.disabledChannels containsObject:[client findChannel:channel].config.itemUUID] ||
+       ([nick isEqualToString:client.localNickname] && self.dumpingEnabled == NO) ||
+       [self.disabledNetworks containsObject:client.config.itemUUID] ||
+       [self.disabledChannels containsObject:[client findChannel:channel].config.itemUUID] ||
        isThemeReload || isHistoryReload)
         NSAssertReturn(nil);
     
