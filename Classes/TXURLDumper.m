@@ -118,26 +118,25 @@ TXDumperSheet *dumperSheet;
                              isThemeReload:(BOOL)isThemeReload
                            isHistoryReload:(BOOL)isHistoryReload
 {
+    NSInteger lineType = (long)[[messageInfo objectForKey:@"lineType"] integerValue];
+    
+    // We want regular messages and actions only.
+    if(lineType != 1 && lineType != 14) return;
+    
     IRCClient *client = logController.associatedClient;
     NSString *channel = logController.associatedChannel.name;
     NSString *nick = [messageInfo objectForKey:@"senderNickname"];
     
-    if( self.dumpingEnabled == NO ||
+    if(isThemeReload || isHistoryReload || self.dumpingEnabled == NO ||
        [self.disabledNetworks containsObject:client.config.itemUUID] ||
        [self.disabledChannels containsObject:[client findChannel:channel].config.itemUUID] ||
-       ([nick isEqualToString:client.localNickname] && self.selfDumpsEnabled) ||
-       isThemeReload || isHistoryReload)
+       ([nick isEqualToString:client.localNickname] && self.selfDumpsEnabled == NO))
         NSAssertReturn(nil);
     
     id date = [messageInfo objectForKey:@"receivedAtTime"];
     if(!date) {
         date = [NSDate date];
     }
-
-    NSInteger lineType = (long)[[messageInfo objectForKey:@"lineType"] integerValue];
-
-    // We want regular messages and actions only.
-    if(lineType != 1 && lineType != 14) return;
 
     NSArray *arrLinks = [messageInfo objectForKey:@"allHyperlinksInBody"];
 
