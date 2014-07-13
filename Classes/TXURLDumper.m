@@ -56,14 +56,15 @@ TXDumperSheet *dumperSheet;
     NSMenu *windowMenu = [[[[NSApplication sharedApplication] mainMenu] itemWithTitle:@"Window"] submenu];
     
     int i=0;
+    int index = 0;
     for (NSMenuItem *item in [windowMenu itemArray]) {
         if([item.title isEqualTo:@"File Transfers"]){
+            index = [item.keyEquivalent intValue];
             break;
         }
         i++;
     }
-    
-    NSMenuItem *menuItem = [NSMenuItem menuItemWithTitle:@"URL List" target:self action:@selector(showDumper:) keyEquivalent:[NSString stringWithFormat:@"%i", i-9] keyEquivalentMask:NSControlKeyMask];
+    NSMenuItem *menuItem = [NSMenuItem menuItemWithTitle:@"URL List" target:self action:@selector(showDumper:) keyEquivalent:[NSString stringWithFormat:@"%i", index+1] keyEquivalentMask:NSControlKeyMask];
     [windowMenu insertItem:menuItem atIndex:i+1];
  
 }
