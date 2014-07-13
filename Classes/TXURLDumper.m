@@ -468,7 +468,7 @@ static inline BOOL isEmpty(id thing) {
     va_start(args,msg);
     NSString *s=[[NSString alloc] initWithFormat:msg arguments:args];
     va_end(args);
-    [self.masterController.mainWindow.selectedClient printDebugInformation:s forCommand:@"372"];
+    [self.masterController.mainWindow.selectedClient printDebugInformation:s];
 }
 
 - (NSString *)dbPath
