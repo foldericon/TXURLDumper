@@ -54,7 +54,7 @@ NSString *TXDumperSheetHiddenColumnsKey = @"TXDumperSheetHiddenColumns";
         NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
                               @"yes", TXDumperDumpingEnabledKey,
                               @"yes", TXDumperSelfDumpsEnabledKey,
-                              @"yes", TXDumperResolveShortURLsEnabledKey,
+                              @"no", TXDumperResolveShortURLsEnabledKey,
                               @"no", TXDumperGetTitlesEnabledKey,
                               @"no", TXDumperDebugModeEnabledKey,
                               @"no", TXDumperStrictMatchingEnabledKey,
