@@ -496,6 +496,13 @@ static inline BOOL isEmpty(id thing) {
 - (IBAction)setGetTitles:(id)sender {
     BOOL enabled = ([self.titlesBox state]==NSOnState);
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:[self preferences]];
+    // Toggle column
+    NSMutableArray *hiddenColumns = [self.hiddenColumns mutableCopy];
+    if(enabled)
+        [hiddenColumns removeObject:@"title"];
+    else
+        [hiddenColumns addObject:@"title"];
+    [dict setObject:hiddenColumns forKey:TXDumperSheetHiddenColumnsKey];
     [dict setObject:[NSNumber numberWithBool:enabled] forKey:TXDumperGetTitlesEnabledKey];
     [self setPreferences:dict];
 }

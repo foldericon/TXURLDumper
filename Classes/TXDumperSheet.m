@@ -69,15 +69,6 @@
         [self.disableDumpingBox setTitle:@"Disable dumping for this network"];
         networkSheet = YES;
     }
-    
-    // Get Sizes and Visibility
-    NSDictionary *columns = [self columnWidths];
-    if (columns != nil) {
-        for (NSTableColumn *column in self.tableView.tableColumns) {
-            if(columns[column.identifier] != nil)
-                column.width = [columns[column.identifier] floatValue];
-        }
-    }
 
     // Build Header Contextual Menu
     NSMenu *columnsMenu = [[NSMenu alloc] initWithTitle:@""];
@@ -94,7 +85,15 @@
     columnsMenu.delegate = self;
     [self.tableView.headerView setMenu:columnsMenu];
     
-
+    // Get Sizes
+    NSDictionary *columns = [self columnWidths];
+    if (columns != nil) {
+        for (NSTableColumn *column in self.tableView.tableColumns) {
+            if(columns[column.identifier] != nil)
+                column.width = [columns[column.identifier] floatValue];
+        }
+    }
+    
     if(networkSheet) {
         if([self.disabledNetworks containsObject:self.masterController.mainWindow.selectedClient.config.itemUUID])
             [self.disableDumpingBox setState:1];
