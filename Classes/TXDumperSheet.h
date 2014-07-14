@@ -32,7 +32,7 @@
 #import "TextualApplication.h"
 #import "TXURLDumper.h"
 
-@interface TXDumperSheet : TXDumperPrefs <NSWindowDelegate, NSTableViewDataSource, NSTableViewDelegate>
+@interface TXDumperSheet : TXDumperPrefs <NSWindowDelegate, NSTableViewDataSource, NSTableViewDelegate, NSMenuDelegate>
 
 @property (assign) id plugin;
 @property (assign) NSMutableArray *dataSource;

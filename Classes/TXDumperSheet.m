@@ -38,15 +38,22 @@
 {
 	if ((self = [super init])) {
         [[NSBundle bundleForClass:[self class]] loadNibNamed:@"DumperSheet" owner:self topLevelObjects:nil];
-        [self.tableView setDataSource:self];
-        [self.tableView setDelegate:self];        
-        [self.tableView setDoubleAction:@selector(doubleClick:)];
-        for (NSTableColumn *tableColumn in self.tableView.tableColumns ) {
-            NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:tableColumn.identifier ascending:YES selector:@selector(localizedStandardCompare:)];
-            [tableColumn setSortDescriptorPrototype:sortDescriptor];
-        }
     }
 	return self;
+}
+
+- (void)awakeFromNib
+{
+
+    [self.tableView setDataSource:self];
+    [self.tableView setDelegate:self];
+    [self.tableView setDoubleAction:@selector(doubleClick:)];
+    
+    // Setup sort descriptors
+    for (NSTableColumn *tableColumn in self.tableView.tableColumns ) {
+        NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:tableColumn.identifier ascending:YES selector:@selector(localizedStandardCompare:)];
+        [tableColumn setSortDescriptorPrototype:sortDescriptor];
+    }
 }
 
 - (void)start
@@ -63,16 +70,31 @@
         networkSheet = YES;
     }
     
-    // Get Sizes
+    // Get Sizes and Visibility
     NSDictionary *columns = [self columnWidths];
     if (columns != nil) {
         for (NSTableColumn *column in self.tableView.tableColumns) {
-            if(columns[column.identifier] != nil) {
+            if([self.hiddenColumns containsObject:column.identifier])
+                [column setHidden:YES];
+            if(columns[column.identifier] != nil)
                 column.width = [columns[column.identifier] floatValue];
-            }
         }
     }
+
+    // Build Header Contextual Menu
+    NSMenu *columnsMenu = [[NSMenu alloc] initWithTitle:@""];
+    for (NSTableColumn *column in self.tableView.tableColumns) {
+        NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:[column.headerCell stringValue]
+                                                          action:@selector(toggleColumn:)
+                                                   keyEquivalent:@""];
+        menuItem.target = self;
+        menuItem.representedObject = column;
+        [columnsMenu addItem:menuItem];
+    }
+    columnsMenu.delegate = self;
+    [self.tableView.headerView setMenu:columnsMenu];
     
+
     if(networkSheet) {
         if([self.disabledNetworks containsObject:self.masterController.mainWindow.selectedClient.config.itemUUID])
             [self.disableDumpingBox setState:1];
@@ -261,6 +283,20 @@
     [self setPreferences:dict];
 }
 
+- (void)toggleColumn:(id)sender
+{
+    NSMutableArray *hiddenColumns = [[NSMutableArray alloc] initWithArray:self.hiddenColumns];
+    NSTableColumn *column = [sender representedObject];
+    [column setHidden:![column isHidden]];
+    if([self.hiddenColumns containsObject:column.identifier])
+        [hiddenColumns removeObject:column.identifier];
+    else
+        [hiddenColumns addObject:column.identifier];
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:[self preferences]];
+    [dict setObject:hiddenColumns forKey:TXDumperSheetHiddenColumnsKey];
+    [self setPreferences:dict];
+}
+
 #pragma mark -
 #pragma mark DataSource
 
@@ -293,13 +329,23 @@
     return [[self.dataSource objectAtIndex:rowIndex] objectForKey:aTableColumn.identifier];
 }
 
+#pragma mark -
+#pragma mark Menu Delegate
+
+-(void)menuWillOpen:(NSMenu *)menu
+{
+    for (NSMenuItem *menuItem in menu.itemArray) {
+        NSTableColumn *column = [menuItem representedObject];
+        [menuItem setState:column.isHidden ? NSOffState : NSOnState];
+    }
+}
 
 #pragma mark -
 #pragma mark Window Delegate
 
 - (void)windowDidEndLiveResize:(NSNotification *)notification
 {
-        [self setWindowSizeWidth:(int)self.sheet.frame.size.width height:(int)self.sheet.frame.size.height];
+    [self setWindowSizeWidth:(int)self.sheet.frame.size.width height:(int)self.sheet.frame.size.height];
 }
 
 #pragma mark -

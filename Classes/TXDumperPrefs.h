@@ -44,6 +44,7 @@ extern NSString *TXDumperSheetHeightKey;
 extern NSString *TXDumperDisabledNetworksKey;
 extern NSString *TXDumperDisabledChannelsKey;
 extern NSString *TXDumperSheetColumnWidthsKey;
+extern NSString *TXDumperSheetHiddenColumnsKey;
 
 @interface TXDumperPrefs : NSObject
 
@@ -62,4 +63,5 @@ extern NSString *TXDumperSheetColumnWidthsKey;
 @property (readonly) NSArray *disabledNetworks;
 @property (readonly) NSArray *disabledChannels;
 @property (readonly) NSDictionary *columnWidths;
+@property (readonly) NSArray *hiddenColumns;
 @end
