@@ -45,13 +45,6 @@ TXDumperSheet *dumperSheet;
         self.queue = [FMDatabaseQueue databaseQueueWithPath:[self dbPath]];
         [self createDBStructure];
     }
-
-    // Legacy code to get titles enabled per default on older versions
-    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:self.preferences];
-    if([dict objectForKey:TXDumperGetTitlesEnabledKey] == nil) {
-        [dict setObject:[NSNumber numberWithBool:YES] forKey:TXDumperGetTitlesEnabledKey];
-        [self setPreferences:dict];
-    }
     
     NSMenu *windowMenu = [[[[NSApplication sharedApplication] mainMenu] itemWithTitle:@"Window"] submenu];
     

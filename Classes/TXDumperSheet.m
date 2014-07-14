@@ -74,8 +74,6 @@
     NSDictionary *columns = [self columnWidths];
     if (columns != nil) {
         for (NSTableColumn *column in self.tableView.tableColumns) {
-            if([self.hiddenColumns containsObject:column.identifier])
-                [column setHidden:YES];
             if(columns[column.identifier] != nil)
                 column.width = [columns[column.identifier] floatValue];
         }
@@ -90,6 +88,8 @@
         menuItem.target = self;
         menuItem.representedObject = column;
         [columnsMenu addItem:menuItem];
+        if([self.hiddenColumns containsObject:column.identifier])
+            [column setHidden:YES];
     }
     columnsMenu.delegate = self;
     [self.tableView.headerView setMenu:columnsMenu];

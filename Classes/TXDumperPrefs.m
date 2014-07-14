@@ -55,7 +55,7 @@ NSString *TXDumperSheetHiddenColumnsKey = @"TXDumperSheetHiddenColumns";
                               @"yes", TXDumperDumpingEnabledKey,
                               @"yes", TXDumperSelfDumpsEnabledKey,
                               @"yes", TXDumperResolveShortURLsEnabledKey,
-                              @"yes", TXDumperGetTitlesEnabledKey,
+                              @"no", TXDumperGetTitlesEnabledKey,
                               @"no", TXDumperDebugModeEnabledKey,
                               @"no", TXDumperStrictMatchingEnabledKey,
                               @"yes", TXDumperOpenInBrowserEnabledKey,
@@ -64,7 +64,7 @@ NSString *TXDumperSheetHiddenColumnsKey = @"TXDumperSheetHiddenColumns";
                               @"350", TXDumperSheetHeightKey,
                               [NSArray array], TXDumperDisabledNetworksKey,
                               [NSArray array], TXDumperDisabledChannelsKey,
-                              [NSArray array], TXDumperSheetHiddenColumnsKey,
+                              [NSArray arrayWithObject:@"title"], TXDumperSheetHiddenColumnsKey,
                               nil];
         [self setPreferences:dict];
     }
