@@ -498,10 +498,13 @@ static inline BOOL isEmpty(id thing) {
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:[self preferences]];
     // Toggle column
     NSMutableArray *hiddenColumns = [self.hiddenColumns mutableCopy];
-    if(enabled)
+    if(enabled) {
         [hiddenColumns removeObject:@"title"];
-    else
+        [dict removeObjectForKey:TXDumperSheetColumnWidthsKey];
+        
+    } else {
         [hiddenColumns addObject:@"title"];
+    }
     [dict setObject:hiddenColumns forKey:TXDumperSheetHiddenColumnsKey];
     [dict setObject:[NSNumber numberWithBool:enabled] forKey:TXDumperGetTitlesEnabledKey];
     [self setPreferences:dict];

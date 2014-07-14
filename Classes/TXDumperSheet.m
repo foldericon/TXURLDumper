@@ -93,7 +93,6 @@
                 column.width = [columns[column.identifier] floatValue];
         }
     }
-    
     if(networkSheet) {
         if([self.disabledNetworks containsObject:self.masterController.mainWindow.selectedClient.config.itemUUID])
             [self.disableDumpingBox setState:1];
