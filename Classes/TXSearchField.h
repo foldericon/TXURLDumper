@@ -28,32 +28,11 @@
  ===============================================================================
 */
 
+#import <AppKit/AppKit.h>
 
-#import "TextualApplication.h"
-#import "TXSearchField.h"
-#import "TXURLDumper.h"
-
-@interface TXDumperSheet : TXDumperPrefs <NSWindowDelegate, NSTableViewDataSource, NSTableViewDelegate, NSMenuDelegate>
-
-@property (assign) id plugin;
-@property (assign) NSMutableArray *dataSource;
-@property (assign) NSWindow *window;
-@property (nonatomic, strong) IBOutlet NSWindow *sheet;
-@property (assign) IBOutlet TXSearchField *searchBar;
-@property (assign) IBOutlet NSTableView *tableView;
-@property (assign) IBOutlet NSTextField *networkLabel;
-@property (assign) IBOutlet NSTextField *recordsLabel;
-@property (assign) IBOutlet NSButton *clearButton;
-@property (assign) IBOutlet NSButton *closeButton;
-@property (assign) IBOutlet NSButton *disableDumpingBox;
-@property (assign) BOOL networkSheet;
-
-- (IBAction)clear:(id)sender;
-- (IBAction)close:(id)sender;
-- (IBAction)textEntered:(id)sender;
-- (IBAction)disableDumping:(id)sender;
-
-- (void)start;
-- (void)reloadData;
+@interface TXSearchField : NSTextField
+{
+    NSImage * _magnifierImage;
+}
 
 @end

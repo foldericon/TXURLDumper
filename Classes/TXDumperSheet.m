@@ -109,7 +109,7 @@
     [self.sheet setFrame:rect display:YES];
     [self loadDataSortedBy:@"timestamp"];
     [self.window makeKeyAndOrderFront:self.sheet];
-    [self.sheet makeFirstResponder:self.tableView];
+    [self.sheet makeFirstResponder:self.searchBar];
 	[self startSheetWithWindow:self.window];
     if(self.dumpingEnabled == NO && self.dataSource.count < 1){
         NSAlert *alert = [NSAlert alertWithMessageText:@"Dumping isn't enabled yet, to start dumping URLs you need to enable it in the Textual preferences."
@@ -212,6 +212,7 @@
 }
 
 - (IBAction)textEntered:(id)sender {
+
     [self.plugin loadDataSortedBy:@"timestamp"];
     [self.tableView reloadData];
     NSString *str = [[sender stringValue] lowercaseString];
