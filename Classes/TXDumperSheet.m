@@ -34,10 +34,20 @@
 @implementation TXDumperSheet
 @synthesize networkSheet;
 
+BOOL yosemiteorlater=NO;
+
 - (id)init
 {
 	if ((self = [super init])) {
         [[NSBundle bundleForClass:[self class]] loadNibNamed:@"DumperSheet" owner:self topLevelObjects:nil];
+    }
+    NSProcessInfo *pinfo = [NSProcessInfo processInfo];
+    NSArray *myarr = [[pinfo operatingSystemVersionString] componentsSeparatedByString:@" "];
+    NSLog(@"OS VERSION: %@", [myarr objectAtIndex:1]);
+    if([[myarr objectAtIndex:1] hasPrefix:@"10.8"] == NO && [[myarr objectAtIndex:1] hasPrefix:@"10.9"] == NO) {
+        yosemiteorlater=YES;
+        [self.searchBar setHidden:NO];
+        [self.searchBar2 setHidden:YES];
     }
 	return self;
 }
@@ -109,7 +119,8 @@
     [self.sheet setFrame:rect display:YES];
     [self loadDataSortedBy:@"timestamp"];
     [self.window makeKeyAndOrderFront:self.sheet];
-    [self.sheet makeFirstResponder:self.searchBar];
+    if(yosemiteorlater) [self.sheet makeFirstResponder:self.searchBar];
+    else [self.sheet makeFirstResponder:self.searchBar2];
 	[self startSheetWithWindow:self.window];
     if(self.dumpingEnabled == NO && self.dataSource.count < 1){
         NSAlert *alert = [NSAlert alertWithMessageText:@"Dumping isn't enabled yet, to start dumping URLs you need to enable it in the Textual preferences."

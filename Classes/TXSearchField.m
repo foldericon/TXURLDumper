@@ -67,9 +67,7 @@
     NSSize tSize = _magnifierImage.size;
     NSRect rect = NSMakeRect(0.0, 0.0, self.bounds.size.width, self.bounds.size.height-1.0);
     NSBezierPath* thePath = [NSBezierPath bezierPath];
-    
     [thePath appendBezierPathWithRoundedRect:rect xRadius:6 yRadius:6];
-    
     [[NSColor whiteColor] set];
     [thePath fill];
     [_magnifierImage drawInRect:NSMakeRect(6, 3, 15, 15) fromRect:NSMakeRect(0, 0, tSize.width, tSize.height) operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];

@@ -40,6 +40,7 @@
 @property (assign) NSWindow *window;
 @property (nonatomic, strong) IBOutlet NSWindow *sheet;
 @property (assign) IBOutlet TXSearchField *searchBar;
+@property (assign) IBOutlet NSSearchField *searchBar2;
 @property (assign) IBOutlet NSTableView *tableView;
 @property (assign) IBOutlet NSTextField *networkLabel;
 @property (assign) IBOutlet NSTextField *recordsLabel;
