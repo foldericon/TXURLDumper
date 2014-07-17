@@ -241,7 +241,7 @@ BOOL yosemiteorlater=NO;
             [new addObject:dict];
         }
     }
-    self.dataSource = [new copy];
+    self.dataSource = new;
     [self.tableView reloadData];
     [self updateRecordsLabel];
 }
