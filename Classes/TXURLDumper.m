@@ -310,7 +310,7 @@ static inline BOOL isEmpty(id thing) {
 
 - (void)resetDBStructure
 {
-    [self updateDBWithSQL:@"DROP INDEX IDX_URLS_1 on urls"];
+    [self updateDBWithSQL:@"DROP INDEX IDX_URLS_1"];
     [self updateDBWithSQL:@"DROP TABLE urls"];
     [self createDBStructure];
 }
