@@ -183,6 +183,13 @@ TXDumperSheet *dumperSheet;
                 
                 if(errCode == 0) {
                     if(self.resolveShortURLsEnabled || self.getTitlesEnabled) {
+                        if([[urlString lowercaseString] hasSuffix:@".jpg"] || [[urlString lowercaseString] hasSuffix:@".png"]) {
+                            if(self.debugModeEnabled) {
+                                NSString *log = [NSString stringWithFormat:@"URL: %@ has been dumped.", urlString];
+                                [client printDebugInformationToConsole:log];
+                            }
+                            return;
+                        }
                         TXHTTPHelper *http = [[TXHTTPHelper alloc] init];
                         [http setDelegate:self];
                         [http setCompletionBlock:^(NSError *error) {
