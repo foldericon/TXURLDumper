@@ -273,6 +273,7 @@ TXDumperSheet *dumperSheet;
                     }
                 }
             }
+            [self updateSheet];
         }
     }
 }

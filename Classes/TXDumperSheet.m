@@ -164,7 +164,10 @@ BOOL yosemiteorlater=NO;
 
 - (void)reloadData
 {
-    NSString *col = [[self.tableView.tableColumns objectAtIndex:self.tableView.selectedColumn] identifier];
+    NSString *col = @"timestamp";
+    if(self.tableView.selectedColumn > -1) {
+        col = [[self.tableView.tableColumns objectAtIndex:self.tableView.selectedColumn] identifier];
+    }
     [self loadDataSortedBy:col];
 }
 
