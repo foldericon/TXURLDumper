@@ -43,7 +43,6 @@ BOOL yosemiteorlater=NO;
     }
     NSProcessInfo *pinfo = [NSProcessInfo processInfo];
     NSArray *myarr = [[pinfo operatingSystemVersionString] componentsSeparatedByString:@" "];
-    NSLog(@"OS VERSION: %@", [myarr objectAtIndex:1]);
     if([[myarr objectAtIndex:1] hasPrefix:@"10.8"] == NO && [[myarr objectAtIndex:1] hasPrefix:@"10.9"] == NO) {
         yosemiteorlater=YES;
         [self.searchBar setHidden:NO];
