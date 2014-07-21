@@ -91,6 +91,7 @@ TXDumperSheet *dumperSheet;
 {
     [self.enableBox setState:(self.dumpingEnabled ? NSOnState : NSOffState)];
     [self.selfDumpsBox setState:(self.selfDumpsEnabled ? NSOnState : NSOffState)];
+    [self.shortenerBox setState:(self.resolveShortURLsEnabled ? NSOnState : NSOffState)];
     [self.titlesBox setState:(self.getTitlesEnabled ? NSOnState : NSOffState)];
     [self.debugBox setState:(self.debugModeEnabled ? NSOnState : NSOffState)];
     [self.matchingBox selectItemWithTag:(self.strictMatching ? 1 : 0)];
