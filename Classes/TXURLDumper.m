@@ -184,7 +184,7 @@ TXDumperSheet *dumperSheet;
                 
                 if(errCode == 0) {
                     if(self.resolveShortURLsEnabled || self.getTitlesEnabled) {
-                        if([[urlString lowercaseString] hasSuffix:@".jpg"] || [[urlString lowercaseString] hasSuffix:@".png"]) {
+                        if([[urlString lowercaseString] hasSuffix:@".jpg"] || [[urlString lowercaseString] hasSuffix:@".png"] || [[urlString lowercaseString] hasSuffix:@".gif"]) {
                             if(self.debugModeEnabled) {
                                 NSString *log = [NSString stringWithFormat:@"URL: %@ has been dumped.", urlString];
                                 [client printDebugInformationToConsole:log];
