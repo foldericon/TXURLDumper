@@ -16,7 +16,7 @@
 	<string>1.0.0</string>
 	<key>NSPrincipalClass</key>
 	<string>TXURLDumper</string>
-	<key>minimumtextualversion</key>
+	<key>MinimumTextualVersion</key>
 	<string>5.0.0</string>
 </dict>
 </plist>
