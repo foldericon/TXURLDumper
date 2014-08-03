@@ -60,7 +60,7 @@
 }
 
 - (NSArray *)shortenerList {
-    return @[@"bit.do", @"t.co", @"go2.do", @"adf.ly", @"goo.gl", @"bitly.com", @"tinyurl.com", @"ow.ly", @"bit.ly", @"adcrun.ch", @"zpag.es", @"ity.im", @"q.gs", @"link.co", @"viralurl.com", @"is.gd", @"vur.me", @"bc.vc", @"yu2.it", @"twitthis.com", @"u.to", @"j.mp", @"bee4.biz", @"adflav.com", @"buzurl.com", @"xlinkz.info", @"cutt.us", @"u.bb", @"yourls.org", @"fun.ly", @"hit.my", @"nov.io", @"crsco.com", @"x.co", @"shortquik.com", @"prettylinkpro.com", @"viralurl.biz", @"longurl.org", @"tota2.org", @"adcraft.co", @"virl.ws", @"scrnch.me", @"filoops.info", @"linkto.im", @"vurl.bz", @"fzy.co", @"vzturl.com", @"picz.us", @"lernde.fr", @"golinks.co", @"xtu.me", @"qr.net", @"1url.com", @"tweez.me", @"sk.gy", @"gog.li", @"cektkp.com", @"v.gd", @"p6l.org", @"id.tl", @"dft.ba", @"aka.gr"];
+    return @[@"bit.do", @"t.co", @"go2.do", @"adf.ly", @"goo.gl", @"bitly.com", @"tinyurl.com", @"ow.ly", @"bit.ly", @"adcrun.ch", @"zpag.es", @"ity.im", @"q.gs", @"link.co", @"viralurl.com", @"is.gd", @"vur.me", @"bc.vc", @"yu2.it", @"twitthis.com", @"u.to", @"j.mp", @"bee4.biz", @"adflav.com", @"buzurl.com", @"xlinkz.info", @"cutt.us", @"u.bb", @"yourls.org", @"fun.ly", @"hit.my", @"nov.io", @"crsco.com", @"x.co", @"shortquik.com", @"prettylinkpro.com", @"viralurl.biz", @"longurl.org", @"tota2.org", @"adcraft.co", @"virl.ws", @"scrnch.me", @"filoops.info", @"linkto.im", @"vurl.bz", @"fzy.co", @"vzturl.com", @"picz.us", @"lernde.fr", @"golinks.co", @"xtu.me", @"qr.net", @"1url.com", @"tweez.me", @"sk.gy", @"gog.li", @"cektkp.com", @"v.gd", @"p6l.org", @"id.tl", @"dft.ba", @"aka.gr", @"git.io"];
 }
 
 - (void)get:(NSURL *)theurl {
