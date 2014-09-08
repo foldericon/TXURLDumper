@@ -174,6 +174,7 @@ BOOL yosemiteorlater=NO;
 - (void)loadDataSortedBy:(NSString *)column
 {
     [self.plugin loadDataSortedBy:column];
+    [self.dataSource sortUsingDescriptors:self.tableView.sortDescriptors];
     [self.tableView reloadData];
     [self updateRecordsLabel];
 }
@@ -225,13 +226,13 @@ BOOL yosemiteorlater=NO;
     [self endSheet];
 }
 
-- (IBAction)textEntered:(id)sender {
-
-    [self.plugin loadDataSortedBy:@"timestamp"];
-    [self.tableView reloadData];
+- (IBAction)textEntered:(id)sender
+{
+    [self reloadData];
     NSString *str = [[sender stringValue] lowercaseString];
+    self.searchString = str;
     if ([str isEqualTo:@""]) {
-        [self updateRecordsLabel];        
+        NSLog(@"JAU EMPTY");
         NSAssertReturn(nil);
     }
     NSMutableArray *new = [[NSMutableArray alloc] init];

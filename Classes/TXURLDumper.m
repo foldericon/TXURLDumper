@@ -170,7 +170,6 @@ TXDumperSheet *dumperSheet;
                   @"client", urlString,
                   @"url",
                  nil]];
-                
             } else {
                 sql = @"INSERT INTO urls (timestamp, client, channel, nick, url) VALUES (:timestamp, :client, :channel, :nick, :url)";
                 int errCode = [self updateDBWithSQL:sql withParameterDictionary:
