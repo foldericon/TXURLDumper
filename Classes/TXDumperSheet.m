@@ -63,6 +63,9 @@ BOOL yosemiteorlater=NO;
         NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:tableColumn.identifier ascending:YES selector:@selector(localizedStandardCompare:)];
         [tableColumn setSortDescriptorPrototype:sortDescriptor];
     }
+    // Initial sorting
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"timestamp" ascending:NO];
+    [self.tableView setSortDescriptors:[NSArray arrayWithObject:sortDescriptor]];
 }
 
 - (void)start
@@ -116,7 +119,7 @@ BOOL yosemiteorlater=NO;
     
     NSRect rect = NSMakeRect(self.sheet.frame.origin.x, self.sheet.frame.origin.y, self.dumperSheetWidth, self.dumperSheetHeight);
     [self.sheet setFrame:rect display:YES];
-    [self loadDataSortedBy:@"timestamp"];
+    [self loadData];
     [self.window makeKeyAndOrderFront:self.sheet];
     if(yosemiteorlater) [self.sheet makeFirstResponder:self.searchBar];
     else [self.sheet makeFirstResponder:self.searchBar2];
@@ -162,18 +165,9 @@ BOOL yosemiteorlater=NO;
     [self setColumnWidths:dict];
 }
 
-- (void)reloadData
+- (void)loadData
 {
-    NSString *col = @"timestamp";
-    if(self.tableView.selectedColumn > -1) {
-        col = [[self.tableView.tableColumns objectAtIndex:self.tableView.selectedColumn] identifier];
-    }
-    [self loadDataSortedBy:col];
-}
-
-- (void)loadDataSortedBy:(NSString *)column
-{
-    [self.plugin loadDataSortedBy:column];
+    [self.plugin loadData];
     [self.dataSource sortUsingDescriptors:self.tableView.sortDescriptors];
     [self.tableView reloadData];
     [self updateRecordsLabel];
@@ -228,7 +222,7 @@ BOOL yosemiteorlater=NO;
 
 - (IBAction)textEntered:(id)sender
 {
-    [self reloadData];
+    [self loadData];
     NSString *str = [[sender stringValue] lowercaseString];
     self.searchString = str;
     if ([str isEqualTo:@""]) {

@@ -77,6 +77,6 @@
                            isHistoryReload:(BOOL)isHistoryReload;
 
 - (void)clearList;
-- (void)loadDataSortedBy:(NSString *)column;
+- (void)loadData;
 - (void)echo:(NSString *)msg,...;
 @end

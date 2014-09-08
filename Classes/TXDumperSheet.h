@@ -56,6 +56,6 @@
 - (IBAction)disableDumping:(id)sender;
 
 - (void)start;
-- (void)reloadData;
+- (void)loadData;
 
 @end

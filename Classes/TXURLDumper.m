@@ -325,7 +325,7 @@ static inline BOOL isEmpty(id thing) {
 - (void)updateSheet
 {
     if(self.dumperSheetVisible) {
-        [dumperSheet reloadData];
+        [dumperSheet loadData];
     }
 }
 
@@ -367,17 +367,18 @@ static inline BOOL isEmpty(id thing) {
     [dumperSheet start];
 }
 
-- (void)loadDataSortedBy:(NSString *)column
+- (void)loadData
 {
     IRCClient *client = self.masterController.mainWindow.selectedClient;
     NSMutableArray *data = [[NSMutableArray alloc] init];
 
     [self.queue inDatabase:^(FMDatabase *db) {
-        NSString *sql = [NSString stringWithFormat:@"SELECT channel,nick,url,title,timestamp FROM urls WHERE client=? ORDER BY %@ DESC;", column];
-        FMResultSet *s = [db executeQuery:sql, client.config.itemUUID];
+        FMResultSet *s;
         if([self.masterController.mainWindow.selectedItem isClient] == NO) {
-            sql = [NSString stringWithFormat:@"SELECT channel,nick,url,title,timestamp FROM urls WHERE client=? AND channel=? ORDER BY %@ DESC;", column];
-            s = [db executeQuery:sql, client.config.itemUUID, self.masterController.mainWindow.selectedItem.name];
+            s = [db executeQuery:@"SELECT channel,nick,url,title,timestamp FROM urls WHERE client=? AND channel=?;",
+                 client.config.itemUUID, self.masterController.mainWindow.selectedItem.name];
+        } else {
+            s = [db executeQuery:@"SELECT channel,nick,url,title,timestamp FROM urls WHERE client=?;", client.config.itemUUID];
         }
         while ([s next]) {
             NSDictionary *dict = @{ @"channel"      : [s stringForColumn:@"channel"],
