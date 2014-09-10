@@ -45,6 +45,8 @@ extern NSString *TXDumperDisabledNetworksKey;
 extern NSString *TXDumperDisabledChannelsKey;
 extern NSString *TXDumperSheetColumnWidthsKey;
 extern NSString *TXDumperSheetHiddenColumnsKey;
+extern NSString *TXDumperSheetSortByKey;
+extern NSString *TXDumperSheetSortAscendingKey;
 
 @interface TXDumperPrefs : NSObject
 
@@ -64,4 +66,6 @@ extern NSString *TXDumperSheetHiddenColumnsKey;
 @property (readonly) NSArray *disabledChannels;
 @property (readonly) NSDictionary *columnWidths;
 @property (readonly) NSArray *hiddenColumns;
+@property (readonly) NSString *sortBy;
+@property (readonly) BOOL sortAscending;
 @end

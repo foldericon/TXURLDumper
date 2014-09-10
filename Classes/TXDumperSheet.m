@@ -64,8 +64,9 @@ BOOL yosemiteorlater=NO;
         [tableColumn setSortDescriptorPrototype:sortDescriptor];
     }
     // Initial sorting
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"timestamp" ascending:NO];
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:self.sortBy ascending:self.sortAscending];
     [self.tableView setSortDescriptors:[NSArray arrayWithObject:sortDescriptor]];
+
 }
 
 - (void)start
@@ -158,11 +159,21 @@ BOOL yosemiteorlater=NO;
 - (void)sheetDidEnd:(NSWindow *)sender returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
 	[self.sheet close];
+    NSMutableDictionary *prefs = [NSMutableDictionary dictionaryWithDictionary:[self preferences]];
+    
+    // Save Columns Sizes
     NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
     for (NSTableColumn *column in self.tableView.tableColumns) {
         [dict setObject:[NSNumber numberWithFloat:column.width] forKey:column.identifier];
     }
-    [self setColumnWidths:dict];
+    [prefs setObject:dict forKey:TXDumperSheetColumnWidthsKey];
+
+    
+    // Save sorting
+    NSSortDescriptor *sortDescriptor = [[self.tableView sortDescriptors] objectAtIndex:0];
+    [prefs setObject:sortDescriptor.key forKey:TXDumperSheetSortByKey];
+    [prefs setObject:[NSNumber numberWithBool:sortDescriptor.ascending] forKey:TXDumperSheetSortAscendingKey];
+    [self setPreferences:prefs];
 }
 
 - (void)loadData
@@ -226,7 +237,6 @@ BOOL yosemiteorlater=NO;
     NSString *str = [[sender stringValue] lowercaseString];
     self.searchString = str;
     if ([str isEqualTo:@""]) {
-        NSLog(@"JAU EMPTY");
         NSAssertReturn(nil);
     }
     NSMutableArray *new = [[NSMutableArray alloc] init];

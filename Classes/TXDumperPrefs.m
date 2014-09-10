@@ -45,6 +45,8 @@ NSString *TXDumperDisabledNetworksKey = @"TXDumperDisabledNetworks";
 NSString *TXDumperDisabledChannelsKey = @"TXDumperDisabledChannels";
 NSString *TXDumperSheetColumnWidthsKey = @"TXDumperSheetColumnWidths";
 NSString *TXDumperSheetHiddenColumnsKey = @"TXDumperSheetHiddenColumns";
+NSString *TXDumperSheetSortByKey = @"TXDumperSheetSortBy";
+NSString *TXDumperSheetSortAscendingKey = @"TXDumperSheetSortAscending";
 
 @implementation TXDumperPrefs
 - (NSDictionary *)preferences
@@ -68,7 +70,13 @@ NSString *TXDumperSheetHiddenColumnsKey = @"TXDumperSheetHiddenColumns";
                               nil];
         [self setPreferences:dict];
     }
- 
+    NSMutableDictionary *prefs = [NSMutableDictionary dictionaryWithContentsOfFile:self.preferencesPath];
+    if([[prefs allKeys] containsObject:TXDumperSheetSortByKey] == NO) {
+        [prefs setObject:@"timestamp" forKey:TXDumperSheetSortByKey];
+        [prefs setObject:@"no" forKey:TXDumperSheetSortAscendingKey];
+        [self setPreferences:prefs];
+
+    }
     return [NSDictionary dictionaryWithContentsOfFile:[self preferencesPath]];
 }
 
@@ -150,6 +158,16 @@ NSString *TXDumperSheetHiddenColumnsKey = @"TXDumperSheetHiddenColumns";
 - (NSArray *)hiddenColumns
 {
     return [self.preferences objectForKey:TXDumperSheetHiddenColumnsKey];
+}
+
+- (NSString *)sortBy
+{
+    return [self.preferences objectForKey:TXDumperSheetSortByKey];
+}
+
+- (BOOL)sortAscending
+{
+    return [[self.preferences objectForKey:TXDumperSheetSortAscendingKey] boolValue];
 }
 
 @end
