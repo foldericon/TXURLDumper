@@ -65,7 +65,9 @@ TXDumperSheet *dumperSheet;
 - (void)pluginWillBeUnloadedFromMemory {
     NSMenu *windowMenu = [[[[NSApplication sharedApplication] mainMenu] itemWithTitle:@"Window"] submenu];
     NSMenuItem *item = [windowMenu itemWithTitle:@"URL List"];
-    [windowMenu removeItem:item];
+    if(item != nil) {
+        [windowMenu removeItem:item];
+    }
     [self.queue close];
 }
 
