@@ -44,9 +44,6 @@
     return self;
 }
 
-- (void)dealloc {
-    [super dealloc];
-}
 
 
 - (void)setDelegate:(id)val

@@ -31,13 +31,17 @@
 
 #import "TXURLDumper.h"
 #import "TXHTTPHelper.h"
+#import "TXDumperSheet.h"
+
+@interface TXURLDumper ()
+@property (nonatomic) TXDumperSheet *dumperSheet;
+@end
+
 
 @implementation TXURLDumper
 
 #pragma mark -
 #pragma mark Memory Allocation & Deallocation
-
-TXDumperSheet *dumperSheet;
 
 - (void)pluginLoadedIntoMemory
 {
@@ -45,6 +49,10 @@ TXDumperSheet *dumperSheet;
         self.queue = [FMDatabaseQueue databaseQueueWithPath:[self dbPath]];
         [self createDBStructure];
     }
+    
+    _dumperSheet = [[TXDumperSheet alloc] init];
+    _dumperSheet.window = self.masterController.mainWindow;
+    _dumperSheet.plugin = self;
     
     NSMenu *windowMenu = [[[[NSApplication sharedApplication] mainMenu] itemWithTitle:@"Window"] submenu];
     
@@ -192,9 +200,10 @@ TXDumperSheet *dumperSheet;
                             }
                             return;
                         }
-                        TXHTTPHelper *http = [[TXHTTPHelper alloc] init];
-                        [http setDelegate:self];
-                        [http setCompletionBlock:^(NSError *error) {
+                        TXHTTPHelper *helper = [[TXHTTPHelper alloc] init];
+                        __block TXHTTPHelper *http = helper;
+                        [helper setDelegate:self];
+                        [helper setCompletionBlock:^(NSError *error) {
                             NSString *dataStr;
                             NSString *title;
                             switch (error.code){
@@ -327,7 +336,7 @@ static inline BOOL isEmpty(id thing) {
 - (void)updateSheet
 {
     if(self.dumperSheetVisible) {
-        [dumperSheet loadData];
+        [_dumperSheet loadData];
     }
 }
 
@@ -357,16 +366,13 @@ static inline BOOL isEmpty(id thing) {
 
 - (void)showDumperForClient:(IRCClient *)client
 {
-    dumperSheet = [[TXDumperSheet alloc] init];
-    dumperSheet.window = self.masterController.mainWindow;
     IRCTreeItem *channel = self.masterController.mainWindow.selectedItem;
     if(channel.isClient == NO) {
-        dumperSheet.networkLabel.stringValue = [dumperSheet.networkLabel.stringValue stringByAppendingFormat:@"%@ on %@", channel.name, client.altNetworkName];
+        _dumperSheet.networkLabel.stringValue = [_dumperSheet.networkLabel.stringValue stringByAppendingFormat:@"%@ on %@", channel.name, client.altNetworkName];
     } else {
-        dumperSheet.networkLabel.stringValue = [dumperSheet.networkLabel.stringValue stringByAppendingFormat:@"%@", client.altNetworkName];
+        _dumperSheet.networkLabel.stringValue = [_dumperSheet.networkLabel.stringValue stringByAppendingFormat:@"%@", client.altNetworkName];
     }
-    dumperSheet.plugin = self;
-    [dumperSheet start];
+    [_dumperSheet start];
 }
 
 - (void)loadData
@@ -392,7 +398,7 @@ static inline BOOL isEmpty(id thing) {
             [data addObject:dict];
         }
     }];
-    dumperSheet.dataSource = data;
+    _dumperSheet.dataSource = data;
 }
 
 - (BOOL)checkDupe:(NSString *)url forClient:(IRCClient *)client withTimestamp:(NSNumber *)timestamp
@@ -456,7 +462,7 @@ static inline BOOL isEmpty(id thing) {
 }
 
 - (void)clearList {
-    if(dumperSheet.networkSheet) {
+    if(_dumperSheet.networkSheet) {
         IRCClient *client = self.masterController.mainWindow.selectedClient;
         [self updateDBWithSQL:@"DELETE FROM urls where client=?" withArgsArray:[NSArray arrayWithObject:client.config.itemUUID]];
     } else {

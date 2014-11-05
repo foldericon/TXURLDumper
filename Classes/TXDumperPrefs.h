@@ -50,8 +50,8 @@ extern NSString *TXDumperSheetSortAscendingKey;
 
 @interface TXDumperPrefs : NSObject
 
-@property (assign) NSDictionary *preferences;
-@property (readonly) NSString *preferencesPath;
+@property (weak) NSDictionary *preferences;
+@property (weak, readonly) NSString *preferencesPath;
 @property (readonly) BOOL dumpingEnabled;
 @property (readonly) BOOL selfDumpsEnabled;
 @property (readonly) BOOL resolveShortURLsEnabled;
@@ -62,10 +62,10 @@ extern NSString *TXDumperSheetSortAscendingKey;
 @property (readonly) NSInteger doubleEntryHandling;
 @property (readonly) NSInteger dumperSheetWidth;
 @property (readonly) NSInteger dumperSheetHeight;
-@property (readonly) NSArray *disabledNetworks;
-@property (readonly) NSArray *disabledChannels;
-@property (readonly) NSDictionary *columnWidths;
-@property (readonly) NSArray *hiddenColumns;
-@property (readonly) NSString *sortBy;
+@property (weak, readonly) NSArray *disabledNetworks;
+@property (weak, readonly) NSArray *disabledChannels;
+@property (weak, readonly) NSDictionary *columnWidths;
+@property (weak, readonly) NSArray *hiddenColumns;
+@property (weak, readonly) NSString *sortBy;
 @property (readonly) BOOL sortAscending;
 @end

@@ -32,23 +32,25 @@
 #import "TextualApplication.h"
 #import "TXSearchField.h"
 #import "TXURLDumper.h"
+#import "TXDumperPrefs.h"
+
 
 @interface TXDumperSheet : TXDumperPrefs <NSWindowDelegate, NSTableViewDataSource, NSTableViewDelegate, NSMenuDelegate>
 
-@property (assign) id plugin;
-@property (assign) NSMutableArray *dataSource;
-@property (assign) NSWindow *window;
+@property (unsafe_unretained) id plugin;
+@property (nonatomic, retain) NSMutableArray *dataSource;
+@property (weak) NSWindow *window;
 @property (nonatomic, strong) IBOutlet NSWindow *sheet;
-@property (assign) IBOutlet TXSearchField *searchBar;
-@property (assign) IBOutlet NSSearchField *searchBar2;
-@property (assign) IBOutlet NSTableView *tableView;
-@property (assign) IBOutlet NSTextField *networkLabel;
-@property (assign) IBOutlet NSTextField *recordsLabel;
-@property (assign) IBOutlet NSButton *clearButton;
-@property (assign) IBOutlet NSButton *closeButton;
-@property (assign) IBOutlet NSButton *disableDumpingBox;
+@property (weak) IBOutlet TXSearchField *searchBar;
+@property (weak) IBOutlet NSSearchField *searchBar2;
+@property (weak) IBOutlet NSTableView *tableView;
+@property (weak) IBOutlet NSTextField *networkLabel;
+@property (weak) IBOutlet NSTextField *recordsLabel;
+@property (weak) IBOutlet NSButton *clearButton;
+@property (weak) IBOutlet NSButton *closeButton;
+@property (weak) IBOutlet NSButton *disableDumpingBox;
 @property (assign) BOOL networkSheet;
-@property (assign) NSString *searchString;
+@property (weak) NSString *searchString;
 
 - (IBAction)clear:(id)sender;
 - (IBAction)close:(id)sender;

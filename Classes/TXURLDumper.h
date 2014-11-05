@@ -31,26 +31,24 @@
 
 #import <Cocoa/Cocoa.h>
 #import <Foundation/Foundation.h>
-#import "AutoHyperlinks/AutoHyperlinks.h"
 #import "TextualApplication.h"
-#import "TXDumperPrefs.h"
-#import "TXDumperSheet.h"
 #import "FMDatabase.h"
 #import "FMResultSet.h"
 #import "FMDatabaseQueue.h"
+#import "TXDumperPrefs.h"
 
 @interface TXURLDumper : TXDumperPrefs
 
 @property (nonatomic, strong) IBOutlet NSView *ourView;
 @property (assign) BOOL dumperSheetVisible;
-@property (assign) IBOutlet NSButton *enableBox;
-@property (assign) IBOutlet NSButton *selfDumpsBox;
-@property (assign) IBOutlet NSButton *shortenerBox;
-@property (assign) IBOutlet NSButton *titlesBox;
-@property (assign) IBOutlet NSButton *debugBox;
-@property (assign) IBOutlet NSPopUpButtonCell *matchingBox;
-@property (assign) IBOutlet NSPopUpButtonCell *doubleClickActionBox;
-@property (assign) IBOutlet NSPopUpButtonCell *doubleEntryHandlingBox;
+@property (weak) IBOutlet NSButton *enableBox;
+@property (weak) IBOutlet NSButton *selfDumpsBox;
+@property (weak) IBOutlet NSButton *shortenerBox;
+@property (weak) IBOutlet NSButton *titlesBox;
+@property (weak) IBOutlet NSButton *debugBox;
+@property (weak) IBOutlet NSPopUpButtonCell *matchingBox;
+@property (weak) IBOutlet NSPopUpButtonCell *doubleClickActionBox;
+@property (weak) IBOutlet NSPopUpButtonCell *doubleEntryHandlingBox;
 
 @property (nonatomic, strong) FMDatabaseQueue *queue;
 

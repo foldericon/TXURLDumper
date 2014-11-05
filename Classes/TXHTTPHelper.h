@@ -36,10 +36,10 @@
 	id delegate;
 	NSMutableData *receivedData;
 }
-@property (nonatomic,retain) NSMutableData *receivedData;
-@property (retain) id delegate;
-@property (assign) NSURL *url;
-@property (assign) NSURL *finalURL;
+@property (nonatomic,strong) NSMutableData *receivedData;
+@property (strong) id delegate;
+@property (weak) NSURL *url;
+@property (weak) NSURL *finalURL;
 @property (nonatomic,copy)void (^completionBlock) (NSError *error);
 
 - (void)get: (NSURL *)url;

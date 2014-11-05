@@ -36,7 +36,7 @@
 
 BOOL yosemiteorlater=NO;
 
-- (id)init
+- (instancetype)init
 {
 	if ((self = [super init])) {
         [[NSBundle bundleForClass:[self class]] loadNibNamed:@"DumperSheet" owner:self topLevelObjects:nil];
@@ -153,7 +153,6 @@ BOOL yosemiteorlater=NO;
     [self.plugin setDumperSheetVisible:NO];
     self.dataSource = nil;
 	[NSApp endSheet:self.sheet];
-    [self.sheet close];
 }
 
 - (void)sheetDidEnd:(NSWindow *)sender returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
