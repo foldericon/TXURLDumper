@@ -72,13 +72,14 @@ BOOL yosemiteorlater=NO;
 - (void)start
 {
     if([self.masterController.mainWindow.selectedItem isClient] == NO) {
-        [self.tableView removeTableColumn:[self.tableView tableColumnWithIdentifier:@"channel"]];
+        [[self.tableView tableColumnWithIdentifier:@"channel"] setHidden:YES];
         if(self.masterController.mainWindow.selectedChannel.isChannel)
             [self.disableDumpingBox setTitle:@"Disable dumping for this channel"];
         else
             [self.disableDumpingBox setTitle:@"Disable dumping for this query"];
         networkSheet = NO;
     } else {
+        [[self.tableView tableColumnWithIdentifier:@"channel"] setHidden:NO];
         [self.disableDumpingBox setTitle:@"Disable dumping for this network"];
         networkSheet = YES;
     }
@@ -91,7 +92,10 @@ BOOL yosemiteorlater=NO;
                                                    keyEquivalent:@""];
         menuItem.target = self;
         menuItem.representedObject = column;
-        [columnsMenu addItem:menuItem];
+        
+        if (networkSheet || ![column.identifier isEqualToString:@"channel"])
+            [columnsMenu addItem:menuItem];
+        
         if([self.hiddenColumns containsObject:column.identifier])
             [column setHidden:YES];
     }
@@ -125,6 +129,7 @@ BOOL yosemiteorlater=NO;
     if(yosemiteorlater) [self.sheet makeFirstResponder:self.searchBar];
     else [self.sheet makeFirstResponder:self.searchBar2];
 	[self startSheetWithWindow:self.window];
+    
     if(self.dumpingEnabled == NO && self.dataSource.count < 1){
         NSAlert *alert = [NSAlert alertWithMessageText:@"Dumping isn't enabled yet, to start dumping URLs you need to enable it in the Textual preferences."
                                          defaultButton:@"OK"
