@@ -151,7 +151,10 @@
     for (NSArray *arr in arrLinks) {
         
         // Do we have a wild match?
-        if(self.strictMatching && [[[messageInfo objectForKey:@"messageBody"] substringWithRange:NSRangeFromString(arr[0])] hasPrefix:@"http://"] == NO) break;
+        if(self.strictMatching &&
+           [[[messageInfo objectForKey:@"messageBody"] substringWithRange:NSRangeFromString(arr[0])] hasPrefix:@"http://"] == NO &&
+           [[[messageInfo objectForKey:@"messageBody"] substringWithRange:NSRangeFromString(arr[0])] hasPrefix:@"https://"] == NO)
+            break;
         
         urlString = arr[1];
         
