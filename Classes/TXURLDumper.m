@@ -363,9 +363,9 @@ static inline BOOL isEmpty(id thing) {
 {
     IRCTreeItem *channel = self.masterController.mainWindow.selectedItem;
     if(channel.isClient == NO) {
-        _dumperSheet.networkLabel.stringValue = [_dumperSheet.networkLabel.stringValue stringByAppendingFormat:@"%@ on %@", channel.name, client.altNetworkName];
+        _dumperSheet.networkLabel.stringValue = [NSString stringWithFormat:@"URL List for %@ on %@", channel.name, client.altNetworkName];
     } else {
-        _dumperSheet.networkLabel.stringValue = [_dumperSheet.networkLabel.stringValue stringByAppendingFormat:@"%@", client.altNetworkName];
+        _dumperSheet.networkLabel.stringValue = [NSString stringWithFormat:@"URL List for %@", client.altNetworkName];
     }
     [_dumperSheet start];
 }
