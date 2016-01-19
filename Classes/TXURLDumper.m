@@ -478,7 +478,7 @@ static inline BOOL isEmpty(id thing) {
 
 - (NSString *)dbPath
 {
-    return [[NSString stringWithFormat:@"%@/Extensions/%@.db", [TPCPathInfo applicationSupportFolderPath], [[NSBundle bundleForClass:[self class]] principalClass]] stringByExpandingTildeInPath];
+    return [[NSString stringWithFormat:@"%@/Extensions/%@.db", [TPCPathInfo applicationGroupContainerApplicationSupportPath], [[NSBundle bundleForClass:[self class]] principalClass]] stringByExpandingTildeInPath];
 }
 
 #pragma mark -
