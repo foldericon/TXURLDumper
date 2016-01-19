@@ -121,7 +121,7 @@
     NSInteger lineType = (long)[[messageInfo objectForKey:@"lineType"] integerValue];
     
     // We want regular messages and actions only.
-    if(lineType != 1 && lineType != 17) return;
+    if(lineType != TVCLogLineActionType && lineType != TVCLogLinePrivateMessageType) return;
     
     IRCClient *client = logController.associatedClient;
     NSString *channel = logController.associatedChannel.name;
