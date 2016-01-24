@@ -12,8 +12,7 @@
                 <outlet property="disableDumpingBox" destination="312" id="321"/>
                 <outlet property="networkLabel" destination="240" id="247"/>
                 <outlet property="recordsLabel" destination="230" id="237"/>
-                <outlet property="searchBar" destination="tzy-tX-Dra" id="M4b-7Q-drC"/>
-                <outlet property="searchBar2" destination="A06-0F-3s6" id="5XE-AZ-BkF"/>
+                <outlet property="searchBar" destination="A06-0F-3s6" id="IjY-77-m7o"/>
                 <outlet property="sheet" destination="11" id="OWC-uL-2US"/>
                 <outlet property="tableView" destination="190" id="219"/>
             </connections>
@@ -91,30 +90,6 @@ Gw
                         <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <font key="titleFont" metaFont="system"/>
                     </box>
-                    <textField hidden="YES" verticalHuggingPriority="750" id="tzy-tX-Dra" customClass="TXSearchField">
-                        <rect key="frame" x="473" y="316" width="285" height="22"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" state="on" borderStyle="bezel" bezelStyle="round" id="ZVU-zd-gLf">
-                            <font key="font" metaFont="system"/>
-                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                        <connections>
-                            <action selector="textEntered:" target="-2" id="y6O-ZF-gY7"/>
-                        </connections>
-                    </textField>
-                    <searchField wantsLayer="YES" verticalHuggingPriority="750" id="A06-0F-3s6">
-                        <rect key="frame" x="473" y="316" width="284" height="22"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
-                        <searchFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" borderStyle="bezel" usesSingleLineMode="YES" bezelStyle="round" id="F6n-oj-LTh">
-                            <font key="font" metaFont="system"/>
-                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                        </searchFieldCell>
-                        <connections>
-                            <action selector="textEntered:" target="-2" id="J9r-TL-0iN"/>
-                        </connections>
-                    </searchField>
                     <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="189">
                         <rect key="frame" x="-1" y="43" width="780" height="265"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -212,6 +187,18 @@ Gw
                             <autoresizingMask key="autoresizingMask"/>
                         </tableHeaderView>
                     </scrollView>
+                    <searchField wantsLayer="YES" verticalHuggingPriority="750" id="A06-0F-3s6" userLabel="Search Bar">
+                        <rect key="frame" x="474" y="316" width="284" height="22"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                        <searchFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" borderStyle="bezel" usesSingleLineMode="YES" bezelStyle="round" id="F6n-oj-LTh">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </searchFieldCell>
+                        <connections>
+                            <action selector="textEntered:" target="-2" id="J9r-TL-0iN"/>
+                        </connections>
+                    </searchField>
                 </subviews>
             </view>
             <connections>

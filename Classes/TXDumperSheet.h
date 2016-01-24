@@ -30,7 +30,6 @@
 
 
 #import "TextualApplication.h"
-#import "TXSearchField.h"
 #import "TXURLDumper.h"
 #import "TXDumperPrefs.h"
 
@@ -41,8 +40,8 @@
 @property (nonatomic, retain) NSMutableArray *dataSource;
 @property (weak) NSWindow *window;
 @property (nonatomic, strong) IBOutlet NSWindow *sheet;
-@property (weak) IBOutlet TXSearchField *searchBar;
-@property (weak) IBOutlet NSSearchField *searchBar2;
+@property (weak) IBOutlet NSSearchField *searchBar;
+
 @property (weak) IBOutlet NSTableView *tableView;
 @property (weak) IBOutlet NSTextField *networkLabel;
 @property (weak) IBOutlet NSTextField *recordsLabel;
