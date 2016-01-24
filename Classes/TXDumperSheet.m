@@ -101,6 +101,8 @@
                 column.width = [columns[column.identifier] floatValue];
         }
     }
+    [self.tableView sizeToFit];
+    
     if(networkSheet) {
         if([self.disabledNetworks containsObject:self.masterController.mainWindow.selectedClient.config.itemUUID])
             [self.disableDumpingBox setState:1];
