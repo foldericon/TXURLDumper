@@ -104,12 +104,12 @@
     [self.tableView sizeToFit];
     
     if(networkSheet) {
-        if([self.disabledNetworks containsObject:self.masterController.mainWindow.selectedClient.config.itemUUID])
+        if([self.disabledNetworks containsObject:self.masterController.mainWindow.selectedClient.config.uniqueIdentifier])
             [self.disableDumpingBox setState:1];
         else
             [self.disableDumpingBox setState:0];
     } else {
-        if([self.disabledChannels containsObject:self.masterController.mainWindow.selectedChannel.config.itemUUID])
+        if([self.disabledChannels containsObject:self.masterController.mainWindow.selectedChannel.config.uniqueIdentifier])
             [self.disableDumpingBox setState:1];
         else
             [self.disableDumpingBox setState:0];
@@ -191,7 +191,8 @@
 
 - (NSString *)timeAgoString:(double)timestamp
 {
-    return [NSString stringWithFormat:@"%@ ago", TXHumanReadableTimeInterval([NSDate secondsSinceUnixTimestamp:timestamp], YES, 0)];
+    NSTimeInterval timePassed = [NSDate timeIntervalSinceNow:timestamp];
+    return [NSString stringWithFormat:@"%@ ago", TXHumanReadableTimeInterval(timePassed, YES, 0)];
 }
 
 #pragma mark -
@@ -258,23 +259,23 @@
         IRCClient *cl = self.masterController.mainWindow.selectedClient;
         if([self.disableDumpingBox state] == 1) {
             for(IRCChannel *ch in cl.channelList) {
-                [disabledChannels addObject:ch.config.itemUUID];
+                [disabledChannels addObject:ch.config.uniqueIdentifier];
             }
-            [disabledNetworks addObject:cl.config.itemUUID];
+            [disabledNetworks addObject:cl.config.uniqueIdentifier];
         } else {
             for(IRCChannel *ch in cl.channelList) {
-                [disabledChannels removeObject:ch.config.itemUUID];
+                [disabledChannels removeObject:ch.config.uniqueIdentifier];
             }
-            [disabledNetworks removeObject:cl.config.itemUUID];
+            [disabledNetworks removeObject:cl.config.uniqueIdentifier];
         }
     } else {
         IRCChannel *ch = self.masterController.mainWindow.selectedChannel;
         if([self.disableDumpingBox state] == 1) {
-            [disabledChannels addObject:ch.config.itemUUID];
+            [disabledChannels addObject:ch.config.uniqueIdentifier];
         }
         else {
             [disabledNetworks removeObject:ch.associatedClient];
-            [disabledChannels removeObject:ch.config.itemUUID];
+            [disabledChannels removeObject:ch.config.uniqueIdentifier];
         }
     }
     [dict setObject:disabledNetworks forKey:TXDumperDisabledNetworksKey];

@@ -128,9 +128,9 @@
     NSString *nick = [messageInfo objectForKey:@"senderNickname"];
     
     if(isThemeReload || isHistoryReload || self.dumpingEnabled == NO ||
-       [self.disabledNetworks containsObject:client.config.itemUUID] ||
-       [self.disabledChannels containsObject:[client findChannel:channel].config.itemUUID] ||
-       ([nick isEqualToString:client.localNickname] && self.selfDumpsEnabled == NO))
+       [self.disabledNetworks containsObject:client.config.uniqueIdentifier] ||
+       [self.disabledChannels containsObject:[client findChannel:channel].config.uniqueIdentifier] ||
+       ([nick isEqualToString:client.userNickname] && self.selfDumpsEnabled == NO))
         NSAssertReturn(nil);
     
     id date = [messageInfo objectForKey:@"receivedAtTime"];
@@ -143,20 +143,20 @@
     // Any Links?
     if ([arrLinks count] < 1) return;
     
-    if([channel isEqualToString:self.masterController.mainWindow.selectedClient.localNickname]) {
+    if([channel isEqualToString:self.masterController.mainWindow.selectedClient.userNickname]) {
         channel = nick;
     }
     NSNumber *timestamp = [NSNumber numberWithDouble:[date timeIntervalSince1970]];
     NSString *urlString;
-    for (NSArray *arr in arrLinks) {
+    for (AHHyperlinkScannerResult *hyperlink in arrLinks) {
         
         // Do we have a wild match?
         if(self.strictMatching &&
-           [[[messageInfo objectForKey:@"messageBody"] substringWithRange:NSRangeFromString(arr[0])] hasPrefix:@"http://"] == NO &&
-           [[[messageInfo objectForKey:@"messageBody"] substringWithRange:NSRangeFromString(arr[0])] hasPrefix:@"https://"] == NO)
+           [[[messageInfo objectForKey:@"messageBody"] substringWithRange:hyperlink.range] hasPrefix:@"http://"] == NO &&
+           [[[messageInfo objectForKey:@"messageBody"] substringWithRange:hyperlink.range] hasPrefix:@"https://"] == NO)
             break;
         
-        urlString = arr[1];
+        urlString = hyperlink.stringValue;
         
         if ([urlString hasSuffix:@"…"] == NO) {
             if([urlString hasPrefix:@"/r/"]) {
@@ -174,7 +174,7 @@
                   timestamp, @"timestamp",
                   channel, @"channel",
                   nick, @"nick",
-                  client.config.itemUUID,
+                  client.config.uniqueIdentifier,
                   @"client", urlString,
                   @"url",
                  nil]];
@@ -183,7 +183,7 @@
                 int errCode = [self updateDBWithSQL:sql withParameterDictionary:
                                [NSDictionary dictionaryWithObjectsAndKeys:
                                 timestamp, @"timestamp",
-                                client.config.itemUUID, @"client",
+                                client.config.uniqueIdentifier, @"client",
                                 channel, @"channel",
                                 nick, @"nick",
                                 urlString, @"url",
@@ -366,9 +366,9 @@ static inline BOOL isEmpty(id thing) {
 {
     IRCTreeItem *channel = self.masterController.mainWindow.selectedItem;
     if(channel.isClient == NO) {
-        _dumperSheet.networkLabel.stringValue = [NSString stringWithFormat:@"URL List for %@ on %@", channel.name, client.altNetworkName];
+        _dumperSheet.networkLabel.stringValue = [NSString stringWithFormat:@"URL List for %@ on %@", channel.name, client.networkName];
     } else {
-        _dumperSheet.networkLabel.stringValue = [NSString stringWithFormat:@"URL List for %@", client.altNetworkName];
+        _dumperSheet.networkLabel.stringValue = [NSString stringWithFormat:@"URL List for %@", client.networkName];
     }
     [_dumperSheet start];
 }
@@ -382,9 +382,9 @@ static inline BOOL isEmpty(id thing) {
         FMResultSet *s;
         if([self.masterController.mainWindow.selectedItem isClient] == NO) {
             s = [db executeQuery:@"SELECT channel,nick,url,title,timestamp FROM urls WHERE client=? AND channel=?;",
-                 client.config.itemUUID, self.masterController.mainWindow.selectedItem.name];
+                 client.config.uniqueIdentifier, self.masterController.mainWindow.selectedItem.name];
         } else {
-            s = [db executeQuery:@"SELECT channel,nick,url,title,timestamp FROM urls WHERE client=?;", client.config.itemUUID];
+            s = [db executeQuery:@"SELECT channel,nick,url,title,timestamp FROM urls WHERE client=?;", client.config.uniqueIdentifier];
         }
         while ([s next]) {
             NSDictionary *dict = @{ @"channel"      : [s stringForColumn:@"channel"],
@@ -404,7 +404,7 @@ static inline BOOL isEmpty(id thing) {
     BOOL dupe = NO;
     NSMutableArray *data = [[NSMutableArray alloc] init];
     [self.queue inDatabase:^(FMDatabase *db) {
-        FMResultSet *s = [db executeQuery:@"SELECT id from urls where url=? AND client=? AND timestamp<>?", url, client.config.itemUUID, timestamp];
+        FMResultSet *s = [db executeQuery:@"SELECT id from urls where url=? AND client=? AND timestamp<>?", url, client.config.uniqueIdentifier, timestamp];
         while ([s next]) {
             [data addObject:[s resultDictionary]];
         }
@@ -462,11 +462,11 @@ static inline BOOL isEmpty(id thing) {
 - (void)clearList {
     if(_dumperSheet.networkSheet) {
         IRCClient *client = self.masterController.mainWindow.selectedClient;
-        [self updateDBWithSQL:@"DELETE FROM urls where client=?" withArgsArray:[NSArray arrayWithObject:client.config.itemUUID]];
+        [self updateDBWithSQL:@"DELETE FROM urls where client=?" withArgsArray:[NSArray arrayWithObject:client.config.uniqueIdentifier]];
     } else {
         IRCClient *client = self.masterController.mainWindow.selectedClient;
         IRCChannel *channel = self.masterController.mainWindow.selectedChannel;
-        [self updateDBWithSQL:@"DELETE FROM urls where client=? AND channel=?" withArgsArray:[NSArray arrayWithObjects:client.config.itemUUID, channel.name, nil]];
+        [self updateDBWithSQL:@"DELETE FROM urls where client=? AND channel=?" withArgsArray:[NSArray arrayWithObjects:client.config.uniqueIdentifier, channel.name, nil]];
     }
 }
 
