@@ -113,32 +113,30 @@
 #pragma mark -
 #pragma mark Plugin API
 
-- (void)didPostNewMessageForViewController:(TVCLogController *)logController
-                               messageInfo:(NSDictionary *)messageInfo
-                             isThemeReload:(BOOL)isThemeReload
-                           isHistoryReload:(BOOL)isHistoryReload
+- (void)didPostNewMessage:(THOPluginDidPostNewMessageConcreteObject *)messageObject forViewController:(TVCLogController *)viewController
+
 {
-    NSInteger lineType = (long)[[messageInfo objectForKey:@"lineType"] integerValue];
+    NSInteger lineType = (long)messageObject.lineType;
     
     // We want regular messages and actions only.
     if(lineType != TVCLogLineActionType && lineType != TVCLogLinePrivateMessageType) return;
     
-    IRCClient *client = logController.associatedClient;
-    NSString *channel = logController.associatedChannel.name;
-    NSString *nick = [messageInfo objectForKey:@"senderNickname"];
+    IRCClient *client = viewController.associatedClient;
+    NSString *channel = viewController.associatedChannel.name;
+    NSString *nick = messageObject.senderNickname;
     
-    if(isThemeReload || isHistoryReload || self.dumpingEnabled == NO ||
+    if(messageObject.isProcessedInBulk || self.dumpingEnabled == NO ||
        [self.disabledNetworks containsObject:client.config.uniqueIdentifier] ||
        [self.disabledChannels containsObject:[client findChannel:channel].config.uniqueIdentifier] ||
        ([nick isEqualToString:client.userNickname] && self.selfDumpsEnabled == NO))
         NSAssertReturn(nil);
     
-    id date = [messageInfo objectForKey:@"receivedAtTime"];
+    id date = messageObject.receivedAt;
     if(!date) {
         date = [NSDate date];
     }
 
-    NSArray *arrLinks = [messageInfo objectForKey:@"allHyperlinksInBody"];
+    NSArray *arrLinks = messageObject.listOfHyperlinks;
 
     // Any Links?
     if ([arrLinks count] < 1) return;
@@ -152,8 +150,8 @@
         
         // Do we have a wild match?
         if(self.strictMatching &&
-           [[[messageInfo objectForKey:@"messageBody"] substringWithRange:hyperlink.range] hasPrefix:@"http://"] == NO &&
-           [[[messageInfo objectForKey:@"messageBody"] substringWithRange:hyperlink.range] hasPrefix:@"https://"] == NO)
+           [[messageObject.messageContents substringWithRange:hyperlink.range] hasPrefix:@"http://"] == NO &&
+           [[messageObject.messageContents substringWithRange:hyperlink.range] hasPrefix:@"https://"] == NO)
             break;
         
         urlString = hyperlink.stringValue;

@@ -37,7 +37,7 @@
 #import "FMDatabaseQueue.h"
 #import "TXDumperPrefs.h"
 
-@interface TXURLDumper : TXDumperPrefs
+@interface TXURLDumper : TXDumperPrefs <THOPluginProtocol>
 
 @property (nonatomic, strong) IBOutlet NSView *ourView;
 @property (assign) BOOL dumperSheetVisible;
@@ -68,11 +68,6 @@
 
 - (NSView *)pluginPreferencesPaneView;
 - (NSString *)pluginPreferencesPaneMenuItemName;
-
-- (void)didPostNewMessageForViewController:(TVCLogController *)logController
-                               messageInfo:(NSDictionary *)messageInfo
-                             isThemeReload:(BOOL)isThemeReload
-                           isHistoryReload:(BOOL)isHistoryReload;
 
 - (void)clearList;
 - (void)loadData;
