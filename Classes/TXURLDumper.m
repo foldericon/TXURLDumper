@@ -149,9 +149,7 @@
     for (AHHyperlinkScannerResult *hyperlink in arrLinks) {
         
         // Do we have a wild match?
-        if(self.strictMatching &&
-           [[messageObject.messageContents substringWithRange:hyperlink.range] hasPrefix:@"http://"] == NO &&
-           [[messageObject.messageContents substringWithRange:hyperlink.range] hasPrefix:@"https://"] == NO)
+        if(self.strictMatching && !hyperlink.strictMatch)
             break;
         
         urlString = hyperlink.stringValue;
